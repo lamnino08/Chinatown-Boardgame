@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 
-public class ColorLobbyManager : MonoBehaviour
+public class ColorManagerPopup : BasePopup
 {
-    private static ColorLobbyManager _instance;
-    public static ColorLobbyManager instance { get { return _instance; } }
+    private static ColorManagerPopup _instance;
+    public static ColorManagerPopup instance { get { return _instance; } }
 
     [SerializeField] private Button[] buttonColors = new Button[5];
     [SerializeField] private Button OkBtn;
@@ -20,7 +20,8 @@ public class ColorLobbyManager : MonoBehaviour
         _instance = this;
     }
 
-    private void Start() {
+    protected  override void Start() {
+        base.Start();
         for(int i = 0; i < buttonColors.Length; i++)
         {
             Image buttonImage = buttonColors[i].GetComponent<Image>();
@@ -44,6 +45,6 @@ public class ColorLobbyManager : MonoBehaviour
             return;
         }
 
-        gameObject.SetActive(false);
+        Hide();
     }
 }
