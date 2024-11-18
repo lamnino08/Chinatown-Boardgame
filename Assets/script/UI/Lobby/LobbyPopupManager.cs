@@ -11,10 +11,19 @@ public class LobbyPopupManager : BasePopupManager
 
     public void ShowChoseColorPopup()
     {
-        BasePopup popup = GetPopup<ColorManagerPopup>();
+        BasePopup popup = GetPopup<ChoseColorManagerPopup>();
         if (popup != null)
         {
             popup.Show();
+        }
+    }
+
+    public void Toast (string content)
+    {
+        Toast popup = GetPopup<Toast>();
+        if (popup != null)
+        {
+            popup.Show(content);
         }
     }
 }

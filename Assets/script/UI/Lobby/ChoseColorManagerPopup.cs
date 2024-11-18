@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 
-public class ColorManagerPopup : BasePopup
+public class ChoseColorManagerPopup : BasePopup
 {
-    private static ColorManagerPopup _instance;
-    public static ColorManagerPopup instance { get { return _instance; } }
+    private static ChoseColorManagerPopup _instance;
+    public static ChoseColorManagerPopup instance { get { return _instance; } }
 
     [SerializeField] private Button[] buttonColors = new Button[5];
     [SerializeField] private Button OkBtn;
@@ -20,8 +20,8 @@ public class ColorManagerPopup : BasePopup
         _instance = this;
     }
 
-    protected  override void Start() {
-        base.Start();
+    public override void OnStart() {
+        base.OnStart();
         for(int i = 0; i < buttonColors.Length; i++)
         {
             Image buttonImage = buttonColors[i].GetComponent<Image>();
@@ -42,9 +42,9 @@ public class ColorManagerPopup : BasePopup
     {
         if (_currentColor == -1)
         {
+            LobbyPopupManager.instance.Toast("Please chose your color");
             return;
         }
-
         Hide();
     }
 }

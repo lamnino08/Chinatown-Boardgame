@@ -18,6 +18,15 @@ public class BasePopupManager : MonoBehaviour
         _instance = this;
     }
 
+    protected virtual void Start() 
+    {
+        Debug.Log("heere");
+        foreach(BasePopup popup in popupList)
+        {
+            popup.OnStart();
+        }
+    }
+
     public T GetPopup<T>() where T : BasePopup
     {
         foreach (BasePopup popup in popupList)
