@@ -1,0 +1,101 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3183790101785758398
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3183790101785758397}
+  - component: {fileID: 3183790101785758396}
+  - component: {fileID: 3183790101785758386}
+  m_Layer: 0
+  m_Name: PrefabManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3183790101785758397
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3183790101785758398}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 424.98203, y: 566.2661, z: -4.94304}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3183790101785758396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3183790101785758398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e41fd6edc51821543a5e51142c27a024, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  MemberSlot: {fileID: 3670172558501187415, guid: d247cf5d1f06fd64489d05ad36fd6602, type: 3}
+  posSpawnMembers:
+  - {fileID: 2963045972614835833, guid: 9f503cd55b8e47f40a1aa0641f84f6f0, type: 3}
+  - {fileID: 3043767380371456225, guid: 3918e6cd4cc792d458a8d4723e553864, type: 3}
+  - {fileID: 6905502002530563520, guid: d4e6a4d64da1e1141852788d0e86d62b, type: 3}
+  - {fileID: 3695482040864280162, guid: 69913cf778366a742985d000ace55c6e, type: 3}
+  - {fileID: 8352016456910005856, guid: 97d6401de466e7748b26091b9214e7a9, type: 3}
+  tile: {fileID: 1678313662444452144, guid: 034313399b25ce3418edac99ef07c3a5, type: 3}
+  markprebs:
+  - {fileID: 3670172558501187415, guid: d32e4769d2b8b9747a2b0ca7c15340af, type: 3}
+  - {fileID: 3670172558501187415, guid: e9f0fff427def1649972112e72eb45fc, type: 3}
+  - {fileID: 3670172558501187415, guid: 50ea3758668cd934b90e1ac7eca5af95, type: 3}
+  - {fileID: 3670172558501187415, guid: 2c355fc1b90433242942f0fe9bd389f8, type: 3}
+  - {fileID: 3670172558501187415, guid: 8839352ed4d19aa4b92f4af7ca34e661, type: 3}
+  storeCard:
+  - {fileID: 4376400040905187745, guid: 7d5900d682b00ee49a0f3c0fc3d885f7, type: 3}
+  - {fileID: 4376400040905187745, guid: 97e4c99ccac0e37439d2ca9203f32936, type: 3}
+  - {fileID: 4376400040905187745, guid: 6ce8422828a5d9e47b7a7030a294fdfa, type: 3}
+  - {fileID: 4376400040905187745, guid: 9e208e04744cd0b4c80a83ed2d7c123e, type: 3}
+  - {fileID: 4376400040905187745, guid: a3010c4c91073c849a94bf3201be82bf, type: 3}
+  - {fileID: 4376400040905187745, guid: 05395201ec9a7b846b1152e030d27f0d, type: 3}
+  - {fileID: 4376400040905187745, guid: 2e74b981df3709845921e9db8c02bdb1, type: 3}
+  - {fileID: 4376400040905187745, guid: 3acf4a9875254fb4eb0c2e32ead71e35, type: 3}
+  - {fileID: 4376400040905187745, guid: 59054ee8686be54478bcbec4956a9fb8, type: 3}
+  - {fileID: 4376400040905187745, guid: 986a4f0100d30d94fb292c1f587ab6dc, type: 3}
+  - {fileID: 4376400040905187745, guid: d0c989c74f0ee1248bb49a0395a6e218, type: 3}
+  - {fileID: 4376400040905187745, guid: 9432383fcd0ba6d469cd01510bccebdb, type: 3}
+  Bowl_marks:
+  - {fileID: 5736966158563002186, guid: ea3ac90ac136e434b9900eb3e8fdd498, type: 3}
+  - {fileID: 6691882003914645610, guid: 8a6365b1096b77e46871bd0ea50b9271, type: 3}
+  - {fileID: 5754259850645720866, guid: 34d87e3bb1f84474bb44228721204d85, type: 3}
+  - {fileID: 795645649617939880, guid: 615daf74095ae0e4bbccc80be471ad8a, type: 3}
+  - {fileID: 5850653189797559052, guid: 100b4974e7b919e499893291b76a9f67, type: 3}
+--- !u!114 &3183790101785758386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3183790101785758398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clientStarted: 0
+  sceneId: 0
+  _assetId: 2499946852
+  serverOnly: 1
+  visible: 0
+  hasSpawned: 0
