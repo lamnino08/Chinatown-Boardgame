@@ -8,7 +8,6 @@ public class BasePopup : MonoBehaviour
     [SerializeField] protected float fadeDuration = 0.5f; 
     [SerializeField] protected float zoomDuration = 0.5f; 
     [SerializeField] protected float startScale = 0.5f; 
-
     [SerializeField] protected RectTransform rectTransform;
 
     public virtual void OnStart()
