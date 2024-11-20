@@ -2,43 +2,35 @@ using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
 
-[System.Serializable]
-public struct PlayerData
-{
-    public ulong id;
-    public string name;
-}
-
 public class ListPlayerManager : NetworkBehaviour
 {
-    public static ListPlayerManager Instance { get; private set; }
+    public static ListPlayerManager instance { get; private set; }
 
-    public SyncList<PlayerData> players = new SyncList<PlayerData>();
+    private List<PlayerData> _players = new List<PlayerData>();
+    public List<PlayerData> players => _players;
+    // list connection 
+    private Dictionary<ulong, NetworkConnection> playerConnections = new Dictionary<ulong, NetworkConnection>();
 
     private void Awake()
     {
-        if (Instance == null) Instance = this;
+        if (instance == null) instance = this;
         else Destroy(gameObject);
     }
 
     [Server]
-    public void AddPlayer(ulong id, string name)
+    public void AddPlayer(PlayerData newPlayer, NetworkConnection conn)
     {
-        var playerData = new PlayerData { id = id, name = name };
-        players.Add(playerData);
-        RpcAddPlayer(id, name);
+        _players.Add(newPlayer);
+
+         if (!playerConnections.ContainsKey(newPlayer.id))
+        {
+            playerConnections[newPlayer.id] = conn;
+        }
     }
 
     [Server]
     public void RemovePlayer(ulong id)
     {
-        players.Remove(players.Find(player => player.id == id));
+        _players.Remove(_players.Find(player => player.id == id));
     }
-
-    [ClientRpc]
-    private void RpcAddPlayer(ulong id, string name)
-    {
-        LobbyPopupManager.instance.Toast("oke");
-    }
-    
 }

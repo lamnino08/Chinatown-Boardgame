@@ -1,16 +1,16 @@
 [System.Serializable]
-public class Player
+public class PlayerData
 {
-    public ulong id { get; private set; }
-    public string name { get; private set; }
+    public ulong id;
+    public string name;
 
-    public Player()
+    public PlayerData()
     {
         this.id = 0;
         this.name = "";
     }
     
-    public Player(ulong id, string name)
+    public PlayerData(ulong id, string name)
     {
         this.id = id;
         this.name = name;

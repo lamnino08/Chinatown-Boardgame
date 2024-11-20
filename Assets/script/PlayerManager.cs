@@ -16,13 +16,7 @@ public class PlayerManager : NetworkBehaviour
         CmdSetPlayerData(PlayerPrefs.GetString("PlayerName"));
     }
 
-    public override void OnStopClient()
-    {
-        ListPlayerManager.Instance.RemovePlayer(playerId);
-        // Xóa UI của người chơi khi client rời
-        RpcRemoveUserUI(playerName);
-    }
-
+    // Start on local
     [Command]
     private void CmdSetPlayerData(string name)
     {
@@ -30,10 +24,18 @@ public class PlayerManager : NetworkBehaviour
         playerId = randomID;
         playerName = name;
 
-        Player newPlayer = new Player(randomID, name );
+        PlayerData newPlayer = new PlayerData(randomID, name );
 
-        ListPlayerManager.Instance.AddPlayer(playerId, playerName);
-        RpcAddUserUI(playerName);
+        GetDataInLobby(connectionToClient);
+        ListPlayerManager.instance.AddPlayer(newPlayer, connectionToClient);
+        RpcNewPlayerUI(newPlayer);
+    }
+
+    [Server]
+    private void CmdOnStopClient()
+    {
+        ListPlayerManager.instance.RemovePlayer(playerId);
+        RpcRemoveUserUI(playerName);
     }
 
     private void OnNameChanged(string oldName, string newName)
@@ -41,17 +43,28 @@ public class PlayerManager : NetworkBehaviour
         Debug.Log($"Player name updated: {newName}");
     }
 
-
-    [ClientRpc]
-    private void RpcAddUserUI(string name)
+    [Server]
+    public void GetDataInLobby(NetworkConnectionToClient  connectionToClient)
     {
-        Debug.Log(name);
+        var playerDataArray = ListPlayerManager.instance.players.ToArray();
+        RpcPlayerListUI(connectionToClient, playerDataArray);
+    }
+
+    [TargetRpc]
+    private void RpcPlayerListUI(NetworkConnectionToClient connectionToClient, PlayerData[] players)
+    {
+        LobbyUIManager.instance.SetSlotPlayerUI(players);
     }
 
     [ClientRpc]
     private void RpcRemoveUserUI(string name)
     {
-        Debug.Log($"Removing player from UI: {name}");
-        // Implement logic to remove the player's UI element
+        LobbyUIManager.instance.RemovePlayer(name);
+    }
+
+    [ClientRpc]
+    private void RpcNewPlayerUI(PlayerData newPlayer)
+    {
+        LobbyUIManager.instance.AddNewPlayerUI(newPlayer);
     }
 }
