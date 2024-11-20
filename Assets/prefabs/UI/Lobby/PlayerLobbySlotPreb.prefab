@@ -323,6 +323,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nameText: {fileID: 5638976665331653455}
   readyText: {fileID: 7901755186221429213}
+  colorImage: {fileID: 8922090084739348004}
+  Name: 
 --- !u!1 &6496366807528679017
 GameObject:
   m_ObjectHideFlags: 0

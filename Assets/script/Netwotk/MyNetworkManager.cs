@@ -10,17 +10,6 @@ public class MyNetworkManager : NetworkManager
         base.OnServerDisconnect(conn);
 
         Debug.Log($"[Server] Client disconnected: {conn.connectionId}");
-
-        var player = conn.identity.GetComponent<PlayerManager>();
-        if (player != null)
-        {
-            ListPlayerManager.instance.RemovePlayer(player.playerId);
-        }
+        PlayerManager.host.CmdOnStopClient();
     }
-
-    // [ClientRpc]
-    // private void RpcNotifyPlayerLeft(string playerName)
-    // {
-    //     LobbyPopupManager.instance.Toast($"Player {playerName} has left the game!");
-    // }
 }

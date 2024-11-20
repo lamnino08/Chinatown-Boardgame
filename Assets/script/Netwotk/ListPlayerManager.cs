@@ -7,6 +7,7 @@ public class ListPlayerManager : NetworkBehaviour
     public static ListPlayerManager instance { get; private set; }
 
     private List<PlayerData> _players = new List<PlayerData>();
+    public Room room { get; private set; }
     public List<PlayerData> players => _players;
     // list connection 
     private Dictionary<ulong, NetworkConnection> playerConnections = new Dictionary<ulong, NetworkConnection>();
@@ -15,6 +16,8 @@ public class ListPlayerManager : NetworkBehaviour
     {
         if (instance == null) instance = this;
         else Destroy(gameObject);
+
+        room = new Room();
     }
 
     [Server]
@@ -32,5 +35,11 @@ public class ListPlayerManager : NetworkBehaviour
     public void RemovePlayer(ulong id)
     {
         _players.Remove(_players.Find(player => player.id == id));
+    }
+
+    [Server] 
+    public List<byte> GetAvailableColors()
+    {
+        return room.colors;
     }
 }

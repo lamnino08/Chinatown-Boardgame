@@ -51,20 +51,6 @@ public class MainmenuManager : MonoBehaviour
     {
         string name = nameInputField.text;
         PlayerPrefs.SetString("PlayerName", name);
-        SceneManager.LoadScene("LobbyScene");
+        // SceneManager.LoadScene("LobbyScene");
     }
-
-    // [Command]
-    // private void CmdAddPlayerToLobby(string name)
-    // {
-    //     ServerAddPlayer(name);
-    // }
-
-    // [Server]
-    // private void ServerAddPlayer(string name)
-    // {
-    //     ulong randomID = (ulong)System.DateTime.Now.Ticks;
-    //     Player newPlayer = new Player(randomID, name );
-    //     ListPlayerManager.Instance.AddPlayer(newPlayer);
-    // }
 }

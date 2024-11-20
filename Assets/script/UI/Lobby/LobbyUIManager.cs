@@ -18,6 +18,8 @@ public class LobbyUIManager : MonoBehaviour
     [Header("Button")]
     [Tooltip("Button open color popup")]
     [SerializeField]  private Button colorBtn;
+    [SerializeField]  private GameObject readyBtn;
+    [SerializeField]  private GameObject startBtn;
 
     void Awake()
     {
@@ -30,12 +32,28 @@ public class LobbyUIManager : MonoBehaviour
     }
 
     private void Start() {
-        colorBtn.onClick.AddListener(OpenColorPopup);
+        colorBtn.onClick.AddListener(OnOpenColorPopup);
+        readyBtn.GetComponent<Button>().onClick.AddListener(OnReadyBtn);
     }
 
-    private void OpenColorPopup() 
+    public void SetupUI(bool isHost)
     {
-        LobbyPopupManager.instance.ShowChoseColorPopup();
+        startBtn.SetActive(isHost);
+    }
+
+    private void OnOpenColorPopup() 
+    {
+        GameMaster.instance.localPlayer.OpenColorPupup();
+    }
+
+    private void OpenColorPopup(List<byte> availableColors)
+    {
+        LobbyPopupManager.instance.ShowChoseColorPopup(availableColors);
+    }
+
+    private void OnReadyBtn()
+    {
+        GameMaster.instance.localPlayer.CmdReady();
     }
 
     public void SetSlotPlayerUI(PlayerData[] players)
@@ -45,6 +63,8 @@ public class LobbyUIManager : MonoBehaviour
             Transform playeritem = Instantiate(playerItemPref, contentPlayers);
             playeritem.GetComponent<PlayerItemPrefab>().SetData(player.name);
         }
+
+        startBtn.SetActive(GameMaster.instance.localPlayer.isHost);
     } 
 
     public void AddNewPlayerUI(PlayerData player)
@@ -53,18 +73,49 @@ public class LobbyUIManager : MonoBehaviour
         playeritem.GetComponent<PlayerItemPrefab>().SetData(player.name);
     } 
 
-     public void RemovePlayer(string name)
+     public void RemovePlayerUI(string name)
     {
-         foreach (Transform child in contentPlayers)
+        foreach (Transform child in contentPlayers)
         {
             var playerItem = child.GetComponent<PlayerItemPrefab>();
             if (playerItem != null && playerItem.Name == name)
             {
-                // Xóa GameObject của player được tìm thấy
                 Destroy(child.gameObject);
-                Debug.Log($"Removed player: {name}");
-                return;
             }
         }
     } 
+
+    public void SetColorPlayer(byte index, Color color)
+    {
+        contentPlayers.GetChild(index).GetComponent<PlayerItemPrefab>().SetColor(color);
+        if (index == GameMaster.instance.localPlayer.index)
+        {
+            readyBtn.SetActive(true);
+            colorBtn.gameObject.SetActive(false);
+        }
+    }
+
+    public void OnReadyResult(bool isReady)
+    {
+        if (isReady)
+        {
+           LobbyPopupManager.instance.Toast("Ready");
+        }
+        else
+        {
+           LobbyPopupManager.instance.Toast("Color is not available");
+           readyBtn.SetActive(false);
+           colorBtn.gameObject.SetActive(true);
+        }
+    }
+
+    public void PlayerReady(string name, Color color)
+    {
+        foreach (Transform child in contentPlayers)
+        {
+            var playerItem = child.GetComponent<PlayerItemPrefab>();
+            if (playerItem.Name == name)
+                playerItem.SetReady(true, color);
+        }
+    }
 }

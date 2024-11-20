@@ -20,7 +20,6 @@ public class BasePopupManager : MonoBehaviour
 
     protected virtual void Start() 
     {
-        Debug.Log("heere");
         foreach(BasePopup popup in popupList)
         {
             popup.OnStart();

@@ -9,12 +9,12 @@ public class LobbyPopupManager : BasePopupManager
         get { return BasePopupManager.instance as LobbyPopupManager; }
     }
 
-    public void ShowChoseColorPopup()
+    public void ShowChoseColorPopup(List<byte> availableColors)
     {
-        BasePopup popup = GetPopup<ChoseColorManagerPopup>();
+        ChoseColorManagerPopup popup = GetPopup<ChoseColorManagerPopup>();
         if (popup != null)
         {
-            popup.Show();
+            popup.OnShow(availableColors);
         }
     }
 
