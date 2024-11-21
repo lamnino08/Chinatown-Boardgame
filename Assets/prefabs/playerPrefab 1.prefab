@@ -48,7 +48,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  playerName: 
+  index: 0
 --- !u!114 &4874001168155440844
 MonoBehaviour:
   m_ObjectHideFlags: 0

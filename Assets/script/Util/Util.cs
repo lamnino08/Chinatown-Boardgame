@@ -8,8 +8,12 @@ public class Util : MonoBehaviour
     // Singleton instance
     public static Util Instance { get; private set; }
 
+    // Color Util
     [SerializeField] private Transform contentColor;
     private List<Color> colors = new List<Color>();
+
+    //Store Card util
+    [SerializeField] private Sprite[] storeCardSprites = new Sprite[12];
 
     private void Awake()
     {
@@ -39,5 +43,10 @@ public class Util : MonoBehaviour
     public static Color TransferColor(byte index)
     {
         return Instance.colors[index];
+    }
+
+    public static Sprite TransferStoreCardSprite(byte cardIndex)
+    {
+        return Instance.storeCardSprites[cardIndex];
     }
 }
