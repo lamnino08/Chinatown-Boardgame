@@ -49,4 +49,41 @@ public class Util : MonoBehaviour
     {
         return Instance.storeCardSprites[cardIndex];
     }
+
+    public static int NumberTileCard(byte year, int numberPlayer)
+    {
+        numberPlayer = numberPlayer < 3? 3 : numberPlayer;
+        switch (numberPlayer)
+        {
+            case 3:
+                if (year == 1) return 7;
+                return 6;
+            case 4:
+                if (year == 1) return 6;
+                return 5;
+            case 5:
+                if (year < 4) return 5;
+                return 4;
+        }
+        return 0;
+    }
+
+    public static int NumberStoreCard(byte year, int numberPlayer)
+    {
+        switch (numberPlayer)
+        {
+            case 3:
+                if (year == 1) return 7;
+                return 4;
+            case 4:
+                if (year == 1) return 6;
+                return 3;
+            case 5:
+                if (year == 1) return 5;
+                if (year == 2 || year == 3) return 3;
+                return 2;
+        }
+        
+        return 0;
+    }
 }

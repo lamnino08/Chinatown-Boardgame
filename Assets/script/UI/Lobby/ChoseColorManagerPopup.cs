@@ -60,7 +60,7 @@ public class ChoseColorManagerPopup : BasePopup
             return;
         }
         GameMaster.instance.localPlayer.SetColor(_currentColorIndex);
-        LobbyUIManager.instance.SetColorPlayer(GameMaster.instance.localPlayer.index, _currentColor);
+        LobbyUIManager.instance.SetColorPlayer(GameMaster.instance.localPlayer.playerName, _currentColor);
 
         Hide();
     }

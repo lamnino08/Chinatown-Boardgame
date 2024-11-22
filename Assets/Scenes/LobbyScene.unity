@@ -2562,6 +2562,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   contentColor: {fileID: 109573302}
+  storeCardSprites:
+  - {fileID: 21300000, guid: 10d2b0510a4ee7341a7b7619353054ec, type: 3}
+  - {fileID: 21300000, guid: ac97d578856d5e44189940eacc74017d, type: 3}
+  - {fileID: 21300000, guid: 4474363597e544440aabec8237f98150, type: 3}
+  - {fileID: 21300000, guid: c60d2a5299aa1954f9fedad824257715, type: 3}
+  - {fileID: 21300000, guid: e0670fc1ce455654fb535916e2b8afd7, type: 3}
+  - {fileID: 21300000, guid: 00b746ac7258cea48b1699ae0c8155f7, type: 3}
+  - {fileID: 21300000, guid: 56b71eb8293027c4fb20833b70f1e4e2, type: 3}
+  - {fileID: 21300000, guid: 245621fb2495ef24c8b3a838552b7347, type: 3}
+  - {fileID: 21300000, guid: 071e5e8b238d6734ca1efffcf01f3a4f, type: 3}
+  - {fileID: 21300000, guid: ff1cf85859f2484439bb74c709bf67b2, type: 3}
+  - {fileID: 21300000, guid: 9f7ee3e9e596340458d8cb44867f4fa9, type: 3}
+  - {fileID: 21300000, guid: ea684441dc2c6c8408b8f7440582e1ff, type: 3}
 --- !u!1 &1765219146
 GameObject:
   m_ObjectHideFlags: 0

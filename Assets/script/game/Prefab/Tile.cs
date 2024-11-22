@@ -1,14 +1,22 @@
 using TMPro;
 using UnityEngine;
+using Mirror;
 
-public class Tile : MonoBehaviour
+public class Tile : NetworkBehaviour
 {
     [SerializeField] TMP_Text numberText;
-    public int tile { get; private set; } 
+    [SyncVar(hook = nameof(OnTileChanged))]
+    public int tile;
 
+    [Server]
     public void SetTileData(int type)
     {
         tile = type;
-        numberText.text = type.ToString();
+    }
+
+    private void OnTileChanged(int oldValue, int newValue)
+    {
+        numberText.text = newValue.ToString();
+
     }
 }

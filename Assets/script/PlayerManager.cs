@@ -6,11 +6,11 @@ using JetBrains.Annotations;
 
 public class PlayerManager : NetworkBehaviour
 {
-    private static PlayerManager _host;
+    public static PlayerManager _host;
     public static PlayerManager host => _host;
 
     [SyncVar]
-    private string playerName;
+    public string playerName;
 
     [SyncVar]
     public byte index;
@@ -23,12 +23,19 @@ public class PlayerManager : NetworkBehaviour
 
     public bool isHost => isServer && isClient;
 
+    void Start()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
+
     public override void OnStartLocalPlayer()
     {
         CmdSetPlayerData(PlayerPrefs.GetString("PlayerName"));
+        Debug.Log("Start on load");
         if (isHost)
         {
-            LobbyUIManager.instance.SetupUI(isHost);
+            if (LobbyUIManager.instance != null)
+                LobbyUIManager.instance.SetupUI(isHost);
         }
         GameMaster.instance.SetLocalPlayer(this);
     }
@@ -49,7 +56,7 @@ public class PlayerManager : NetworkBehaviour
         PlayerData newPlayer = new PlayerData(randomID, name );
 
         GetDataInLobby(connectionToClient);
-        ListPlayerManager.instance.AddPlayer(newPlayer, connectionToClient);
+        RoomServerManager.instance.AddPlayer(newPlayer, connectionToClient);
         RpcNewPlayerUI(newPlayer);
     }
 
@@ -57,11 +64,11 @@ public class PlayerManager : NetworkBehaviour
     [Command]
     public void CmdReady()
     {
-        List<byte> availableColors = ListPlayerManager.instance.GetAvailableColors();
+        List<byte> availableColors = RoomServerManager.instance.GetAvailableColors();
         bool isSuccess = availableColors.Contains(color);
         if (isSuccess)
         {
-            ListPlayerManager.instance.room.RemoveColor(color);
+            RoomServerManager.instance.room.RemoveColor(color);
             RpcPlayerReady(playerName, Util.TransferColor(color));
         }
         TargetReadyResult(connectionToClient, isSuccess);
@@ -71,7 +78,7 @@ public class PlayerManager : NetworkBehaviour
     [Command]
     public void OpenColorPupup()
     {
-        List<byte> availableColors = ListPlayerManager.instance.GetAvailableColors();
+        List<byte> availableColors = RoomServerManager.instance.GetAvailableColors();
         RpcColorToOpenChosseColor(connectionToClient, availableColors);
     }
 
@@ -81,6 +88,14 @@ public class PlayerManager : NetworkBehaviour
         this.color = color;
     }
 
+    [Command]
+    public void StartGame()
+    {
+        if (isHost)
+        {
+            NetworkManager.singleton.ServerChangeScene("GameScene");
+        }
+    }
 
     // Server handle client left
     [Server]
@@ -93,28 +108,8 @@ public class PlayerManager : NetworkBehaviour
     [Server]
     public void GetDataInLobby(NetworkConnectionToClient  connectionToClient)
     {
-        var playerDataArray = ListPlayerManager.instance.players.ToArray();
+        var playerDataArray = RoomServerManager.instance.players.ToArray();
         RpcPlayerListUI(connectionToClient, playerDataArray);
-    }
-
-    // Render list User in room
-    [TargetRpc]
-    private void RpcPlayerListUI(NetworkConnectionToClient connectionToClient, PlayerData[] players)
-    {
-        LobbyUIManager.instance.SetSlotPlayerUI(players);
-    }
-
-    [TargetRpc]
-    private void RpcColorToOpenChosseColor(NetworkConnectionToClient connectionToClient, List<byte> availableColors)
-    {
-        LobbyPopupManager.instance.ShowChoseColorPopup(availableColors);
-    }
-
-    // ready result
-    [TargetRpc]
-    private void TargetReadyResult(NetworkConnectionToClient target, bool isSuccess)
-    {
-        LobbyUIManager.instance.OnReadyResult(isSuccess);
     }
 
     // Handle Ui when a player left
@@ -136,5 +131,32 @@ public class PlayerManager : NetworkBehaviour
     private void RpcPlayerReady(string name, Color color)
     {
         LobbyUIManager.instance.PlayerReady(name, color);
+    }
+
+    // Render list User in room
+    [TargetRpc]
+    private void RpcPlayerListUI(NetworkConnectionToClient connectionToClient, PlayerData[] players)
+    {
+        if (LobbyUIManager.instance != null)
+            LobbyUIManager.instance.SetSlotPlayerUI(players);
+    }
+
+    [TargetRpc]
+    private void RpcColorToOpenChosseColor(NetworkConnectionToClient connectionToClient, List<byte> availableColors)
+    {
+        LobbyPopupManager.instance.ShowChoseColorPopup(availableColors);
+    }
+
+    // ready result
+    [TargetRpc]
+    private void TargetReadyResult(NetworkConnectionToClient target, bool isSuccess)
+    {
+        LobbyUIManager.instance.OnReadyResult(isSuccess);
+    }
+
+    [TargetRpc]
+    public void DistributeTiles(NetworkConnection conn, byte[] tiles)
+    {
+        GamePopupManager.Toast("ok");
     }
 }

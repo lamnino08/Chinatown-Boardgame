@@ -1,7 +1,8 @@
 using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
 
-public class Map : MonoBehaviour
+public class Map : NetworkBehaviour
 {
     [SerializeField] private string mapFileName = "map"; // Tên file map
     [SerializeField] private GameObject tilePrefab; // Prefab của tile
@@ -11,7 +12,7 @@ public class Map : MonoBehaviour
     private List<Vector2Int> tilePositions = new List<Vector2Int>(); // Danh sách vị trí tile
     private Dictionary<Vector2Int, int> tileData = new Dictionary<Vector2Int, int>(); // Lưu vị trí và loại tile
 
-    void Start()
+    public override void OnStartServer()
     {
         LoadMapFile();
         SpawnTiles();
@@ -40,9 +41,9 @@ public class Map : MonoBehaviour
                 // Kiểm tra giá trị hợp lệ
                 if (int.TryParse(line[x], out int tileType))
                 {
-                    Vector2Int position = new Vector2Int(x, -y); // Vị trí của tile (lưu ý y là âm để chuyển từ lưới 2D sang không gian Unity)
-                    tilePositions.Add(position); // Thêm vị trí tile
-                    tileData[position] = tileType; // Lưu vị trí và loại tile
+                    Vector2Int position = new Vector2Int(x, -y);
+                    tilePositions.Add(position);
+                    tileData[position] = tileType; 
                 }
                 else
                 {
@@ -57,17 +58,16 @@ public class Map : MonoBehaviour
     {
         foreach (var position in tilePositions)
         {
-            // Lấy loại tile từ dictionary
             if (tileData.TryGetValue(position, out int tileType))
             {
-                // Tạo một instance của tile prefab
-                GameObject tileInstance = Instantiate(tilePrefab, new Vector3(position.x * tileSpacing, yPos, position.y * tileSpacing), Quaternion.identity, transform);
+                GameObject tileInstance = Instantiate(tilePrefab, new Vector3(position.x * tileSpacing, yPos, position.y * tileSpacing), Quaternion.identity);
 
-                // Truyền thông tin tileType vào script Tile nếu có
+                NetworkServer.Spawn(tileInstance);
+
                 Tile tileComponent = tileInstance.GetComponent<Tile>();
                 if (tileComponent != null)
                 {
-                    tileComponent.SetTileData(tileType); // Gọi hàm để set dữ liệu tile
+                    tileComponent.SetTileData(tileType); 
                 }
             }
         }
