@@ -47,7 +47,7 @@ public class LobbyUIManager : MonoBehaviour
 
     private void OnOpenColorPopup() 
     {
-        GameMaster.instance.localPlayer.OpenColorPupup();
+        GameMaster.localPlayer.OpenColorPupup();
     }
 
     private void OpenColorPopup(List<byte> availableColors)
@@ -57,12 +57,12 @@ public class LobbyUIManager : MonoBehaviour
 
     private void OnReadyBtn()
     {
-        GameMaster.instance.localPlayer.CmdReady();
+        GameMaster.localPlayer.CmdReady();
     }
 
     private void OnStartGame()
     {
-        GameMaster.instance.localPlayer.StartGame();
+        GameMaster.localPlayer.StartGame();
     }
 
     public void SetSlotPlayerUI(PlayerData[] players)
@@ -73,7 +73,7 @@ public class LobbyUIManager : MonoBehaviour
             playeritem.GetComponent<PlayerItemPrefab>().SetData(player.name);
         }
 
-        startBtn.SetActive(GameMaster.instance.localPlayer.isHost);
+        startBtn.SetActive(GameMaster.localPlayer.isHost);
     } 
 
     public void AddNewPlayerUI(PlayerData player)
@@ -96,7 +96,7 @@ public class LobbyUIManager : MonoBehaviour
 
     public void SetColorPlayer(string name, Color color)
     {
-        if (name == GameMaster.instance.localPlayer.playerName)
+        if (name == GameMaster.localPlayer.playerName)
         {
             readyBtn.SetActive(true);
             colorBtn.gameObject.SetActive(false);

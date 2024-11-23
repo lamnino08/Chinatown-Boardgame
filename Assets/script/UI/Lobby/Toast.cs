@@ -5,9 +5,9 @@ using UnityEngine.UI;
 public class Toast : BasePopup
 {
     [SerializeField] private TMP_Text contentText;
-    public void Show(string content)
+    public void Show(string content, float duration = 5000)
     {
-        base.Show();
+        base.Show(duration);
         contentText.text = content;
     }
 }

@@ -97,6 +97,12 @@ public class PlayerManager : NetworkBehaviour
         }
     }
 
+    [Command]
+    public void NewYear()
+    {
+        RoomServerManager.instance.NewYear();
+    }
+
     // Server handle client left
     [Server]
     public void CmdOnStopClient()
@@ -157,6 +163,7 @@ public class PlayerManager : NetworkBehaviour
     [TargetRpc]
     public void DistributeTiles(NetworkConnection conn, byte[] tiles)
     {
+        GameMaster.instance.deskCard.DiscardToPlayer(tiles);
         GamePopupManager.Toast("ok");
     }
 }

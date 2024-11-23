@@ -2,11 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//Start in lobby room
 public class GameMaster : MonoBehaviour
 {
     public static GameMaster instance { get; private set; }
+    public static GameManager gameManager;
+    public DeskCard deskCard;
 
-    public PlayerManager localPlayer { get; private set; }
+    public static PlayerManager localPlayer { get; private set; }
 
     private void Awake()
     {

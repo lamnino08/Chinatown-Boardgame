@@ -1,10 +1,11 @@
 using Mirror;
+using UnityEngine;
 
 
-public class GameManager : NetworkBehaviour
+public class GameManager : MonoBehaviour
 {
     void Start()
     {
-        RoomServerManager.instance.NewYear();
+        GameMaster.gameManager = this;
     }
 }

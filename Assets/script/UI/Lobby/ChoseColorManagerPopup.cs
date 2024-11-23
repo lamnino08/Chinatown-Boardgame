@@ -59,8 +59,8 @@ public class ChoseColorManagerPopup : BasePopup
             LobbyPopupManager.instance.Toast("Please chose your color");
             return;
         }
-        GameMaster.instance.localPlayer.SetColor(_currentColorIndex);
-        LobbyUIManager.instance.SetColorPlayer(GameMaster.instance.localPlayer.playerName, _currentColor);
+        GameMaster.localPlayer.SetColor(_currentColorIndex);
+        LobbyUIManager.instance.SetColorPlayer(GameMaster.localPlayer.playerName, _currentColor);
 
         Hide();
     }

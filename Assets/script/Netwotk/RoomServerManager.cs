@@ -52,16 +52,6 @@ public class RoomServerManager : NetworkBehaviour
     public void NewYear()
     {
         List<byte[]> tiles = room.NewYear(_players.Count);
-        // foreach (var tile in tiles)
-        // {
-        //     Debug.Log(tile.Length);
-        //     string s = "";
-        //     foreach(var t in tile)
-        //     {
-        //         s += t.ToString() + "  ";
-        //     }
-        //     Debug.Log(s);
-        // }
         for (int i = 0; i < _players.Count; i++)
         {
             PlayerManager._host.DistributeTiles( _playerConnections[i], tiles[i]);

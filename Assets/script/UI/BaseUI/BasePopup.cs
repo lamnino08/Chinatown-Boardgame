@@ -20,7 +20,7 @@ public class BasePopup : MonoBehaviour
         gameObject.SetActive(_isOpenOnStart);
     }
 
-    public virtual void Show()
+    public virtual void Show(float? duration = null)
     {
         rectTransform.localScale = Vector3.one * startScale; 
         canvasGroup.alpha = 0f; 
@@ -35,6 +35,12 @@ public class BasePopup : MonoBehaviour
             {
                 canvasGroup.interactable = true; 
                 canvasGroup.blocksRaycasts = true;
+
+                if (duration.HasValue)
+                {
+                    // Tự động ẩn popup sau thời gian duration
+                    Invoke(nameof(Hide), duration.Value);
+                }
             });
     }
 
