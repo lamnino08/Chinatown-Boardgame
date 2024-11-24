@@ -164,6 +164,6 @@ public class PlayerManager : NetworkBehaviour
     public void DistributeTiles(NetworkConnection conn, byte[] tiles)
     {
         GameMaster.instance.deskCard.DiscardToPlayer(tiles);
-        GamePopupManager.Toast("ok");
+        GameUIManager.instance.ReceiveCardDiscard();
     }
 }

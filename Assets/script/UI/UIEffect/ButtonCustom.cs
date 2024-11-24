@@ -28,7 +28,7 @@ public class ButtonCustom : Button
 
     private Vector3 originalScale; 
     private Color originalColor; 
-    private Outline outline; 
+    private UnityEngine.UI.Outline outline; 
 
     protected override void Start()
     {
@@ -41,10 +41,10 @@ public class ButtonCustom : Button
             originalColor = targetGraphic.color; 
         }
 
-        outline = gameObject.GetComponent<Outline>();
+        outline = gameObject.GetComponent<UnityEngine.UI.Outline>();
         if (outline == null)
         {
-            outline = gameObject.AddComponent<Outline>();
+            outline = gameObject.AddComponent<UnityEngine.UI.Outline>();
             outline.enabled = false; 
         }
     }

@@ -2,19 +2,43 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class CardFly : MonoBehaviour
 {
-     bool isFlying = false; 
+    private TileCard _card;
 
+    [SerializeField] 
+    public TileCard card
+    {
+        get
+        {
+            if (_card == null)
+            {
+                _card = GetComponent<TileCard>(); 
+            }
+            return _card;
+        }
+        private set
+        {
+            _card = value; // Chỉ dùng được nội bộ
+        }
+    }
+
+    private void Start() 
+    {
+        if (!_card)
+        _card = GetComponent<TileCard>();
+    }
     public void StartFlying(
         List<Vector3> controlPoints, 
         float duration ,
         float rotateAfter,
         AnimationCurve easingCurve,
-        Transform targetRotationTransform
+        Transform targetRotationTransform,
+        CardStatus nextStatus
     )
     {
-        if (isFlying) return;
+        if (_card.status == CardStatus.FLYING) return;
 
         if (controlPoints == null || controlPoints.Count < 2)
         {
@@ -22,8 +46,7 @@ public class CardFly : MonoBehaviour
             return;
         }
 
-        StartCoroutine(FlyAlongBezierCurve(controlPoints, duration, rotateAfter, easingCurve, targetRotationTransform));
-
+        StartCoroutine(FlyAlongBezierCurve(controlPoints, duration, rotateAfter, easingCurve, targetRotationTransform, nextStatus));
     }
 
     private IEnumerator FlyAlongBezierCurve(
@@ -31,9 +54,11 @@ public class CardFly : MonoBehaviour
         float duration ,
         float rotateAfter,
         AnimationCurve easingCurve,
-        Transform targetRotationTransform)
+        Transform targetRotationTransform,
+        CardStatus nextStatus
+    )
     {
-        isFlying = true;
+        _card.status = CardStatus.LYING;
         float elapsedTime = 0f;
 
         bool isRotating = false;
@@ -75,7 +100,8 @@ public class CardFly : MonoBehaviour
             yield return null; 
         }
 
-        isFlying = false;
+        _card.originalPosition = transform.position;
+        _card.status = nextStatus;
     }
 
     /// <summary>

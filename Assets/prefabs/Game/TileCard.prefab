@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3912568437063880597}
+  - component: {fileID: 7807136096090107049}
   - component: {fileID: 2528886610559084371}
-  - component: {fileID: -2860682355335710906}
   - component: {fileID: 5387807671019424751}
   m_Layer: 0
   m_Name: TileCard
@@ -35,6 +35,23 @@ Transform:
   - {fileID: 1964813469087613178}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7807136096090107049
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6277972668781561463}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7e986975d73e7a4daf189b6561e496c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  status: 1
+  _appearance: {fileID: 5387807671019424751}
+  moveDistance: 0.03
+  moveDuration: 0.15
+  originalPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &2528886610559084371
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47,23 +64,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb74ad593cacd9c46a917945fbc44b79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  points: []
---- !u!114 &-2860682355335710906
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6277972668781561463}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88ea43707d1860740819c146225ca7ab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  _appearance: {fileID: 5387807671019424751}
+  _card: {fileID: 7807136096090107049}
 --- !u!114 &5387807671019424751
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -77,6 +78,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cardNumberText: {fileID: 2402113566655526209}
+  _outline: {fileID: 0}
 --- !u!1001 &5135402444412755484
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -85,6 +87,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3912568437063880597}
     m_Modifications:
+    - target: {fileID: 2346371427923204006, guid: 276a581c69768684e8a0fef01f93077a,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6290163690470343772, guid: 276a581c69768684e8a0fef01f93077a,
         type: 3}
       propertyPath: m_Name
@@ -140,13 +147,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7904969719769476136, guid: 276a581c69768684e8a0fef01f93077a,
-        type: 3}
-      propertyPath: controlPoints.Array.size
-      value: 6
-      objectReference: {fileID: 0}
     m_RemovedComponents:
-    - {fileID: 7904969719769476136, guid: 276a581c69768684e8a0fef01f93077a, type: 3}
+    - {fileID: 2346371427923204006, guid: 276a581c69768684e8a0fef01f93077a, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

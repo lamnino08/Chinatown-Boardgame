@@ -61,7 +61,7 @@ public class Map : NetworkBehaviour
             if (tileData.TryGetValue(position, out int tileType))
             {
                 GameObject tileInstance = Instantiate(tilePrefab, new Vector3(position.x * tileSpacing, yPos, position.y * tileSpacing), Quaternion.identity);
-
+                tileInstance.transform.SetParent(transform);
                 NetworkServer.Spawn(tileInstance);
 
                 Tile tileComponent = tileInstance.GetComponent<Tile>();

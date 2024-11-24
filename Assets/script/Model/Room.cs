@@ -30,26 +30,27 @@ public class Room
 
         int numberTile = Util.NumberTileCard(year, numberPlayer);
         List<byte[]> tiles = new List<byte[]>();
-        for (int playerIndex = 0; playerIndex < numberPlayer; playerIndex++)
+
+        for (int playerIndex = 1; playerIndex <= numberPlayer; playerIndex++)
         {
             byte[] tilesOfPlayer = new byte[numberTile];
 
             System.Random random = new System.Random();
-            {
-                for (int i = 0; i < numberTile; i++)
-                {
-                    int randomIndex;
-                    do
-                    {
-                        randomIndex = random.Next(0, 85);
-                    } while (_tile[randomIndex] != 0); 
 
-                   tilesOfPlayer[i] = (byte)randomIndex; 
-                    _tile[randomIndex] = (byte)(playerIndex); 
-                }
+            for (int i = 0; i < numberTile; i++)
+            {
+                int randomIndex;
+                do
+                {
+                    randomIndex = random.Next(0, 85);
+                } while (_tile[randomIndex] != 0); 
+
+                tilesOfPlayer[i] = (byte)randomIndex; 
+                _tile[randomIndex] = (byte)playerIndex; 
             }
             tiles.Add(tilesOfPlayer);
         }
+
         return tiles;
     }
 

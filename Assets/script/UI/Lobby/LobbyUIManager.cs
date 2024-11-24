@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 using Mirror;
+using DG.Tweening.Core.Easing;
 
 public class LobbyUIManager : MonoBehaviour
 {
@@ -62,6 +63,7 @@ public class LobbyUIManager : MonoBehaviour
 
     private void OnStartGame()
     {
+        startBtn.GetComponent<Button>().interactable = false;
         GameMaster.localPlayer.StartGame();
     }
 

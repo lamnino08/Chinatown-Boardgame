@@ -9,7 +9,9 @@ public class GameUIManager : MonoBehaviour
     private static GameUIManager _instance;
     public static GameUIManager instance => _instance;
 
+    [Header("Distribute card")]
     [SerializeField] private Button discardBtn;
+    [SerializeField] private Button confirmCardChose;
 
     private void Awake() 
     {
@@ -25,10 +27,32 @@ public class GameUIManager : MonoBehaviour
     private void Start() 
     {
         discardBtn.onClick.AddListener(OndisCard);
+        confirmCardChose.onClick.AddListener(OnConfirmCardChose);
+        OnStartGame();
+    }
+
+    private void OnStartGame() 
+    {
+        discardBtn.gameObject.SetActive(GameMaster.localPlayer.isHost);
     }
 
     private void OndisCard()
     {
+        discardBtn.interactable= false;
         GameMaster.localPlayer.NewYear();
+    }
+
+    private void OnConfirmCardChose()
+    {
+        Debug.Log("here");
+        GameMaster.instance.deskCard.ConfirmCardChose();
+    }
+
+    public void ReceiveCardDiscard()
+    {
+        if (GameMaster.localPlayer.isHost)
+        {
+            discardBtn.gameObject.SetActive(false);
+        }
     }
 }
