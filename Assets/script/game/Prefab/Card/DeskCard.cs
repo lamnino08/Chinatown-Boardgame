@@ -20,19 +20,25 @@ public class TileCardChose
     }
 }
 
+[Serializable]
+public class PathPointGroup
+{
+    public Transform[] points; 
+}
+
 public class DeskCard : MonoBehaviour
 {
     public static TileCardChose tileCardChose = new TileCardChose();
 
-    [SerializeField] CardOrgnization cardOrgnization;
-    [SerializeField] GameObject cardPref;
-    [SerializeField] Transform cardDirectionOnUI;
-    [SerializeField] float durationCardFlying = 3f;
-    [SerializeField] float cardStartRotateAt = 2f;
-    [SerializeField] float cardSpawnInterval  = .2f;
-    [SerializeField] AnimationCurve easingCurve;
-    [SerializeField] List<Transform> listPathPoint;
-    [SerializeField] List<Transform> listPathPlayerToDesk;
+    [SerializeField] private CardOrgnization cardOrgnization;
+    [SerializeField] private GameObject cardPref;
+    [SerializeField] private Transform cardDirectionOnUI;
+    [SerializeField] private float durationCardFlying = 3f;
+    [SerializeField] private float cardStartRotateAt = 2f;
+    [SerializeField] private float cardSpawnInterval  = .2f;
+    [SerializeField] private AnimationCurve easingCurve;
+    [SerializeField] private List<PathPointGroup> listPathPoint = new List<PathPointGroup>();
+    [SerializeField] private List<PathPointGroup> listPathPlayerToDesk = new List<PathPointGroup>();
 
     private List<Vector3> PathPlayerToDesk = new List<Vector3>();
     private List<Vector3> PathToPlayer = new List<Vector3>();
@@ -40,19 +46,21 @@ public class DeskCard : MonoBehaviour
     private void Start() 
     {
         GameMaster.instance.deskCard = this;
-        foreach(Transform point in listPathPoint)
-        {
-            PathToPlayer.Add(point.position);
-        }
-        foreach(Transform point in listPathPlayerToDesk)
-        {
-            PathPlayerToDesk.Add(point.position);
-        }
     }
 
     // Trigger discard to player
     public void DiscardToPlayer(byte[] tiles)
     {
+        int indexPlayer = GameMaster.localPlayer.index;
+        Debug.Log(indexPlayer);
+        foreach(Transform point in listPathPoint[indexPlayer].points)
+        {
+            PathToPlayer.Add(point.position);
+        }
+        foreach(Transform point in listPathPlayerToDesk[indexPlayer].points)
+        {
+            PathPlayerToDesk.Add(point.position);
+        }
         StartCoroutine(SpawnCards(tiles));
     }
 
@@ -116,6 +124,4 @@ public class DeskCard : MonoBehaviour
         else
             GamePopupManager.Toast("Not enough");
     }
-
-    
 }

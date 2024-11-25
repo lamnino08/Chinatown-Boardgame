@@ -13,7 +13,7 @@ public class PlayerManager : NetworkBehaviour
     public string playerName;
 
     [SyncVar]
-    public byte index;
+    public int index = 0;
 
     [SyncVar]
     private ulong playerId;
@@ -38,11 +38,23 @@ public class PlayerManager : NetworkBehaviour
                 LobbyUIManager.instance.SetupUI(isHost);
         }
         GameMaster.instance.SetLocalPlayer(this);
-    }
+    }   
 
     public override void OnStartServer()
     {
         if (isHost) _host = this;
+    }
+
+    public void Spawm()
+    {
+        CmdSpawnPlayerSlot();
+    }
+
+    [Server]
+    public void CmdSpawnPlayerSlot()
+    {
+        var playerDataArray = RoomServerManager.instance.players.ToArray();
+        RpcSpawnPlayerSlotInGame(playerDataArray);
     }
 
     // Start on local
@@ -57,6 +69,7 @@ public class PlayerManager : NetworkBehaviour
 
         GetDataInLobby(connectionToClient);
         RoomServerManager.instance.AddPlayer(newPlayer, connectionToClient);
+        index = RoomServerManager.instance.players.Count - 1;
         RpcNewPlayerUI(newPlayer);
     }
 
@@ -94,6 +107,7 @@ public class PlayerManager : NetworkBehaviour
         if (isHost)
         {
             NetworkManager.singleton.ServerChangeScene("GameScene");
+            var playerDataArray = RoomServerManager.instance.players.ToArray();
         }
     }
 
@@ -139,6 +153,13 @@ public class PlayerManager : NetworkBehaviour
         LobbyUIManager.instance.PlayerReady(name, color);
     }
 
+    [ClientRpc]
+    public void RpcSpawnPlayerSlotInGame(PlayerData[] players)
+    {
+        Debug.Log("Here");
+        GameMaster.gameManager.SpawnPlayerSlot(players);
+    }
+
     // Render list User in room
     [TargetRpc]
     private void RpcPlayerListUI(NetworkConnectionToClient connectionToClient, PlayerData[] players)
@@ -166,4 +187,6 @@ public class PlayerManager : NetworkBehaviour
         GameMaster.instance.deskCard.DiscardToPlayer(tiles);
         GameUIManager.instance.ReceiveCardDiscard();
     }
+
+    
 }
