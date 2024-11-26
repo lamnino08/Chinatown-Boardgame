@@ -22,6 +22,7 @@ public class TileCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     public Vector3 originalPosition; // To animation when hover
     private byte _number;
+    public byte number => _number;
 
     private CardFly _cardFly;
     public CardFly cardFly 

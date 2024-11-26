@@ -74,7 +74,7 @@ public class Room
                         randomIndex = random.Next(0, 12);
                     } while (_store[randomIndex] > 0); 
 
-                   tilesOfPlayer[i] = (byte)randomIndex; 
+                    tilesOfPlayer[i] = (byte)randomIndex; 
                     _tile[randomIndex] = (byte)(playerIndex); 
                 }
             }
@@ -87,5 +87,13 @@ public class Room
     {
         year++;
         return DistributeTileCard(numberPlayer);
+    }
+
+    public void ReceiveResultChoseTileCard(List<TileCardReturnServer> tileReturn)
+    {
+        foreach(TileCardReturnServer tileCardReturnServer in tileReturn)
+        {
+            _tile[tileCardReturnServer.tile] = 0;
+        }
     }
 }

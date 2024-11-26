@@ -20,7 +20,7 @@ public class GameUIManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-
+        
         _instance = this;
     }
 

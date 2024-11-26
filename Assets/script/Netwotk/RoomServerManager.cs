@@ -11,6 +11,7 @@ public class RoomServerManager : NetworkBehaviour
     public List<PlayerData> players => _players;
     // list connection 
     private List<NetworkConnection> _playerConnections = new List<NetworkConnection>();
+    public List<NetworkConnection> playerConnections => _playerConnections;
     // private Dictionary<int, NetworkConnection> playerConnections = new Dictionary<int, NetworkConnection>();
 
     private void Awake()
