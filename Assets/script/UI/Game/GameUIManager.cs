@@ -44,7 +44,6 @@ public class GameUIManager : MonoBehaviour
 
     private void OnConfirmCardChose()
     {
-        Debug.Log("here");
         GameMaster.instance.deskCard.ConfirmCardChose();
     }
 

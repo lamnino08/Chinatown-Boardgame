@@ -7,8 +7,6 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] List<Transform> listCameraTranform;
     [SerializeField] Transform cameraTranform;
-    [SerializeField] public List<Transform> listPosPlayerSlot;
-    [SerializeField] public GameObject playerSlotPref;
     
     void Start()
     {

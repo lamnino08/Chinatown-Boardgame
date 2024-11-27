@@ -15,7 +15,6 @@ public class CardOrgnization : MonoBehaviour
         List<Vector3> list = new List<Vector3>();
         Vector3 lineVec = Vector3.Normalize(Vector3.Cross((camPos - pos), new Vector3(0,1,0)));
 
-        Debug.Log((numberCard)/2 - 0.5f + (numberCard % 2));
         Vector3 startPos = pos - (distanceCard *( (numberCard)/2 - 0.5f) + (numberCard % 2)/2) * lineVec;
         for (int i = 0; i < numberCard; i++)
         {
