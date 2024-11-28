@@ -1,5 +1,6 @@
 using System.Collections.Generic;
-using System.Diagnostics;
+using UnityEngine;
+// using System.Diagnostics;
 
 public class Room 
 {
@@ -7,6 +8,7 @@ public class Room
     private byte[] _tile = new byte[85]; // 85 tile
     private byte[] _store = new byte[12]; // 12 type of store card
     public List<byte> colors => _colors;
+    // public List<List<byte>> playerTiles = new List<List<byte>>();
     public byte year { get; private set; }
     
     public Room()
@@ -57,6 +59,7 @@ public class Room
     public List<byte[]> DistributeStoreCard(int numberPlayer)
     {
         // if (numberPlayer < 3 || numberPlayer > 5) return null;
+        if (numberPlayer < 3 || numberPlayer > 5) numberPlayer = 3;
 
         int numberStoreCard = Util.NumberStoreCard(year, numberPlayer);
         List<byte[]> storeCards = new List<byte[]>();
@@ -68,14 +71,14 @@ public class Room
             {
                 for (int i = 0; i < numberStoreCard; i++)
                 {
-                    int randomIndex;
+                    int randomIndex = 0;
                     do
                     {
                         randomIndex = random.Next(0, 12);
-                    } while (_store[randomIndex] > 0); 
+                    } while (_store[randomIndex] == 0); 
 
-                   tilesOfPlayer[i] = (byte)randomIndex; 
-                    _tile[randomIndex] = (byte)(playerIndex); 
+                    tilesOfPlayer[i] = (byte)randomIndex; 
+                    _store[randomIndex]--;
                 }
             }
             storeCards.Add(tilesOfPlayer);
@@ -86,6 +89,23 @@ public class Room
     public List<byte[]> NewYear(int numberPlayer)
     {
         year++;
+        // if (year == 0)
+        // {
+        //     for(int playerIndex = 0; playerIndex < numberPlayer; playerIndex++)
+        //     {
+        //         List<byte> tilesOfPlayer = new List<byte>();
+        //         playerTiles.Add(tilesOfPlayer);
+        //     }
+        // }
         return DistributeTileCard(numberPlayer);
     }
+
+    public void ReceiveResultChoseTileCard(List<TileCardReturnServer> tileReturn)
+    {
+        foreach(TileCardReturnServer tileCardReturnServer in tileReturn)
+        {
+            _tile[tileCardReturnServer.tile] = 0;
+        }
+    }
 }
+    

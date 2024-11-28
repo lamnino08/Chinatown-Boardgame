@@ -6,11 +6,12 @@ public class RoomServerManager : NetworkBehaviour
 {
     public static RoomServerManager instance { get; private set; }
 
-    private List<PlayerData> _players = new List<PlayerData>();
     public Room room { get; private set; }
+    private List<PlayerData> _players = new List<PlayerData>();
     public List<PlayerData> players => _players;
     // list connection 
     private List<NetworkConnection> _playerConnections = new List<NetworkConnection>();
+    public List<NetworkConnection> playerConnections => _playerConnections;
     // private Dictionary<int, NetworkConnection> playerConnections = new Dictionary<int, NetworkConnection>();
 
     private void Awake()
@@ -54,7 +55,22 @@ public class RoomServerManager : NetworkBehaviour
         List<byte[]> tiles = room.NewYear(_players.Count);
         for (int i = 0; i < _players.Count; i++)
         {
-            PlayerManager._host.DistributeTiles( _playerConnections[i], tiles[i]);
+            players[i].isReady = false;
+            PlayerManager._host.DistributeTiles(_playerConnections[i], tiles[i]);
         }
+    }
+
+    [Server]
+    public void ReceiveResultChoseTileCard(List<TileCardReturnServer> tileReturn, int indexPlayer)
+    {
+        room.ReceiveResultChoseTileCard(tileReturn);
+        players[indexPlayer].isReady = true;
+        foreach(PlayerData player in _players) 
+        {
+            if (!player.isReady) return;
+        }
+
+        Debug.Log("Trigge distribute store card");
+        GameServerManager.instance.SpawnStoreCard();
     }
 }

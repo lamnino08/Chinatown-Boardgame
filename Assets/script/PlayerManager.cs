@@ -21,6 +21,7 @@ public class PlayerManager : NetworkBehaviour
     [SyncVar]
     private byte color = 6;
 
+    private List<byte> tiles = new List<byte>();
     public bool isHost => isServer && isClient;
 
     void Start()
@@ -53,8 +54,7 @@ public class PlayerManager : NetworkBehaviour
     [Server]
     public void CmdSpawnPlayerSlot()
     {
-        var playerDataArray = RoomServerManager.instance.players.ToArray();
-        RpcSpawnPlayerSlotInGame(playerDataArray);
+        GameServerManager.instance.SpawnPlayerSlot();
     }
 
     // Start on local
@@ -117,6 +117,22 @@ public class PlayerManager : NetworkBehaviour
         RoomServerManager.instance.NewYear();
     }
 
+    [Command]
+    public void ConfirmTileCard(List<TileCardReturnServer> result)
+    {
+        for (int i = result.Count - 1; i >= 0; i--) // Duyệt ngược
+        {
+            if (result[i].isChosse)
+            {
+                tiles.Add(result[i].tile);
+                result.RemoveAt(i); // Xóa phần tử khỏi danh sách
+            }
+        }
+
+        RoomServerManager.instance.ReceiveResultChoseTileCard(result, index);
+    }
+
+
     // Server handle client left
     [Server]
     public void CmdOnStopClient()
@@ -153,12 +169,17 @@ public class PlayerManager : NetworkBehaviour
         LobbyUIManager.instance.PlayerReady(name, color);
     }
 
-    [ClientRpc]
-    public void RpcSpawnPlayerSlotInGame(PlayerData[] players)
-    {
-        Debug.Log("Here");
-        GameMaster.gameManager.SpawnPlayerSlot(players);
-    }
+    // [Server]
+    // public void RpcSpawnPlayerSlotInGame(PlayerData[] players)
+    // {
+    //     List<NetworkConnection> playerConnections = RoomServerManager.instance.playerConnections;
+    //     GameObject playerSlotPref = GameMaster.gameManager.playerSlotPref;
+    //     for (int i = 0; i < players.Length; i++)
+    //     {
+    //         GameObject player = Instantiate(playerSlotPref, GameMaster.gameManager.listPosPlayerSlot[i].position, GameMaster.gameManager.listPosPlayerSlot[i].rotation);
+    //         NetworkServer.Spawn(player, playerConnections[i]);
+    //     }
+    // }
 
     // Render list User in room
     [TargetRpc]

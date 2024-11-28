@@ -158,33 +158,3 @@ public class CardFly : MonoBehaviour
     //     }
     // }
 }
-
-
-    // private IEnumerator FlyAlongBezierCurve(List<Transform> controlPoints, Vector3 finalDirection)
-    // {
-    //     isFlying = true;
-    //     float elapsedTime = 0f;
-
-    //     while (elapsedTime < duration)
-    //     {
-    //         elapsedTime += Time.deltaTime;
-
-    //         float t = Mathf.Clamp01(elapsedTime / duration); 
-    //         float easedT = easingCurve.Evaluate(t);
-
-    //         // Tính toán vị trí hiện tại theo đường cong
-    //         Vector3 positionOnCurve = CalculateBezierPoint(easedT, controlPoints);
-    //         transform.position = positionOnCurve;
-
-    //         // Đối tượng quay về hướng đường cong
-    //         if (t < 1f)
-    //         {
-    //             Vector3 nextPosition = CalculateBezierPoint(easingCurve.Evaluate(Mathf.Clamp01(t + 0.01f)), controlPoints);
-    //                 transform.LookAt(nextPosition);
-    //         }
-    //         // yield return StartCoroutine(RotateTowardsDirection(finalDirection, 1f));
-    //         yield return null; 
-    //     }
-
-    //     isFlying = false;
-    // }

@@ -21,6 +21,23 @@ public class TileCardChose
 }
 
 [Serializable]
+public class TileCardReturnServer
+{
+    public byte tile;
+    public bool isChosse;
+    public TileCardReturnServer()
+    {
+        tile = 0;
+        isChosse = false;
+    }
+    public TileCardReturnServer(byte tile, bool isChosse)
+    {
+        this.tile = tile;
+        this.isChosse = isChosse;
+    }
+}
+
+[Serializable]
 public class PathPointGroup
 {
     public Transform[] points; 
@@ -119,7 +136,13 @@ public class DeskCard : MonoBehaviour
     {
         if (tileCardChose.IsEnoughCardChose())
         {
+            List<TileCardReturnServer> result = new List<TileCardReturnServer>();
+            foreach(TileCard tile in tileCardChose.TileCards)
+            {
+                result.Add(new TileCardReturnServer(tile.number, tile.status == CardStatus.CHOSSEN? true : false));
+            }
             ReturnCardToDesk();
+            GameMaster.localPlayer.ConfirmTileCard(result);
         }
         else
             GamePopupManager.Toast("Not enough");

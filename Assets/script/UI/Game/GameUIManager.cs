@@ -20,7 +20,7 @@ public class GameUIManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-
+        
         _instance = this;
     }
 
@@ -44,7 +44,6 @@ public class GameUIManager : MonoBehaviour
 
     private void OnConfirmCardChose()
     {
-        Debug.Log("here");
         GameMaster.instance.deskCard.ConfirmCardChose();
     }
 
