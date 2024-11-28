@@ -195,7 +195,7 @@ GameObject:
   - component: {fileID: 30148461}
   - component: {fileID: 30148460}
   m_Layer: 0
-  m_Name: DeskCard
+  m_Name: TileDeskCard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -514,11 +514,7 @@ MonoBehaviour:
   - {fileID: 64685317}
   playerSlotPref: {fileID: 4959002237610882982, guid: aa07ac73649fef3418f44c582b9fe325,
     type: 3}
-  PosSpawnStoreCard: {fileID: 286211863}
-  storeCardPref: {fileID: 1872774656209201722, guid: 94816b6765339644f97572303eb0f863,
-    type: 3}
-  markPref: {fileID: 2954184933082567847, guid: 52a81ca836c675f4b8938cafc7351a69,
-    type: 3}
+  storeCardDesk: {fileID: 6889525211754143661}
 --- !u!4 &89492950
 Transform:
   m_ObjectHideFlags: 0
@@ -779,37 +775,6 @@ RectTransform:
   m_AnchoredPosition: {x: 263.4, y: 33}
   m_SizeDelta: {x: 100, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &286211862
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 286211863}
-  m_Layer: 0
-  m_Name: StoreCardBag
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &286211863
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 286211862}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.7, y: 2.77, z: -0.7863884}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &298601016
 GameObject:
   m_ObjectHideFlags: 0
@@ -2846,6 +2811,37 @@ Transform:
   - {fileID: 1520941795}
   - {fileID: 938544704}
   - {fileID: 64685317}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1131723662
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1131723663}
+  m_Layer: 0
+  m_Name: ---Desk Card---
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1131723663
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1131723662}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3.7585075, y: 2.76998, z: 0.8735452}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1135563942
@@ -5315,6 +5311,91 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1051734468}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &6889525211754143660
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 731279083248575259, guid: 02b43b6fb873f5b4683185af22a35194,
+        type: 3}
+      propertyPath: sceneId
+      value: 3334161335
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736033217488223226, guid: 02b43b6fb873f5b4683185af22a35194,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 3.71
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736033217488223226, guid: 02b43b6fb873f5b4683185af22a35194,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.14
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736033217488223226, guid: 02b43b6fb873f5b4683185af22a35194,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.86
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736033217488223226, guid: 02b43b6fb873f5b4683185af22a35194,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736033217488223226, guid: 02b43b6fb873f5b4683185af22a35194,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736033217488223226, guid: 02b43b6fb873f5b4683185af22a35194,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736033217488223226, guid: 02b43b6fb873f5b4683185af22a35194,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736033217488223226, guid: 02b43b6fb873f5b4683185af22a35194,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736033217488223226, guid: 02b43b6fb873f5b4683185af22a35194,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736033217488223226, guid: 02b43b6fb873f5b4683185af22a35194,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5400479409608833288, guid: 02b43b6fb873f5b4683185af22a35194,
+        type: 3}
+      propertyPath: m_Name
+      value: StoreCardDesk
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 02b43b6fb873f5b4683185af22a35194, type: 3}
+--- !u!114 &6889525211754143661 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9027317982900759899, guid: 02b43b6fb873f5b4683185af22a35194,
+    type: 3}
+  m_PrefabInstance: {fileID: 6889525211754143660}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfb75d49cb8636845be9a602ee323fd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7097833320401782918
 GameObject:
   m_ObjectHideFlags: 0
@@ -5342,13 +5423,14 @@ SceneRoots:
   - {fileID: 601422233}
   - {fileID: 376243294}
   - {fileID: 910772475}
-  - {fileID: 593718074}
+  - {fileID: 1131723663}
+  - {fileID: 6889525211754143660}
   - {fileID: 30148461}
+  - {fileID: 89492950}
+  - {fileID: 593718074}
   - {fileID: 1531070380}
   - {fileID: 694084540}
   - {fileID: 1555953645}
   - {fileID: 1925789965}
   - {fileID: 1457905827}
   - {fileID: 1051734468}
-  - {fileID: 89492950}
-  - {fileID: 286211863}

@@ -8,16 +8,18 @@ public class GameServerManager : NetworkBehaviour
     private static GameServerManager _instance;
     public static GameServerManager instance => _instance;
 
+    [Header("Player slot")]
     [SerializeField] public List<Transform> listPosPlayerSlot;
     [SerializeField] public GameObject playerSlotPref;
-    [SerializeField] public Transform PosSpawnStoreCard;
-    [SerializeField] public GameObject storeCardPref;
-    [SerializeField] public GameObject markPref;
 
-    private List<GameObject> spawnedPlayerSlots = new List<GameObject>();
+    [Header("Store Card")]
+    [SerializeField] private StoreCardDesk storeCardDesk;
+
+    private List<GameObject> _spawnedPlayerSlots = new List<GameObject>();
+    public List<GameObject> spawnedPlayerSlots =>_spawnedPlayerSlots;
     private List<NetworkConnection> _playerConnections =>  RoomServerManager.instance.playerConnections;
 
-    public List<byte[]> tileSpawnMark = new List<byte[]>();
+    public List<byte[]> tileSpawnMarkSave = new List<byte[]>();
 
     void Awake()
     {
@@ -32,15 +34,15 @@ public class GameServerManager : NetworkBehaviour
         {
             GameObject playerSlot = Instantiate(playerSlotPref, listPosPlayerSlot[i].position, listPosPlayerSlot[i].rotation);
             NetworkServer.Spawn(playerSlot, _playerConnections[i]);
-            spawnedPlayerSlots.Add(playerSlot);
+            _spawnedPlayerSlots.Add(playerSlot);
         }
     }
 
-   [Server]
     public void SpawnStoreCard()
     {
-        StartCoroutine(SpawnStoreCardCoroutine());
+        storeCardDesk.SpawnStoreCard();
     }
+   
 
     [Server]
     public void SpawnMark()
@@ -48,43 +50,17 @@ public class GameServerManager : NetworkBehaviour
         StartCoroutine(SpawnMarkCoroutine());
     }
 
-    [Server]
-    private IEnumerator SpawnStoreCardCoroutine()
-    {
-        List<byte[]> cardData = RoomServerManager.instance.room.DistributeStoreCard(_playerConnections.Count);
-
-        int playerIndex = 0;
-
-        foreach (byte[] cardPlayers in cardData)
-        {
-             for (int i = 0; i < cardPlayers.Length; i++)
-            {
-                PlayerSlot playerSlot = spawnedPlayerSlots[playerIndex].GetComponent<PlayerSlot>();
-
-                GameObject cardGameObject = Instantiate(storeCardPref, PosSpawnStoreCard.position, spawnedPlayerSlots[playerIndex].transform.rotation);
-                NetworkServer.Spawn(cardGameObject, _playerConnections[playerIndex]); 
-
-
-                StoreCard cardScript = cardGameObject.GetComponent<StoreCard>(); 
-
-                cardScript.SetData(cardPlayers[i], playerIndex);   
-
-
-                List<Vector3> targetPositions = playerSlot.GetPosStoreCard(cardPlayers.Length);
-                Vector3 targetPosition = targetPositions[i];
-                cardScript.MoveToTarget(targetPosition);
-
-                yield return new WaitForSeconds(0.2f);
-            }
-
-            playerIndex++;
-        }
-    }
-
+   
 
     private IEnumerator SpawnMarkCoroutine()
     {
-        List<NetworkConnection> playerConnections = RoomServerManager.instance.playerConnections;
+        for(int indexPlayer = 0; indexPlayer < _playerConnections.Count; indexPlayer++)
+        {
+            for(int tile = 0; tile < tileSpawnMarkSave[indexPlayer].Length; tile++)
+            {
+
+            }
+        }
         yield return new WaitForSeconds(0.2f);
     }
 }

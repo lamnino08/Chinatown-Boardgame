@@ -12,7 +12,6 @@ public class RoomServerManager : NetworkBehaviour
     // list connection 
     private List<NetworkConnection> _playerConnections = new List<NetworkConnection>();
     public List<NetworkConnection> playerConnections => _playerConnections;
-    // private Dictionary<int, NetworkConnection> playerConnections = new Dictionary<int, NetworkConnection>();
 
     private void Awake()
     {
@@ -58,6 +57,12 @@ public class RoomServerManager : NetworkBehaviour
             players[i].isReady = false;
             PlayerManager._host.DistributeTiles(_playerConnections[i], tiles[i]);
         }
+    }
+
+    [Server]
+    public static List<byte[]> DistributeStoreCard()
+    {
+        return instance.room.DistributeStoreCard(instance.players.Count);
     }
 
     [Server]
