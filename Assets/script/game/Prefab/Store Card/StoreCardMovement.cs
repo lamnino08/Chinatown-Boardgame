@@ -2,22 +2,12 @@ using System.Collections;
 using Mirror;
 using UnityEngine;
 
-public class StoreCardMovement : NetworkBehaviour
+public class StoreCardMovement : MonoBehaviour
 {
     [SerializeField] private AnimationCurve movementCurve; 
     private float moveDuration = 1.5f;
 
-    void Start()
-    {
-    }
-
     public void MoveToTarget(Vector3 target)
-    {
-        RpcMoveToTarget(target);
-    }
-
-    [ClientRpc]
-    private void RpcMoveToTarget(Vector3 target)
     {
         StartCoroutine(MoveToTargetCoroutine(target));
     }

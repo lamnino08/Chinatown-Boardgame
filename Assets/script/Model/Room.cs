@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
-// using System.Diagnostics;
+
+
 
 public class Room 
 {
@@ -8,7 +9,6 @@ public class Room
     private byte[] _tile = new byte[85]; // 85 tile
     private byte[] _store = new byte[12]; // 12 type of store card
     public List<byte> colors => _colors;
-    // public List<List<byte>> playerTiles = new List<List<byte>>();
     public byte year { get; private set; }
     
     public Room()

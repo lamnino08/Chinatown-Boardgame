@@ -13,23 +13,6 @@ public class PlayerSlot : MonoBehaviour
     /// <returns>Danh sách các vị trí</returns>
     public List<Vector3> GetPosStoreCard(int numberCard)
     {
-        // List<Vector3> positions = new List<Vector3>();
-
-        // Vector3 direction = storeCardContain.right; 
-        // Vector3 startPosition = storeCardContain.position - (spacing *( (numberCard)/2 - 0.5f) + (numberCard % 2)/2) * direction;
-
-        // // for (int i = 0; i < numberCard; i++)
-        // // {
-        // //     // Tính toán vị trí từng card dựa trên hướng
-        // //     Vector3 position = startPosition + direction * (i * spacing);
-        // //     positions.Add(position);
-        // // }
-        // for (int i = 0; i < numberCard; i++)
-        // {
-        //     Vector3 posCard = startPosition + direction * (i * spacing);
-        //     positions.Add(posCard);
-        // }
-
         List<Vector3> list = new List<Vector3>();
         Vector3 lineVec = storeCardContain.right;
 

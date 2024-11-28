@@ -120,15 +120,20 @@ public class PlayerManager : NetworkBehaviour
     [Command]
     public void ConfirmTileCard(List<TileCardReturnServer> result)
     {
-        for (int i = result.Count - 1; i >= 0; i--) // Duyệt ngược
+        byte[] tileChosen = new byte[result.Count - 2];
+        for (int i = result.Count - 1; i >= 0; i--) 
         {
+            int indexTileChose = 0;
             if (result[i].isChosse)
             {
+                tileChosen[indexTileChose] = result[i].tile;
+                indexTileChose++;
                 tiles.Add(result[i].tile);
                 result.RemoveAt(i); // Xóa phần tử khỏi danh sách
             }
         }
 
+        GameServerManager.instance.tileSpawnMarkSave.Add(tileChosen);
         RoomServerManager.instance.ReceiveResultChoseTileCard(result, index);
     }
 

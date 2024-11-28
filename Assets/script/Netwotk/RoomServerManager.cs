@@ -70,7 +70,7 @@ public class RoomServerManager : NetworkBehaviour
             if (!player.isReady) return;
         }
 
-        Debug.Log("Trigge distribute store card");
         GameServerManager.instance.SpawnStoreCard();
+        GameServerManager.instance.SpawnMark();
     }
 }

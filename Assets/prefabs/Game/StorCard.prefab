@@ -10,7 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 7787104632759958851}
   - component: {fileID: 3030430531001342466}
+  - component: {fileID: 5935454987078353963}
   - component: {fileID: 8282674545304984869}
+  - component: {fileID: 4589014153918004168}
   m_Layer: 0
   m_Name: StorCard
   m_TagString: Untagged
@@ -51,6 +53,20 @@ MonoBehaviour:
   serverOnly: 0
   visibility: 0
   hasSpawned: 0
+--- !u!114 &5935454987078353963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1872774656209201722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d031accaced9e424fa65d59ddc627b02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  appearance: {fileID: 4589014153918004168}
+  movement: {fileID: 8282674545304984869}
 --- !u!114 &8282674545304984869
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -90,6 +106,19 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &4589014153918004168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1872774656209201722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f09b084b9be6e604e906eb3a41099af4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  image: {fileID: 2641420681292088119}
 --- !u!1 &2725944010736696500
 GameObject:
   m_ObjectHideFlags: 0
