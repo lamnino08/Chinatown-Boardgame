@@ -49,12 +49,19 @@ public class RoomServerManager : NetworkBehaviour
     }
 
     [Server]
+    public void PlayerReady(int playerIndex, byte color)
+    {
+        room.RemoveColor(color);
+        _players[playerIndex].SetColor(color);
+    }
+
+    [Server]
     public void NewYear()
     {
         List<byte[]> tiles = room.NewYear(_players.Count);
         for (int i = 0; i < _players.Count; i++)
         {
-            players[i].isReady = false;
+            players[i].SetReady(false);
             PlayerManager._host.DistributeTiles(_playerConnections[i], tiles[i]);
         }
     }
@@ -69,7 +76,7 @@ public class RoomServerManager : NetworkBehaviour
     public void ReceiveResultChoseTileCard(List<TileCardReturnServer> tileReturn, int indexPlayer)
     {
         room.ReceiveResultChoseTileCard(tileReturn);
-        players[indexPlayer].isReady = true;
+        players[indexPlayer].SetReady(true);
         foreach(PlayerData player in _players) 
         {
             if (!player.isReady) return;

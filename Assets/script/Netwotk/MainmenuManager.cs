@@ -24,7 +24,6 @@ public class MainmenuManager : MonoBehaviour
 
     private void OnHostClicked()
     {
-        Debug.Log("On Host click");
         if (string.IsNullOrEmpty(nameInputField.text))
         {
             Debug.LogError("Name is required!");
@@ -51,6 +50,5 @@ public class MainmenuManager : MonoBehaviour
     {
         string name = nameInputField.text;
         PlayerPrefs.SetString("PlayerName", name);
-        // SceneManager.LoadScene("LobbyScene");
     }
 }

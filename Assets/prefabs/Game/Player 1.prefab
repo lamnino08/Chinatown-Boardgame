@@ -103,6 +103,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   storeCardContain: {fileID: 1611230476105760698}
   spacing: 0.3
+  markBowl: {fileID: 5151376436855682278}
 --- !u!1 &5980812233491026091
 GameObject:
   m_ObjectHideFlags: 0
@@ -573,8 +574,35 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8788816896967473942, guid: 99503f72111b9dd4b910c8231e2e85eb,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5151376436855682278}
   m_SourcePrefab: {fileID: 100100000, guid: 99503f72111b9dd4b910c8231e2e85eb, type: 3}
+--- !u!1 &5057287683747428906 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8788816896967473942, guid: 99503f72111b9dd4b910c8231e2e85eb,
+    type: 3}
+  m_PrefabInstance: {fileID: 4600213978764493116}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5151376436855682278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5057287683747428906}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26a20e6f910c68542b501ec98f19ca9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  markPref: {fileID: 2954184933082567847, guid: 52a81ca836c675f4b8938cafc7351a69,
+    type: 3}
 --- !u!4 &5576803197848739984 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8265221095192404396, guid: 99503f72111b9dd4b910c8231e2e85eb,

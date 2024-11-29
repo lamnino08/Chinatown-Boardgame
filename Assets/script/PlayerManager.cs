@@ -32,7 +32,6 @@ public class PlayerManager : NetworkBehaviour
     public override void OnStartLocalPlayer()
     {
         CmdSetPlayerData(PlayerPrefs.GetString("PlayerName"));
-        Debug.Log("Start on load");
         if (isHost)
         {
             if (LobbyUIManager.instance != null)
@@ -44,11 +43,6 @@ public class PlayerManager : NetworkBehaviour
     public override void OnStartServer()
     {
         if (isHost) _host = this;
-    }
-
-    public void Spawm()
-    {
-        CmdSpawnPlayerSlot();
     }
 
     [Server]
@@ -82,6 +76,7 @@ public class PlayerManager : NetworkBehaviour
         if (isSuccess)
         {
             RoomServerManager.instance.room.RemoveColor(color);
+            RoomServerManager.instance.PlayerReady(index, color);
             RpcPlayerReady(playerName, Util.TransferColor(color));
         }
         TargetReadyResult(connectionToClient, isSuccess);
@@ -173,18 +168,6 @@ public class PlayerManager : NetworkBehaviour
     {
         LobbyUIManager.instance.PlayerReady(name, color);
     }
-
-    // [Server]
-    // public void RpcSpawnPlayerSlotInGame(PlayerData[] players)
-    // {
-    //     List<NetworkConnection> playerConnections = RoomServerManager.instance.playerConnections;
-    //     GameObject playerSlotPref = GameMaster.gameManager.playerSlotPref;
-    //     for (int i = 0; i < players.Length; i++)
-    //     {
-    //         GameObject player = Instantiate(playerSlotPref, GameMaster.gameManager.listPosPlayerSlot[i].position, GameMaster.gameManager.listPosPlayerSlot[i].rotation);
-    //         NetworkServer.Spawn(player, playerConnections[i]);
-    //     }
-    // }
 
     // Render list User in room
     [TargetRpc]

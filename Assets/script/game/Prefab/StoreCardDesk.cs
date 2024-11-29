@@ -9,16 +9,22 @@ public class StoreCardDesk : NetworkBehaviour
     private List<GameObject> spawnedPlayerSlots => GameServerManager.instance.spawnedPlayerSlots;
     private List<NetworkConnection> _playerConnections =>  RoomServerManager.instance.playerConnections;
 
-    [Server]
-    public void SpawnStoreCard()
+    public override void OnStartServer()
     {
-        StartCoroutine(SpawnStoreCardCoroutine());
+        base.OnStartServer();
+        EventBus.Subscribe<SpawnStoreCardEvent>(SpawnStoreCard);
     }
 
     [Server]
-    private IEnumerator SpawnStoreCardCoroutine()
+    private void SpawnStoreCard(SpawnStoreCardEvent data)
+    {
+        IReadOnlyList<byte[]> cardData = data.storeCards;
+        StartCoroutine(SpawnStoreCardCoroutine(cardData));
+    }
+
+    [Server]
+    private IEnumerator SpawnStoreCardCoroutine(IReadOnlyList<byte[]> cardData)
     {   
-        List<byte[]> cardData = RoomServerManager.DistributeStoreCard();
 
         int playerIndex = 0;
 

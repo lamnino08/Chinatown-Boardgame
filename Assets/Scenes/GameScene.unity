@@ -514,7 +514,6 @@ MonoBehaviour:
   - {fileID: 64685317}
   playerSlotPref: {fileID: 4959002237610882982, guid: aa07ac73649fef3418f44c582b9fe325,
     type: 3}
-  storeCardDesk: {fileID: 6889525211754143661}
 --- !u!4 &89492950
 Transform:
   m_ObjectHideFlags: 0
@@ -5384,18 +5383,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 02b43b6fb873f5b4683185af22a35194, type: 3}
---- !u!114 &6889525211754143661 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 9027317982900759899, guid: 02b43b6fb873f5b4683185af22a35194,
-    type: 3}
-  m_PrefabInstance: {fileID: 6889525211754143660}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bfb75d49cb8636845be9a602ee323fd5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &7097833320401782918
 GameObject:
   m_ObjectHideFlags: 0

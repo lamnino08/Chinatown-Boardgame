@@ -12,8 +12,8 @@ public class GameServerManager : NetworkBehaviour
     [SerializeField] public List<Transform> listPosPlayerSlot;
     [SerializeField] public GameObject playerSlotPref;
 
-    [Header("Store Card")]
-    [SerializeField] private StoreCardDesk storeCardDesk;
+    // [Header("Store Card")]
+    // [SerializeField] private StoreCardDesk storeCardDesk;
 
     private List<GameObject> _spawnedPlayerSlots = new List<GameObject>();
     public List<GameObject> spawnedPlayerSlots =>_spawnedPlayerSlots;
@@ -33,6 +33,9 @@ public class GameServerManager : NetworkBehaviour
         for (int i = 0; i < playerDatas.Count; i++)
         {
             GameObject playerSlot = Instantiate(playerSlotPref, listPosPlayerSlot[i].position, listPosPlayerSlot[i].rotation);
+            PlayerSlot playerSlotScript = playerSlot.GetComponent<PlayerSlot>();
+            playerSlotScript.SetData(i);
+
             NetworkServer.Spawn(playerSlot, _playerConnections[i]);
             _spawnedPlayerSlots.Add(playerSlot);
         }
@@ -40,27 +43,14 @@ public class GameServerManager : NetworkBehaviour
 
     public void SpawnStoreCard()
     {
-        storeCardDesk.SpawnStoreCard();
+        List<byte[]> cardData = RoomServerManager.DistributeStoreCard();
+        EventBus.Notificate<SpawnStoreCardEvent>(new SpawnStoreCardEvent(cardData));
     }
    
 
     [Server]
     public void SpawnMark()
     {
-        StartCoroutine(SpawnMarkCoroutine());
-    }
-
-   
-
-    private IEnumerator SpawnMarkCoroutine()
-    {
-        for(int indexPlayer = 0; indexPlayer < _playerConnections.Count; indexPlayer++)
-        {
-            for(int tile = 0; tile < tileSpawnMarkSave[indexPlayer].Length; tile++)
-            {
-
-            }
-        }
-        yield return new WaitForSeconds(0.2f);
+        EventBus.Notificate<SpawnMarkEvent>(new SpawnMarkEvent(tileSpawnMarkSave));
     }
 }
