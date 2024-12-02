@@ -4,22 +4,37 @@ using UnityEngine;
 
 public class Map : NetworkBehaviour
 {
-    [SerializeField] private string mapFileName = "map"; // Tên file map
-    [SerializeField] private GameObject tilePrefab; // Prefab của tile
-    [SerializeField] private float tileSpacing = 1.0f; // Khoảng cách giữa các tile
-    [SerializeField] private float yPos = 2.6f; // Độ cao của tile khi spawn
+    public static Map instance { get; private set; }
+    [SerializeField] private string mapFileName = "map";
+    [SerializeField] private GameObject tilePrefab;
+    [SerializeField] private float tileSpacing = 1.0f;
+    [SerializeField] private float yPos = 2.6f;
 
-    private List<Vector2Int> tilePositions = new List<Vector2Int>(); // Danh sách vị trí tile
-    private Dictionary<Vector2Int, int> tileData = new Dictionary<Vector2Int, int>(); // Lưu vị trí và loại tile
+    public readonly Dictionary<int, Tile> tileData = new();
 
     public override void OnStartServer()
     {
-        LoadMapFile();
-        SpawnTiles();
+        if (instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        instance = this;
+        LoadAndSpawnTiles();
     }
 
-    // Hàm load file map.txt
-    private void LoadMapFile()
+    public Tile GetTile(byte tile)
+    {
+        if (tileData.TryGetValue(tile, out Tile tileValue))
+        {
+            return tileValue;
+        }
+        Debug.LogWarning($"Tile with ID {tile} not found!");
+        return null;
+    }
+
+    [Server]
+    private void LoadAndSpawnTiles()
     {
         TextAsset mapFile = Resources.Load<TextAsset>(mapFileName);
 
@@ -29,47 +44,56 @@ public class Map : NetworkBehaviour
             return;
         }
 
-        string[] lines = mapFile.text.Split('\n'); // Mỗi dòng trong file map.txt
-
+        string[] lines = mapFile.text.Split('\n'); // Split file into lines
         for (int y = 0; y < lines.Length; y++)
         {
-            string[] line = lines[y].Trim().Split(" "); // Tách các giá trị trên mỗi dòng
-            for (int x = 0; x < line.Length; x++)
-            {
-                if (line[x] == "*") continue; // Dấu '*' nghĩa là không spawn tile
+            ParseAndSpawnLine(lines[y], -y);
+        }
+    }
 
-                // Kiểm tra giá trị hợp lệ
-                if (int.TryParse(line[x], out int tileType))
-                {
-                    Vector2Int position = new Vector2Int(x, -y);
-                    tilePositions.Add(position);
-                    tileData[position] = tileType; 
-                }
-                else
-                {
-                    Debug.LogWarning($"Invalid tile type '{line[x]}' at position ({x}, {y}) in map file.");
-                }
+    [Server]
+    private void ParseAndSpawnLine(string line, int row)
+    {
+        string[] entries = line.Trim().Split(' '); // Split the line into entries
+        for (int x = 0; x < entries.Length; x++)
+        {
+            if (entries[x] == "*") continue; // Skip unspawnable tiles
+            if (byte.TryParse(entries[x], out byte tileID))
+            {
+                Vector2Int position = new Vector2Int(x, row);
+                SpawnTile(position, tileID);
+            }
+            else
+            {
+                Debug.LogWarning($"Invalid tile data '{entries[x]}' at ({x}, {row})");
             }
         }
     }
 
-    // Hàm spawn các tile theo vị trí đã đọc từ map.txt
-    private void SpawnTiles()
+    [Server]
+    private void SpawnTile(Vector2Int position, byte tileID)
     {
-        foreach (var position in tilePositions)
-        {
-            if (tileData.TryGetValue(position, out int tileType))
-            {
-                GameObject tileInstance = Instantiate(tilePrefab, new Vector3(position.x * tileSpacing, yPos, position.y * tileSpacing), Quaternion.identity);
-                tileInstance.transform.SetParent(transform);
-                NetworkServer.Spawn(tileInstance);
+        Vector3 worldPosition = new Vector3(position.x * tileSpacing, yPos, position.y * tileSpacing);
+        GameObject tileInstance = Instantiate(tilePrefab, worldPosition, Quaternion.identity, transform);
 
-                Tile tileComponent = tileInstance.GetComponent<Tile>();
-                if (tileComponent != null)
-                {
-                    tileComponent.SetTileData(tileType); 
-                }
-            }
+        NetworkServer.Spawn(tileInstance);
+
+        Tile tileComponent = tileInstance.GetComponent<Tile>();
+        if (tileComponent != null)
+        {
+            tileComponent.SetTileData(tileID);
+            tileData[tileID-1] = tileComponent; // SyncDictionary is automatically synced to clients
         }
+        else
+        {
+            Debug.LogWarning($"Tile prefab is missing the Tile component at position {position}");
+        }
+    }
+    
+    [Server]
+    public void HightLightTile(NetworkConnectionToClient conn, byte tile, bool isHighlight)
+    {
+        Tile tilescp = GetTile(tile);
+        tilescp.HightLight(conn, isHighlight);
     }
 }

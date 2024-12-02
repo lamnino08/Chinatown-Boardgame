@@ -17,6 +17,17 @@ public class Tile : NetworkBehaviour
     private void OnTileChanged(int oldValue, int newValue)
     {
         numberText.text = newValue.ToString();
+    }
 
+    [Server]
+    public void HightLight(NetworkConnectionToClient conn, bool isHighlight)
+    {
+        RpcHighLightTile(conn, isHighlight);
+    }
+    
+    [TargetRpc]
+    private void RpcHighLightTile(NetworkConnectionToClient conn, bool isHighlight)
+    {
+        GetComponent<HighLight>().ToggleHighlight(isHighlight);
     }
 }

@@ -34,7 +34,7 @@ public class GameServerManager : NetworkBehaviour
         {
             GameObject playerSlot = Instantiate(playerSlotPref, listPosPlayerSlot[i].position, listPosPlayerSlot[i].rotation);
             PlayerSlot playerSlotScript = playerSlot.GetComponent<PlayerSlot>();
-            playerSlotScript.SetData(i);
+            playerSlotScript.SetData(i, playerDatas[i].color);
 
             NetworkServer.Spawn(playerSlot, _playerConnections[i]);
             _spawnedPlayerSlots.Add(playerSlot);

@@ -30,8 +30,8 @@ public class MainmenuManager : MonoBehaviour
             return;
         }
 
-        networkManager.StartHost();
         ChangeToLobby();
+        networkManager.StartHost();
     }
 
     private void OnJoinClicked()
@@ -42,8 +42,8 @@ public class MainmenuManager : MonoBehaviour
             return;
         }
 
-        networkManager.StartClient(); 
         ChangeToLobby();
+        networkManager.StartClient(); 
     }
 
     private void ChangeToLobby()

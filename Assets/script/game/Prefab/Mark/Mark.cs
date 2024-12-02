@@ -1,16 +1,42 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Dynamic;
+using Mirror;
 using UnityEngine;
 
-public class MarkAppearance : MonoBehaviour
+public class Mark : NetworkBehaviour
 {
-    [SerializeField] private Material material;
-    public byte index { get; private set; }
-
-    public void SetIndexBinder(byte index)
+    [SerializeField] private MarkAppearance appearance;
+    [SerializeField] private MarkFly movement;
+    
+    private int owner;
+    
+    [Server]
+    public void SetData(int indexPlayerOwner, byte color)
     {
-        this.index = index;
-        this.material.color = Util.TransferColor(index);
+        owner = indexPlayerOwner;
+        RpcSetColor(color);
+    }
+
+    [ClientRpc]
+    private void RpcSetColor(byte color)
+    {
+        appearance.SetColor(color);
+    }
+
+    [Server]
+    public void MoveToTile(
+        List<Vector3> controlPoints
+    )
+    {
+        RpcMoveToTile(controlPoints);
+    }
+
+    [ClientRpc]
+    public void RpcMoveToTile(
+        List<Vector3> controlPoints
+    )
+    {
+        movement.StartFlying(controlPoints); 
     }
 }

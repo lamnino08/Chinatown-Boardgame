@@ -1,12 +1,15 @@
 using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
 
-public class PlayerSlot : MonoBehaviour
+public class PlayerSlot : NetworkBehaviour
 {
+    public static PlayerSlot localPlayerSlot;
     [SerializeField] private Transform storeCardContain;
     [SerializeField] private float spacing = 0.6f;
     [SerializeField] private MarkBowl markBowl;
 
+    [SyncVar]
     private int _index = 0;
     private byte _color  = 0;
 
@@ -15,18 +18,28 @@ public class PlayerSlot : MonoBehaviour
         EventBus.Subscribe<SpawnMarkEvent>(OnSpawnkMarkDistribute);
     }
 
-    public void SetData(int index)
+    public override void OnStartAuthority()
     {
-        this._index = index;
+        base.OnStartAuthority();
+        Debug.Log("o");
+        localPlayerSlot = this;
     }
 
+    [Server]
+    public void SetData(int index, byte color)
+    {
+        this._index = index;
+        this._color = color;
+    }
+
+    [Server]
     private void OnSpawnkMarkDistribute(SpawnMarkEvent tiles)
     {
         IReadOnlyList<byte[]> tilesData = tiles.tiles;
-        Color color = Util.TransferColor(_color); // Color of mark spawn
-        markBowl.SpawnMark(tilesData[_index], color);
+        markBowl.SpawnMark(tilesData[_index], _color, _index);
     }
 
+    [Server]
     public List<Vector3> GetPosStoreCard(int numberCard)
     {
         List<Vector3> list = new List<Vector3>();
@@ -41,5 +54,9 @@ public class PlayerSlot : MonoBehaviour
         return list;
     }
 
-
+    [Command]
+    public void HightLightTile(byte tile, bool isHighlight)
+    {
+        Map.instance.HightLightTile(connectionToClient, tile, isHighlight);   
+    }
 }

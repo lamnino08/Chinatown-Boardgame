@@ -72,7 +72,7 @@ public class LobbyUIManager : MonoBehaviour
         foreach(PlayerData player in players)
         {
             Transform playeritem = Instantiate(playerItemPref, contentPlayers);
-            playeritem.GetComponent<PlayerItemPrefab>().SetData(player.name);
+            playeritem.GetComponent<PlayerItemPrefab>().SetData(player);
         }
 
         startBtn.SetActive(GameMaster.localPlayer.isHost);
@@ -81,7 +81,7 @@ public class LobbyUIManager : MonoBehaviour
     public void AddNewPlayerUI(PlayerData player)
     {
         Transform playeritem = Instantiate(playerItemPref, contentPlayers);
-        playeritem.GetComponent<PlayerItemPrefab>().SetData(player.name);
+        playeritem.GetComponent<PlayerItemPrefab>().SetData(player);
     } 
 
      public void RemovePlayerUI(string name)
@@ -136,5 +136,11 @@ public class LobbyUIManager : MonoBehaviour
             if (playerItem.Name == name)
                 playerItem.SetReady(true, color);
         }
+    }
+
+    public void CanStartGame(bool can)
+    {
+        Debug.Log(can);
+        startBtn.GetComponent<Button>().interactable = can;
     }
 }

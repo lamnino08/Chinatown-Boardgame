@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Mirror;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -111,7 +112,6 @@ public class DeskCard : MonoBehaviour
         for (int cardIndex = 0; cardIndex < numberCard; cardIndex++)
         {
             List<Vector3> currentPath = new List<Vector3>(PathToPlayer);
-
             currentPath.Add(listPosCard[cardIndex]);
 
             GameObject card = Instantiate(cardPref);

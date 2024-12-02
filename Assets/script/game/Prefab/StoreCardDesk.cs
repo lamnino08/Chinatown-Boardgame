@@ -25,7 +25,6 @@ public class StoreCardDesk : NetworkBehaviour
     [Server]
     private IEnumerator SpawnStoreCardCoroutine(IReadOnlyList<byte[]> cardData)
     {   
-
         int playerIndex = 0;
 
         foreach (byte[] cardPlayers in cardData)

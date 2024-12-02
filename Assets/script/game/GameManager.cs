@@ -13,7 +13,6 @@ public class GameManager : MonoBehaviour
         GameMaster.gameManager = this;
         SetView();
 
-        Debug.Log(GameMaster.localPlayer.isHost);
         if (GameMaster.localPlayer.isHost == true)
         {
             GameMaster.localPlayer.CmdSpawnPlayerSlot();

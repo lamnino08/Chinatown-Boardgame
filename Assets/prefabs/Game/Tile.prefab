@@ -13,7 +13,8 @@ GameObject:
   - component: {fileID: 3701472531636784980}
   - component: {fileID: 3619966509898797579}
   - component: {fileID: 5822662975619644813}
-  - component: {fileID: -8362668841220564085}
+  - component: {fileID: 1024803708757193586}
+  - component: {fileID: -7305018689760600304}
   m_Layer: 0
   m_Name: Tile
   m_TagString: Untagged
@@ -65,7 +66,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a24eefe400991d441aae83c00a8d00da, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -120,8 +121,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f1f05e9b37cbe34aa92d9642704f7f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   numberText: {fileID: 1721168274843242717}
---- !u!114 &-8362668841220564085
+  tile: 0
+--- !u!114 &1024803708757193586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1442121271173540131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d9776aa980362a4ba0023551c73ac14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  renderers:
+  - {fileID: 3701472531636784980}
+  hightlightColor: {r: 1, g: 1, b: 1, a: 1}
+  transitionDuration: 0.2
+  insensity: 10
+--- !u!114 &-7305018689760600304
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

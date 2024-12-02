@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Mirror;
 using UnityEngine;
 
@@ -52,7 +53,14 @@ public class RoomServerManager : NetworkBehaviour
     public void PlayerReady(int playerIndex, byte color)
     {
         room.RemoveColor(color);
+        _players[playerIndex].SetReady(true);
         _players[playerIndex].SetColor(color);
+    }
+
+    [Server]
+    public bool IsAllReady()
+    {
+        return _players.All(player => player.isReady);
     }
 
     [Server]
@@ -76,12 +84,11 @@ public class RoomServerManager : NetworkBehaviour
     public void ReceiveResultChoseTileCard(List<TileCardReturnServer> tileReturn, int indexPlayer)
     {
         room.ReceiveResultChoseTileCard(tileReturn);
-        players[indexPlayer].SetReady(true);
-        foreach(PlayerData player in _players) 
-        {
-            if (!player.isReady) return;
-        }
+        _players[indexPlayer].SetReady(true);
 
+        if (!IsAllReady()) return;
+
+        // Spawn store card and mark when all player chosse tile card
         GameServerManager.instance.SpawnStoreCard();
         GameServerManager.instance.SpawnMark();
     }

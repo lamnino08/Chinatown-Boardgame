@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7807136096090107049}
   - component: {fileID: 2528886610559084371}
   - component: {fileID: 5387807671019424751}
+  - component: {fileID: 5301196637246406653}
   m_Layer: 0
   m_Name: TileCard
   m_TagString: Untagged
@@ -64,7 +65,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb74ad593cacd9c46a917945fbc44b79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _card: {fileID: 7807136096090107049}
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
 --- !u!114 &5387807671019424751
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -79,6 +82,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _cardNumberText: {fileID: 2402113566655526209}
   _outline: {fileID: 0}
+--- !u!114 &5301196637246406653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6277972668781561463}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  _assetId: 3210272383
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1001 &5135402444412755484
 PrefabInstance:
   m_ObjectHideFlags: 0

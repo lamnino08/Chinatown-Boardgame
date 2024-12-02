@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using System.Dynamic;
 using UnityEngine;
 
-public class Mark : MonoBehaviour
+public class MarkAppearance : MonoBehaviour
 {
-    [SerializeField] private Material material;
-    public byte index { get; private set; }
+    [SerializeField] private MeshRenderer material;
 
-    public void SetIndexBinder(byte index)
+    public void SetColor(byte color)
     {
-        this.index = index;
-        this.material.color = Util.TransferColor(index);
+        this.material.material.color = Util.TransferColor(color);
     }
 }

@@ -31,7 +31,8 @@ public class PlayerManager : NetworkBehaviour
 
     public override void OnStartLocalPlayer()
     {
-        CmdSetPlayerData(PlayerPrefs.GetString("PlayerName"));
+        string name  = PlayerPrefs.GetString("PlayerName");
+        CmdSetPlayerData(name);
         if (isHost)
         {
             if (LobbyUIManager.instance != null)
@@ -73,11 +74,13 @@ public class PlayerManager : NetworkBehaviour
     {
         List<byte> availableColors = RoomServerManager.instance.GetAvailableColors();
         bool isSuccess = availableColors.Contains(color);
+
         if (isSuccess)
         {
-            RoomServerManager.instance.room.RemoveColor(color);
             RoomServerManager.instance.PlayerReady(index, color);
-            RpcPlayerReady(playerName, Util.TransferColor(color));
+            RpcPlayerReady(playerName, color);
+
+            LobbyUIManager.instance.CanStartGame(RoomServerManager.instance.IsAllReady());
         }
         TargetReadyResult(connectionToClient, isSuccess);
     }
@@ -101,6 +104,12 @@ public class PlayerManager : NetworkBehaviour
     {
         if (isHost)
         {
+            if (!RoomServerManager.instance.IsAllReady())
+            {
+                LobbyPopupManager.instance.Toast("All member must ready");
+                return;
+            }
+            
             NetworkManager.singleton.ServerChangeScene("GameScene");
             var playerDataArray = RoomServerManager.instance.players.ToArray();
         }
@@ -116,9 +125,9 @@ public class PlayerManager : NetworkBehaviour
     public void ConfirmTileCard(List<TileCardReturnServer> result)
     {
         byte[] tileChosen = new byte[result.Count - 2];
+        int indexTileChose = 0;
         for (int i = result.Count - 1; i >= 0; i--) 
         {
-            int indexTileChose = 0;
             if (result[i].isChosse)
             {
                 tileChosen[indexTileChose] = result[i].tile;
@@ -145,6 +154,8 @@ public class PlayerManager : NetworkBehaviour
     public void GetDataInLobby(NetworkConnectionToClient  connectionToClient)
     {
         var playerDataArray = RoomServerManager.instance.players.ToArray();
+        foreach (var player in playerDataArray)
+        Debug.Log(player);
         RpcPlayerListUI(connectionToClient, playerDataArray);
     }
 
@@ -164,9 +175,10 @@ public class PlayerManager : NetworkBehaviour
     }
 
     [ClientRpc]
-    private void RpcPlayerReady(string name, Color color)
+    private void RpcPlayerReady(string name, byte color)
     {
-        LobbyUIManager.instance.PlayerReady(name, color);
+        Color c = Util.TransferColor(color);
+        LobbyUIManager.instance.PlayerReady(name, c);
     }
 
     // Render list User in room
@@ -196,6 +208,4 @@ public class PlayerManager : NetworkBehaviour
         GameMaster.instance.deskCard.DiscardToPlayer(tiles);
         GameUIManager.instance.ReceiveCardDiscard();
     }
-
-    
 }
