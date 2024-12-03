@@ -2,35 +2,23 @@ using System.Collections;
 using Mirror;
 using UnityEngine;
 
+[RequireComponent(typeof(FlySimpleCurve))]
 public class StoreCardMovement : MonoBehaviour
 {
-    [SerializeField] private AnimationCurve movementCurve; 
-    private float moveDuration = 1.5f;
+    [SerializeField] private FlySimpleCurve _flyCurve;
+    [SerializeField] private Rigidbody rigibody;
+    private float duration = 1.5f;
 
     public void MoveToTarget(Vector3 target)
     {
-        StartCoroutine(MoveToTargetCoroutine(target));
+        rigibody.isKinematic = true;
+        _flyCurve.StarFlying(transform.position, target, duration,  0.7f);
+        StartCoroutine(TurnRigibody()); // turn on rigibody when reach target
     }
 
-    private IEnumerator MoveToTargetCoroutine(Vector3 target)
+    private IEnumerator TurnRigibody()
     {
-        Vector3 startPosition = transform.position;
-        float elapsedTime = 0f;
-
-        while (elapsedTime < moveDuration)
-        {
-            // Tính toán vị trí mới dựa trên AnimationCurve
-            float t = elapsedTime / moveDuration;
-            float curveValue = movementCurve.Evaluate(t);
-
-            transform.position = Vector3.Lerp(startPosition, target, curveValue);
-
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-
-        // Đảm bảo vị trí cuối cùng là target
-        transform.position = target;
-        Debug.Log("Card has reached its target!");
+        yield return new WaitForSeconds(duration);
+        rigibody.isKinematic = false;
     }
 }

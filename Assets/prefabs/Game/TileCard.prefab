@@ -9,10 +9,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3912568437063880597}
+  - component: {fileID: 5301196637246406653}
   - component: {fileID: 7807136096090107049}
   - component: {fileID: 2528886610559084371}
   - component: {fileID: 5387807671019424751}
-  - component: {fileID: 5301196637246406653}
+  - component: {fileID: -1967957077236391324}
+  - component: {fileID: 2727065494045750685}
+  - component: {fileID: 2313972275063663922}
   m_Layer: 0
   m_Name: TileCard
   m_TagString: Untagged
@@ -36,52 +39,6 @@ Transform:
   - {fileID: 1964813469087613178}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7807136096090107049
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6277972668781561463}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7e986975d73e7a4daf189b6561e496c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  status: 1
-  _appearance: {fileID: 5387807671019424751}
-  moveDistance: 0.03
-  moveDuration: 0.15
-  originalPosition: {x: 0, y: 0, z: 0}
---- !u!114 &2528886610559084371
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6277972668781561463}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eb74ad593cacd9c46a917945fbc44b79, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
---- !u!114 &5387807671019424751
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6277972668781561463}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b61aa7c265b2a9d468da1f8a4eec3b9b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _cardNumberText: {fileID: 2402113566655526209}
-  _outline: {fileID: 0}
 --- !u!114 &5301196637246406653
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -99,6 +56,163 @@ MonoBehaviour:
   serverOnly: 0
   visibility: 0
   hasSpawned: 0
+--- !u!114 &7807136096090107049
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6277972668781561463}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7e986975d73e7a4daf189b6561e496c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _appearance: {fileID: 5387807671019424751}
+  moveDistance: 0.03
+  moveDuration: 0.15
+  originalPosition: {x: 0, y: 0, z: 0}
+  _cardMovement: {fileID: 2528886610559084371}
+--- !u!114 &2528886610559084371
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6277972668781561463}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb74ad593cacd9c46a917945fbc44b79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _flyBeizer: {fileID: -1967957077236391324}
+  _flyLerp: {fileID: 2313972275063663922}
+  _flySimpleCurve: {fileID: 2727065494045750685}
+--- !u!114 &5387807671019424751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6277972668781561463}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b61aa7c265b2a9d468da1f8a4eec3b9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _cardNumberText: {fileID: 2402113566655526209}
+  _outline: {fileID: 0}
+--- !u!114 &-1967957077236391324
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6277972668781561463}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3e3b23baa1e5e64fbe6b02af07b29c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isFlying: 0
+  easingCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &2727065494045750685
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6277972668781561463}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e13c7aed5dd8ed49b578df6c002607f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isFlying: 0
+  easingCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &2313972275063663922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6277972668781561463}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97f68694b559a1640aa1f507478d5a36, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isFlying: 0
+  easingCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1001 &5135402444412755484
 PrefabInstance:
   m_ObjectHideFlags: 0

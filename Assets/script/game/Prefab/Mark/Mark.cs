@@ -1,13 +1,11 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Dynamic;
 using Mirror;
 using UnityEngine;
 
 public class Mark : NetworkBehaviour
 {
     [SerializeField] private MarkAppearance appearance;
-    [SerializeField] private MarkFly movement;
+    [SerializeField] private MarkMovement movement;
     
     private int owner;
     
@@ -26,17 +24,17 @@ public class Mark : NetworkBehaviour
 
     [Server]
     public void MoveToTile(
-        List<Vector3> controlPoints
+        Vector3 bowPos, Vector3 tilePos
     )
     {
-        RpcMoveToTile(controlPoints);
+        RpcMoveToTile(bowPos, tilePos);
     }
 
     [ClientRpc]
     public void RpcMoveToTile(
-        List<Vector3> controlPoints
+        Vector3 bowPos, Vector3 tilePos
     )
     {
-        movement.StartFlying(controlPoints); 
+        movement.StartFlyingSimpleCurve(bowPos, tilePos, 0.7f); 
     }
 }

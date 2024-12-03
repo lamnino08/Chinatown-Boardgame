@@ -96,8 +96,7 @@ public class DeskCard : MonoBehaviour
                 List<Vector3> currentPath = new List<Vector3>(PathPlayerToDesk);
                 currentPath[0] = tilecard.transform.position;
 
-                CardFly cardFly = tilecard.cardFly;
-                cardFly.StartFlying(currentPath, durationCardFlying, cardStartRotateAt, easingCurve, transform, CardStatus.LYING);
+                tilecard.FlyReturnToDeskCard(currentPath, durationCardFlying, cardStartRotateAt, easingCurve, transform);
             }
             yield return new WaitForSeconds(0.05f);
         }
@@ -117,15 +116,10 @@ public class DeskCard : MonoBehaviour
             GameObject card = Instantiate(cardPref);
 
             card.GetComponent<TileCard>().SetNumber((byte)(tiles[cardIndex]));
-            CardFly cardFly = card.GetComponent<CardFly>();
-            tileCardChose.TileCards.Add(cardFly.card);
-            cardFly.StartFlying(
-                currentPath, 
-                durationCardFlying,
-                cardStartRotateAt,
-                easingCurve,
-                cardDirectionOnUI,
-                CardStatus.CHOSSING
+            TileCard tileCard = card.GetComponent<TileCard>();
+            tileCardChose.TileCards.Add(tileCard);
+            tileCard.FlyToPlayerView(
+                currentPath, durationCardFlying, cardStartRotateAt, easingCurve, cardDirectionOnUI
             );
 
             yield return new WaitForSeconds(cardSpawnInterval);

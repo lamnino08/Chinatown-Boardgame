@@ -5,9 +5,11 @@ using UnityEngine;
 public class PlayerSlot : NetworkBehaviour
 {
     public static PlayerSlot localPlayerSlot;
-    [SerializeField] private Transform storeCardContain;
-    [SerializeField] private float spacing = 0.6f;
-    [SerializeField] private MarkBowl markBowl;
+    [SerializeField] private Transform _storeCardContain;
+    [SerializeField] private float _spacing = 0.32f;
+    [SerializeField] private MarkBowl _markBowl;
+    [SerializeField] private Transform _cardHole;
+    private NetworkConnection ownConnect;
 
     [SyncVar]
     private int _index = 0;
@@ -21,8 +23,19 @@ public class PlayerSlot : NetworkBehaviour
     public override void OnStartAuthority()
     {
         base.OnStartAuthority();
-        Debug.Log("o");
         localPlayerSlot = this;
+    }
+
+    [Command]
+    public void StoreConnectionOwner()
+    {
+        ownConnect = connectionToClient;
+    }
+
+    [Command]
+    public void HightLightTile(byte tile, bool isHighlight)
+    {
+        Map.instance.HightLightTile(connectionToClient, tile, isHighlight);   
     }
 
     [Server]
@@ -36,27 +49,28 @@ public class PlayerSlot : NetworkBehaviour
     private void OnSpawnkMarkDistribute(SpawnMarkEvent tiles)
     {
         IReadOnlyList<byte[]> tilesData = tiles.tiles;
-        markBowl.SpawnMark(tilesData[_index], _color, _index);
+        _markBowl.SpawnMark(tilesData[_index], _color, _index);
+        TRpcDistributeCard(ownConnect);
     }
 
     [Server]
     public List<Vector3> GetPosStoreCard(int numberCard)
     {
         List<Vector3> list = new List<Vector3>();
-        Vector3 lineVec = storeCardContain.right;
+        Vector3 lineVec = _storeCardContain.right;
 
-        Vector3 startPos = storeCardContain.position - (spacing *( (numberCard)/2 - 0.5f) + (numberCard % 2)/2) * lineVec;
+        Vector3 startPos = _storeCardContain.position - (_spacing *( (numberCard)/2 - 0.5f) + (numberCard % 2)/2) * lineVec;
         for (int i = 0; i < numberCard; i++)
         {
-            Vector3 posCard = startPos + lineVec * (i * spacing);
+            Vector3 posCard = startPos + lineVec * (i * _spacing) + new Vector3(0, 0.25f, 0);
             list.Add(posCard);
         }
         return list;
     }
 
-    [Command]
-    public void HightLightTile(byte tile, bool isHighlight)
+    [TargetRpc]
+    public void TRpcDistributeCard(NetworkConnection conn)
     {
-        Map.instance.HightLightTile(connectionToClient, tile, isHighlight);   
+        EventBus.Notificate(new TileCardToHoleEvent(_cardHole));
     }
 }

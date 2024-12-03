@@ -216,9 +216,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  storeCardContain: {fileID: 1611230476105760698}
-  spacing: 0.3
-  markBowl: {fileID: 5151376436855682278}
+  _storeCardContain: {fileID: 1611230476105760698}
+  _spacing: 0.32
+  _markBowl: {fileID: 5151376436855682278}
+  _cardHole: {fileID: 6901442556566831393}
 --- !u!1 &5775229133765631477
 GameObject:
   m_ObjectHideFlags: 0
@@ -783,7 +784,6 @@ MonoBehaviour:
   syncInterval: 0
   markPref: {fileID: 2954184933082567847, guid: 52a81ca836c675f4b8938cafc7351a69,
     type: 3}
-  durationMarkFly: 1
   easeingCurve:
     serializedVersion: 2
     m_Curve:
@@ -829,17 +829,17 @@ PrefabInstance:
     - target: {fileID: 5620023247811269349, guid: 1527a0cbd402ee2429fd6695e19c6786,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.448
+      value: -1.133
       objectReference: {fileID: 0}
     - target: {fileID: 5620023247811269349, guid: 1527a0cbd402ee2429fd6695e19c6786,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.0683
+      value: 0.0747
       objectReference: {fileID: 0}
     - target: {fileID: 5620023247811269349, guid: 1527a0cbd402ee2429fd6695e19c6786,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 0.678
       objectReference: {fileID: 0}
     - target: {fileID: 5620023247811269349, guid: 1527a0cbd402ee2429fd6695e19c6786,
         type: 3}

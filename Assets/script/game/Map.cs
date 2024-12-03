@@ -21,6 +21,8 @@ public class Map : NetworkBehaviour
         }
         instance = this;
         LoadAndSpawnTiles();
+
+        // EventBus.Subscribe<SpawnMarkEvent>()
     }
 
     public Tile GetTile(byte tile)
@@ -82,7 +84,7 @@ public class Map : NetworkBehaviour
         if (tileComponent != null)
         {
             tileComponent.SetTileData(tileID);
-            tileData[tileID-1] = tileComponent; // SyncDictionary is automatically synced to clients
+            tileData[tileID-1] = tileComponent; 
         }
         else
         {

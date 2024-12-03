@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 2277658804744647094}
   - component: {fileID: -7189355671179039438}
   - component: {fileID: 8568545963115494637}
+  - component: {fileID: 3437190484877006118}
   m_Layer: 0
   m_Name: Mark
   m_TagString: Untagged
@@ -197,6 +198,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b913423c4ddf3c745b88edff44892f72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  duration: 2
+  rigibody: {fileID: 6051138892677380128}
+  _flySimpleCurve: {fileID: 3437190484877006118}
+--- !u!114 &3437190484877006118
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2954184933082567847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e13c7aed5dd8ed49b578df6c002607f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isFlying: 0
   easingCurve:
     serializedVersion: 2
     m_Curve:
@@ -221,5 +238,3 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  duration: 2
-  rigibody: {fileID: 6051138892677380128}

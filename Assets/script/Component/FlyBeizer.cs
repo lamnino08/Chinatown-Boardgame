@@ -2,63 +2,46 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-public class CardFly : FlyAbstact
+public class FlyBeizer : FlyAbstact
 {
-    private TileCard _card;
+    public bool isFlying = false;
+    public AnimationCurve easingCurve;
 
-    [SerializeField] 
-    public TileCard card
-    {
-        get
-        {
-            if (_card == null)
-            {
-                _card = GetComponent<TileCard>(); 
-            }
-            return _card;
-        }
-        private set
-        {
-            _card = value; // Chỉ dùng được nội bộ
-        }
-    }
-
-    private void Start() 
-    {
-        if (!_card)
-        _card = GetComponent<TileCard>();
-    }
+    /// <summary>
+    /// Starts the process of flying an object along a Bezier curve, with control points, duration, easing curve, and rotation after a specific time.
+    /// </summary>
+    /// <param name="controlPoints">A list of control points defining the Bezier curve. At least two points are required to compute the curve.</param>
+    /// <param name="duration">The total time the object will take to travel along the curve.</param>
+    /// <param name="easingCurve">An animation curve that defines the easing function to smooth the movement over time.</param>
+    /// <param name="rotateAfter">The time (in seconds) after which the object will start rotating.</param>
+    /// <param name="targetRotationTransform">The target transform that the object will rotate towards after the `rotateAfter` time has passed.</param>
     public void StartFlying(
         List<Vector3> controlPoints, 
         float duration ,
-        float rotateAfter,
         AnimationCurve easingCurve,
-        Transform targetRotationTransform,
-        CardStatus nextStatus
+        float rotateAfter,
+        Transform targetRotationTransform
     )
     {
-        if (_card.status == CardStatus.FLYING) return;
-
         if (controlPoints == null || controlPoints.Count < 2)
         {
             Debug.LogError("Control points must have at least 2 points!");
             return;
         }
 
-        StartCoroutine(FlyAlongBezierCurve(controlPoints, duration, rotateAfter, easingCurve, targetRotationTransform, nextStatus));
+        StartCoroutine(FlyAlongBezierCurve(controlPoints, duration, easingCurve, rotateAfter,  targetRotationTransform));
     }
 
     private IEnumerator FlyAlongBezierCurve(
         List<Vector3> controlPoints, 
         float duration ,
-        float rotateAfter,
         AnimationCurve easingCurve,
-        Transform targetRotationTransform,
-        CardStatus nextStatus
+        float rotateAfter,
+        Transform targetRotationTransform
     )
     {
-        _card.status = CardStatus.LYING;
+        isFlying = true;
+
         float elapsedTime = 0f;
 
         bool isRotating = false;
@@ -100,23 +83,6 @@ public class CardFly : FlyAbstact
             yield return null; 
         }
 
-        _card.originalPosition = transform.position;
-        _card.status = nextStatus;
+        isFlying = false;
     }
-
-    // private void OnDrawGizmos()
-    // {
-    //     if (controlPoints.Count > 1)
-    //     {
-    //         Gizmos.color = Color.green;
-    //         Vector3 previousPoint = controlPoints[0].position;
-
-    //         for (float t = 0; t <= 1f; t += 0.01f)
-    //         {
-    //             Vector3 point = CalculateBezierPoint(t, controlPoints);
-    //             Gizmos.DrawLine(previousPoint, point);
-    //             previousPoint = point;
-    //         }
-    //     }
-    // }
 }

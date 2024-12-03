@@ -28,7 +28,6 @@ public class MarkBowl : NetworkBehaviour
         for(int i =0; i < tiles.Length; i++)
         {
             Vector3 targetTile = Map.instance.GetTile(tiles[i]).transform.position + new Vector3(0,.2f, 0);
-            List<Vector3> currentPath = new List<Vector3>(pathMarkFlyVec);
 
             GameObject markObject = Instantiate(markPref, transform.position, Quaternion.identity);
             NetworkServer.Spawn(markObject, connections[index]);
@@ -36,8 +35,7 @@ public class MarkBowl : NetworkBehaviour
             Mark markscript = markObject.GetComponent<Mark>();
             markscript.SetData(i, color);
 
-            currentPath.Add(targetTile);
-            markscript.MoveToTile(currentPath);
+            markscript.MoveToTile(transform.position, targetTile);
 
             yield return new WaitForSeconds(0.2f);
         }
