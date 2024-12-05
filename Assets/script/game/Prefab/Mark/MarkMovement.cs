@@ -8,6 +8,11 @@ public class MarkMovement : FlyAbstact
     [SerializeField] private Rigidbody rigibody;
     [SerializeField] private FlySimpleCurve _flySimpleCurve;
 
+    public bool isFlying 
+    {
+        get { return _flySimpleCurve.isFlying;}
+    }
+
     public void StartFlyingSimpleCurve(Vector3 startPoint, Vector3 endPoint, float insensity)
     {
         rigibody.isKinematic = true;

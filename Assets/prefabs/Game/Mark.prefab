@@ -18,9 +18,10 @@ GameObject:
   - component: {fileID: -7189355671179039438}
   - component: {fileID: 8568545963115494637}
   - component: {fileID: 3437190484877006118}
-  m_Layer: 0
+  - component: {fileID: 7561083561726520657}
+  m_Layer: 6
   m_Name: Mark
-  m_TagString: Untagged
+  m_TagString: Mark
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -186,6 +187,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   material: {fileID: 672448140159926563}
+  highLight: {fileID: 0}
 --- !u!114 &8568545963115494637
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -238,3 +240,20 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &7561083561726520657
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2954184933082567847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d9776aa980362a4ba0023551c73ac14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  renderers:
+  - {fileID: 672448140159926563}
+  hightlightColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
+  transitionDuration: 0.5
+  insensity: 10

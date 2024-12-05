@@ -154,8 +154,6 @@ public class PlayerManager : NetworkBehaviour
     public void GetDataInLobby(NetworkConnectionToClient  connectionToClient)
     {
         var playerDataArray = RoomServerManager.instance.players.ToArray();
-        foreach (var player in playerDataArray)
-        Debug.Log(player);
         RpcPlayerListUI(connectionToClient, playerDataArray);
     }
 

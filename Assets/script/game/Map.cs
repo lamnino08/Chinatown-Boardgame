@@ -91,11 +91,4 @@ public class Map : NetworkBehaviour
             Debug.LogWarning($"Tile prefab is missing the Tile component at position {position}");
         }
     }
-    
-    [Server]
-    public void HightLightTile(NetworkConnectionToClient conn, byte tile, bool isHighlight)
-    {
-        Tile tilescp = GetTile(tile);
-        tilescp.HightLight(conn, isHighlight);
-    }
-}
+}    

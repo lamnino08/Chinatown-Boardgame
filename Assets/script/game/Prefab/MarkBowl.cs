@@ -11,7 +11,7 @@ public class MarkBowl : NetworkBehaviour
     private List<Vector3> pathMarkFlyVec = new List<Vector3>();
 
     [Server]
-    public void SpawnMark(byte[] tiles, byte color, int index)
+    public void SpawnMarks(byte[] tiles, byte color, int index)
     {
         if (pathMarkFlyVec.Count == 0)
         {
@@ -27,18 +27,29 @@ public class MarkBowl : NetworkBehaviour
         List<NetworkConnection> connections = RoomServerManager.instance.playerConnections;
         for(int i =0; i < tiles.Length; i++)
         {
-            Vector3 targetTile = Map.instance.GetTile(tiles[i]).transform.position + new Vector3(0,.2f, 0);
+            // Set tile 
+            Tile tile = Map.instance.GetTile(tiles[i]);
+            tile.SetOwner(index);
 
-            GameObject markObject = Instantiate(markPref, transform.position, Quaternion.identity);
-            NetworkServer.Spawn(markObject, connections[index]);
-
-            Mark markscript = markObject.GetComponent<Mark>();
-            markscript.SetData(i, color);
-
-            markscript.MoveToTile(transform.position, targetTile);
+            // Spawn mark
+            SpawnMark(tile, color, connections[index], index);
 
             yield return new WaitForSeconds(0.2f);
         }
+    }
+
+    [Server]
+    private void SpawnMark(Tile tile, byte color, NetworkConnection connection, int ownerIndex)
+    {
+        Vector3 targetTile = tile.transform.position + new Vector3(0,.2f, 0);
+
+        GameObject markObject = Instantiate(markPref, transform.position, Quaternion.identity);
+        NetworkServer.Spawn(markObject, connection);
+
+        Mark markscript = markObject.GetComponent<Mark>();
+        markscript.SetData(ownerIndex, color);
+
+        markscript.MoveToTile(transform.position, targetTile);
     }
 }
                                                                                                                                                                                                                                       

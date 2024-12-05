@@ -774,6 +774,54 @@ RectTransform:
   m_AnchoredPosition: {x: 263.4, y: 33}
   m_SizeDelta: {x: 100, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &276026892
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 276026894}
+  - component: {fileID: 276026893}
+  m_Layer: 0
+  m_Name: InputManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &276026893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 276026892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5231e7ab941d23346b6f85cfa8dc5ea5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 1472
+  maxDistance: 100
+--- !u!4 &276026894
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 276026892}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.6, y: 2.6699998, z: -1.2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &298601016
 GameObject:
   m_ObjectHideFlags: 0
@@ -1687,6 +1735,7 @@ GameObject:
   - component: {fileID: 624973827}
   - component: {fileID: 624973826}
   - component: {fileID: 624973825}
+  - component: {fileID: 624973828}
   m_Layer: 0
   m_Name: Main Camera 1
   m_TagString: MainCamera
@@ -1770,6 +1819,22 @@ Transform:
   - {fileID: 1900748619}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 62, y: 0, z: 0}
+--- !u!114 &624973828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 624973824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c49b4cc203aa6414fae5c798d1d0e7d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EventMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_MaxRayIntersections: 0
 --- !u!1 &633972225
 GameObject:
   m_ObjectHideFlags: 0
@@ -3517,6 +3582,7 @@ MonoBehaviour:
   - {fileID: 601422233}
   - {fileID: 376243294}
   cameraTranform: {fileID: 624973827}
+  markClicked: {fileID: 0}
 --- !u!4 &1457905827
 Transform:
   m_ObjectHideFlags: 0
@@ -3941,6 +4007,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 594186936958880221, guid: cf856591953c8ed4bad3e9d863896e12,
+        type: 3}
+      propertyPath: m_TagString
+      value: Table
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5421,3 +5492,4 @@ SceneRoots:
   - {fileID: 1925789965}
   - {fileID: 1457905827}
   - {fileID: 1051734468}
+  - {fileID: 276026894}

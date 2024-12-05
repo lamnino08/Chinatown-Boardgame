@@ -140,7 +140,6 @@ public class LobbyUIManager : MonoBehaviour
 
     public void CanStartGame(bool can)
     {
-        Debug.Log(can);
         startBtn.GetComponent<Button>().interactable = can;
     }
 }

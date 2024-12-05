@@ -32,12 +32,6 @@ public class PlayerSlot : NetworkBehaviour
         ownConnect = connectionToClient;
     }
 
-    [Command]
-    public void HightLightTile(byte tile, bool isHighlight)
-    {
-        Map.instance.HightLightTile(connectionToClient, tile, isHighlight);   
-    }
-
     [Server]
     public void SetData(int index, byte color)
     {
@@ -49,7 +43,7 @@ public class PlayerSlot : NetworkBehaviour
     private void OnSpawnkMarkDistribute(SpawnMarkEvent tiles)
     {
         IReadOnlyList<byte[]> tilesData = tiles.tiles;
-        _markBowl.SpawnMark(tilesData[_index], _color, _index);
+        _markBowl.SpawnMarks(tilesData[_index], _color, _index);
         TRpcDistributeCard(ownConnect);
     }
 
@@ -71,6 +65,6 @@ public class PlayerSlot : NetworkBehaviour
     [TargetRpc]
     public void TRpcDistributeCard(NetworkConnection conn)
     {
-        EventBus.Notificate(new TileCardToHoleEvent(_cardHole));
+        EventBus.Notificate(new EndDealTileCardPharse(_cardHole));
     }
 }

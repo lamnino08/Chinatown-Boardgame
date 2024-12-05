@@ -1,25 +1,47 @@
 using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class Mark : NetworkBehaviour
+public enum MarkStatus
 {
+    FREE, // free 
+    ONTILE, // it mark to tile
+    DRAGING, // draging
+    FLYING  // flying
+}
+public class Mark : PieceGameObject
+{
+    private MarkStatus _status;
+    public MarkStatus status 
+    {
+        get
+        {
+            if (movement.isFlying) return MarkStatus.FLYING;
+            return _status;
+        }
+    }
+
     [SerializeField] private MarkAppearance appearance;
     [SerializeField] private MarkMovement movement;
     
-    private int owner;
-    
+    private int _owner;
+
+    public override void OnStartClient()
+    {
+        gameObject.layer = LayerMask.NameToLayer("Mark");
+    }
+
+    #region Command
+
+    #endregion Command
+
+    #region Server 
     [Server]
     public void SetData(int indexPlayerOwner, byte color)
     {
-        owner = indexPlayerOwner;
+        _owner = indexPlayerOwner;
         RpcSetColor(color);
-    }
-
-    [ClientRpc]
-    private void RpcSetColor(byte color)
-    {
-        appearance.SetColor(color);
     }
 
     [Server]
@@ -29,6 +51,14 @@ public class Mark : NetworkBehaviour
     {
         RpcMoveToTile(bowPos, tilePos);
     }
+#endregion Server
+
+#region Client RPC
+    [ClientRpc]
+    private void RpcSetColor(byte color)
+    {
+        appearance.SetColor(color);
+    }
 
     [ClientRpc]
     public void RpcMoveToTile(
@@ -36,5 +66,30 @@ public class Mark : NetworkBehaviour
     )
     {
         movement.StartFlyingSimpleCurve(bowPos, tilePos, 0.7f); 
+        _status = MarkStatus.ONTILE;
     }
+#endregion ClientRPC
+
+#region Client
+    public override void OnMouseClick()
+    {
+        Debug.Log("here");
+        GamePopupManager.Toast($"Mark {_owner} click");
+        if (!isOwned) GamePopupManager.Toast("It's not your mark"); // do nothing if has no authority
+        if (status == MarkStatus.FLYING) return; // do nothing if mark is flying
+
+        GameMaster.gameManager.OnMarkClick(this);
+    }
+
+    public void Click()
+    {
+        appearance.Highlight(true);
+    }
+
+    public void UnClick()
+    {
+        // Set UI or somthing
+        appearance.Highlight(false);
+    }   
+#endregion Client
 }

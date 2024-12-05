@@ -43,7 +43,7 @@ public class TileCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     void Start()
     {
-        EventBus.Subscribe<TileCardToHoleEvent>(OnReturnToDeskHole);
+        EventBus.Subscribe<EndDealTileCardPharse>(OnReturnToDeskHole);
     }
 
     public void SetNumber(byte number)
@@ -76,8 +76,9 @@ public class TileCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         _status = CardStatus.LYING;
     }
 
-    private void OnReturnToDeskHole(TileCardToHoleEvent data)
+    private void OnReturnToDeskHole(EndDealTileCardPharse data)
     {
+        // end of Deal tile card phares, all tile card will return to the hole card
         Transform target = data.deskHoleTranform;
         FlyToHoleCard(transform.position, target.position, 1.5f, target.rotation);
     }
@@ -97,7 +98,8 @@ public class TileCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             Vector3 targetPos = originalPosition + transform.forward * -moveDistance;
 
             transform.DOMove(targetPos, moveDuration).SetEase(Ease.InQuad);
-            PlayerSlot.localPlayerSlot.HightLightTile(_number, true);
+            // PlayerSlot.localPlayerSlot.HightLightTile(_number, true);
+            EventBus.Notificate(new OnHighlightTile(_number, true));
         }
     }
 
@@ -106,7 +108,8 @@ public class TileCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         if (status == CardStatus.CHOSSING)
         {
             transform.DOMove(originalPosition, moveDuration).SetEase(Ease.OutQuad);
-            PlayerSlot.localPlayerSlot.HightLightTile(_number, false);
+            EventBus.Notificate(new OnHighlightTile(_number, false));
+
         }
     }
     
