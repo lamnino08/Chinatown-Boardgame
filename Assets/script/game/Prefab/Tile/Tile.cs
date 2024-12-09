@@ -37,6 +37,12 @@ public class Tile : PieceGameObject
     }
 
     [Server]
+    public void UnMark()
+    {
+        _isMarked = false;
+    }
+
+    [Server]
     public void SetTileData(int type)
     {
         tile = type;
@@ -52,25 +58,7 @@ public class Tile : PieceGameObject
 #region  Client
     public override void OnMouseClick()
     {
-        GamePopupManager.Toast($"Tile {tile} click");
-        if (GameMaster.instance.gamePharse != GamePharse.TRADES) return; 
-
         GameMaster.gameManager.OnTileClick(this);
-    }
-
-    public Mark GetMark()
-    {
-        Vector3 direction = Vector3.up;
-
-        // Perform the raycast
-        if (Physics.Raycast(transform.position, direction, out RaycastHit hit, 1f, markLayer))
-        {
-            Mark mark = hit.collider.GetComponent<Mark>();
-            return mark; // Return the Mark object if found
-        }
-
-        Debug.Log("No Mark object found in the upward direction.");
-        return null;
     }
 
     [Client]
@@ -91,5 +79,21 @@ public class Tile : PieceGameObject
             GetComponent<HighLight>().ToggleHighlight(false);
         }
     }   
+
+     [Client]
+    public Mark GetMark()
+    {
+        Vector3 direction = Vector3.up;
+
+        // Perform the raycast
+        if (Physics.Raycast(transform.position, direction, out RaycastHit hit, 1f, markLayer))
+        {
+            Mark mark = hit.collider.GetComponent<Mark>();
+            return mark; 
+        }
+
+        GamePopupManager.Toast("No Mark object found in the upward direction.");
+        return null;
+    }
 #endregion Client
 }

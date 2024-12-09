@@ -32,40 +32,62 @@ public class GameManager : MonoBehaviour
         }
 
         markClicked = newMarkClicked;
+        newMarkClicked.Click();
     }
 
     public void OnTileClick(Tile tile)
     {
         if (GameMaster.instance.gamePharse != GamePharse.TRADES) return;
 
-        if (markClicked != null)
-        {
-            if (tile.owner == 6) { GamePopupManager.Toast("This is free tile"); return; }
-            if (tile.isMarked) 
-            { 
-                if (tile.isMarked && tile.owner == GameMaster.localPlayer.index)
-                {
-                    Mark newMarkClicked = tile.GetMark();
-                }
-                GamePopupManager.Toast("this tile is marked"); return; 
+        if (tile.owner == 6) { GamePopupManager.Toast("free tile"); return; }
+        if (tile.isMarked) 
+        { 
+            if (tile.owner != GameMaster.localPlayer.index) return;
+
+            // Click to tile of your have mark
+            if (markClicked != null)
+            {
+                markClicked.UnClick(); // Unclick old mark clicked
+                markClicked = null;
             }
 
-            markClicked.MoveToTile(markClicked.transform.position, tile.transform.position);
-            // tile.SetOwner();
+            Mark newMarkClicked = tile.GetMark();
+            // GamePopupManager.Toast($"{newMarkClicked}");
+            if (newMarkClicked != null)
+            {
+                GamePopupManager.Toast($"{newMarkClicked.name}");
+                markClicked = newMarkClicked;
+                newMarkClicked.Click(); // new mark clicked
+            }
+            return;
         }
 
-        markClicked = null;
+        // click to other tile and it is not mark => it to you
+        markClicked.CmdMoveToTile(tile.tile);
     }
 
-    public void OnClickTable()
+    public void OnTableClick()
     {
         if (GameMaster.instance.gamePharse != GamePharse.TRADES) return;
 
         if (markClicked != null)
         {
-            markClicked.UnClick();
-        } 
+            Camera mainCamera = Camera.main;
+            Vector3 mousePosition = Input.mousePosition;
+            Ray ray = mainCamera.ScreenPointToRay(mousePosition);
 
-        markClicked = null;
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit))
+            {
+                Vector3 hitPosition = hit.point;
+
+                // Xử lý khi click vào bề mặt
+                Debug.Log("Hit Position: " + hitPosition);
+
+                markClicked.CmdMoveToTable(hitPosition);
+            }
+
+            markClicked = null;
+        } 
     }
 }

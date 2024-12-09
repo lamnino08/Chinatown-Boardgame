@@ -32,14 +32,15 @@ public class MouseClick : MonoBehaviour
         {
             RaycastHit lastHit = hits[0];
 
-            Debug.Log($"Last hit object: {lastHit.collider.gameObject.name}");
+            // GamePopupManager.Toast($"Last hit object: {lastHit.collider.gameObject.name}");
 
             PieceGameObject piece = lastHit.collider.GetComponent<PieceGameObject>();
+
+
             piece.OnMouseClick();
-        }
-        else
+        } else
         {
-            GameMaster.gameManager.OnClickTable();
+            GameMaster.gameManager.OnTableClick();
         }
     }
 }

@@ -174,6 +174,9 @@ MonoBehaviour:
   syncInterval: 0
   appearance: {fileID: -7189355671179039438}
   movement: {fileID: 8568545963115494637}
+  tileLayer:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!114 &-7189355671179039438
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -187,7 +190,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   material: {fileID: 672448140159926563}
-  highLight: {fileID: 0}
+  highLight: {fileID: 7561083561726520657}
 --- !u!114 &8568545963115494637
 MonoBehaviour:
   m_ObjectHideFlags: 0

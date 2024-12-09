@@ -25,7 +25,7 @@ public class Map : NetworkBehaviour
         // EventBus.Subscribe<SpawnMarkEvent>()
     }
 
-    public Tile GetTile(byte tile)
+    public Tile GetTile(int tile)
     {
         if (tileData.TryGetValue(tile, out Tile tileValue))
         {
@@ -83,7 +83,7 @@ public class Map : NetworkBehaviour
         Tile tileComponent = tileInstance.GetComponent<Tile>();
         if (tileComponent != null)
         {
-            tileComponent.SetTileData(tileID);
+            tileComponent.SetTileData(tileID-1);
             tileData[tileID-1] = tileComponent; 
         }
         else

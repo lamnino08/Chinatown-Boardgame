@@ -41,7 +41,6 @@ public class MarkBowl : NetworkBehaviour
     [Server]
     private void SpawnMark(Tile tile, byte color, NetworkConnection connection, int ownerIndex)
     {
-        Vector3 targetTile = tile.transform.position + new Vector3(0,.2f, 0);
 
         GameObject markObject = Instantiate(markPref, transform.position, Quaternion.identity);
         NetworkServer.Spawn(markObject, connection);
@@ -49,7 +48,7 @@ public class MarkBowl : NetworkBehaviour
         Mark markscript = markObject.GetComponent<Mark>();
         markscript.SetData(ownerIndex, color);
 
-        markscript.MoveToTile(transform.position, targetTile);
+        markscript.SVMoveToTile(transform.position, tile);
     }
 }
                                                                                                                                                                                                                                       
