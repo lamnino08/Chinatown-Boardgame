@@ -10,14 +10,45 @@ public class MouseClick : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0)) 
         {
-            PerformRaycast();
+            OnMouseDownLeft();
+        }
+
+        if (Input.GetMouseButtonDown(1)) 
+        {
+            OnMouseDownRight();
         }
     }
 
     /// <summary>
     /// Performs a raycast from the mouse position and detects objects within the specified LayerMask.
     /// </summary>
-    private void PerformRaycast()
+    private void OnMouseDownLeft()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        RaycastHit[] hits = Physics.RaycastAll(ray, maxDistance, layerMask);
+
+        if (hits.Length > 0)
+        {
+            RaycastHit lastHit = hits[0];
+
+            // GamePopupManager.Toast($"Last hit object: {lastHit.collider.gameObject.name}");
+
+            PieceGameObject piece = lastHit.collider.GetComponent<PieceGameObject>();
+            if (piece != null)
+            {
+                piece.OnMouseClick();
+            } else
+            {
+                GamePopupManager.Toast("Miss component");
+            }
+        } else
+        {
+            GameMaster.gameManager.OnTableClick();
+        }
+    }
+
+    private void OnMouseDownRight()
     {
         if (EventSystem.current.IsPointerOverGameObject())
         {

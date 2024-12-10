@@ -17,6 +17,7 @@ public class GameMaster : MonoBehaviour
 {
     public static GameMaster instance { get; private set; }
     public static GameManager gameManager;
+    public List<PlayerData> players = new List<PlayerData>();
     public DeskCard deskCard;
     public GamePharse gamePharse { get; private set; }
 

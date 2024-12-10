@@ -18,6 +18,8 @@ public class FlyLerp : FlyAbstact
     {
         if (isFlying) return;
 
+        if (rigidbody) rigidbody.isKinematic = true;
+
         isFlying = true;
 
         // Set the initial position
@@ -36,5 +38,6 @@ public class FlyLerp : FlyAbstact
         }
 
         isFlying = false;
+        if (rigidbody) rigidbody.isKinematic = false;
     }
 }

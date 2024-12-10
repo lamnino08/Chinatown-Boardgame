@@ -145,6 +145,7 @@ MonoBehaviour:
   markLayer:
     serializedVersion: 2
     m_Bits: 64
+  _highlight: {fileID: 1024803708757193586}
   tile: 0
 --- !u!114 &1024803708757193586
 MonoBehaviour:

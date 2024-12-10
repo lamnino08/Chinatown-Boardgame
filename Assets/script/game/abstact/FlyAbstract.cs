@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class FlyAbstact : MonoBehaviour
 {
+    [SerializeField] protected Rigidbody rigidbody;
     /// <summary>
     /// Tính toán vị trí trên đường cong tại thời điểm t với n điểm kiểm soát
     /// </summary>

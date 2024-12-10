@@ -3,13 +3,24 @@ using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
 
-public class MarkBowl : NetworkBehaviour
+public class MarkBowl : PieceGameObject
 {
     [SerializeField] private GameObject markPref;
     [SerializeField] private AnimationCurve easeingCurve;
     [SerializeField] private List<Transform> pathMarkFlyTransform = new List<Transform>();
+    public bool isClicked = false;
+
     private List<Vector3> pathMarkFlyVec = new List<Vector3>();
 
+#region Command
+    public void CmdSpawnMark(int tileIndex, byte color, int ownerIndex)
+    {
+        Tile tile = Map.instance.GetTile(tileIndex);
+        SpawnMark(tile, color, connectionToClient, ownerIndex);
+    }
+#endregion Command
+
+#region  ChanegBowClickedStatus
     [Server]
     public void SpawnMarks(byte[] tiles, byte color, int index)
     {
@@ -20,7 +31,6 @@ public class MarkBowl : NetworkBehaviour
         }
         StartCoroutine(SpawnMarkCoroutine(tiles, color, index));
     }
-
     [Server]
     private IEnumerator SpawnMarkCoroutine(byte[] tiles, byte color, int index)
     {
@@ -50,5 +60,15 @@ public class MarkBowl : NetworkBehaviour
 
         markscript.SVMoveToTile(transform.position, tile);
     }
+#endregion Server
+
+#region Client
+    public override void OnMouseClick()
+    {
+        if (!isOwned) GamePopupManager.Toast("It's not your mark bowl"); // do nothing if has no authority
+
+        GameMaster.gameManager.OnBowlMarkClick(this);
+    }
+#endregion Client
 }
                                                                                                                                                                                                                                       

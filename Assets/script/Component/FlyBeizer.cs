@@ -41,6 +41,7 @@ public class FlyBeizer : FlyAbstact
     )
     {
         isFlying = true;
+        if (rigidbody != null) rigidbody.isKinematic = true;
 
         float elapsedTime = 0f;
 
@@ -84,5 +85,6 @@ public class FlyBeizer : FlyAbstact
         }
 
         isFlying = false;
+        if (rigidbody != null) rigidbody.isKinematic = false;
     }
 }

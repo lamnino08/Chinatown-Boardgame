@@ -13,7 +13,7 @@ public class Util : MonoBehaviour
     private List<Color> colors = new List<Color>();
 
     //Store Card util
-    [SerializeField] private Sprite[] storeCardSprites = new Sprite[12];
+    [SerializeField] private Material[] storecardmaterials = new Material[12];
 
     private void Awake()
     {
@@ -45,9 +45,9 @@ public class Util : MonoBehaviour
         return Instance.colors[index];
     }
 
-    public static Sprite TransferStoreCardSprite(byte cardIndex)
+    public static Material TransferStoreCardSprite(byte cardIndex)
     {
-        return Instance.storeCardSprites[cardIndex];
+        return Instance.storecardmaterials[cardIndex];
     }
 
     public static int NumberTileCard(byte year, int numberPlayer)

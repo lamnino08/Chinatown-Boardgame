@@ -7,6 +7,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] List<Transform> listCameraTranform;
     [SerializeField] Transform cameraTranform;
     public Mark markClicked = null;
+    public StoreCard storeClicked = null;
+    public MarkBowl bowClicked = null;
     
     void Start()
     {
@@ -31,6 +33,9 @@ public class GameManager : MonoBehaviour
             markClicked.UnClick();
         }
 
+        // bowClicked.isClicked = false;
+        ChanegBowClickedStatus(false);
+
         markClicked = newMarkClicked;
         newMarkClicked.Click();
     }
@@ -39,7 +44,7 @@ public class GameManager : MonoBehaviour
     {
         if (GameMaster.instance.gamePharse != GamePharse.TRADES) return;
 
-        if (tile.owner == 6) { GamePopupManager.Toast("free tile"); return; }
+        if (tile.owner == 6) { GamePopupManager.Toast("Free tile"); return; }
         if (tile.isMarked) 
         { 
             if (tile.owner != GameMaster.localPlayer.index) return;
@@ -55,7 +60,6 @@ public class GameManager : MonoBehaviour
             // GamePopupManager.Toast($"{newMarkClicked}");
             if (newMarkClicked != null)
             {
-                GamePopupManager.Toast($"{newMarkClicked.name}");
                 markClicked = newMarkClicked;
                 newMarkClicked.Click(); // new mark clicked
             }
@@ -63,14 +67,41 @@ public class GameManager : MonoBehaviour
         }
 
         // click to other tile and it is not mark => it to you
-        markClicked.CmdMoveToTile(tile.tile);
+        if (markClicked)
+        {
+            markClicked.CmdMoveToTile(tile.tile);
+            markClicked.UnClick();
+            markClicked = null;
+            return;
+        }
+
+        if (IsBowClicked())
+        {
+            bowClicked.isClicked = false;
+            bowClicked.CmdSpawnMark(tile.tile, GameMaster.localPlayer.color, GameMaster.localPlayer.index);
+        }
+    }
+
+    public void OnBowlMarkClick(MarkBowl markBowlClicked)
+    {
+        if (GameMaster.instance.gamePharse != GamePharse.TRADES) return;
+        if (this.bowClicked == null) this.bowClicked = markBowlClicked;
+
+        this.bowClicked.isClicked = true;
+    }
+
+    public void OnStoreClick(StoreCard card)
+    {
+        if (GameMaster.instance.gamePharse != GamePharse.TRADES) return;
+
+        storeClicked = card;
     }
 
     public void OnTableClick()
     {
         if (GameMaster.instance.gamePharse != GamePharse.TRADES) return;
 
-        if (markClicked != null)
+        if (markClicked != null || storeClicked != null)
         {
             Camera mainCamera = Camera.main;
             Vector3 mousePosition = Input.mousePosition;
@@ -81,13 +112,30 @@ public class GameManager : MonoBehaviour
             {
                 Vector3 hitPosition = hit.point;
 
-                // Xử lý khi click vào bề mặt
-                Debug.Log("Hit Position: " + hitPosition);
+                if (markClicked != null)
+                {
+                    markClicked.CmdMoveToTable(hitPosition);
+                    markClicked = null;
+                }
 
-                markClicked.CmdMoveToTable(hitPosition);
+                if (storeClicked != null)
+                {
+                    storeClicked.CmdMoveToTaget(hitPosition);
+                    storeClicked = null;
+                }
             }
 
-            markClicked = null;
         } 
+    }
+
+    private void ChanegBowClickedStatus(bool isClicked)
+    {
+        if (bowClicked) bowClicked.isClicked = isClicked;
+    }
+
+    private bool IsBowClicked()
+    {
+        if (bowClicked) return bowClicked.isClicked;
+        return false;
     }
 }

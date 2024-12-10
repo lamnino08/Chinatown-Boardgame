@@ -5,10 +5,10 @@ using UnityEngine.UI;
 
 public class StoreCardAppearance : MonoBehaviour
 {
-    [SerializeField] private Image image;
+    [SerializeField] private Renderer _renderer;
     public void SetImage(byte cardIndex)
     {
-        Sprite cardSprite = Util.TransferStoreCardSprite(cardIndex);
-        image.sprite = cardSprite;
+        Material material = Util.TransferStoreCardSprite(cardIndex);
+        _renderer.material = material;
     }
 }

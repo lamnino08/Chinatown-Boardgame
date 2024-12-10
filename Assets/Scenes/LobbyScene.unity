@@ -2416,6 +2416,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9634494a972f08b48b5b97d68c6e5138, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  players: []
   deskCard: {fileID: 0}
 --- !u!4 &1749645172
 Transform:
@@ -2445,19 +2446,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   contentColor: {fileID: 109573302}
-  storeCardSprites:
-  - {fileID: 21300000, guid: 10d2b0510a4ee7341a7b7619353054ec, type: 3}
-  - {fileID: 21300000, guid: ac97d578856d5e44189940eacc74017d, type: 3}
-  - {fileID: 21300000, guid: 4474363597e544440aabec8237f98150, type: 3}
-  - {fileID: 21300000, guid: c60d2a5299aa1954f9fedad824257715, type: 3}
-  - {fileID: 21300000, guid: e0670fc1ce455654fb535916e2b8afd7, type: 3}
-  - {fileID: 21300000, guid: 00b746ac7258cea48b1699ae0c8155f7, type: 3}
-  - {fileID: 21300000, guid: 56b71eb8293027c4fb20833b70f1e4e2, type: 3}
-  - {fileID: 21300000, guid: 245621fb2495ef24c8b3a838552b7347, type: 3}
-  - {fileID: 21300000, guid: 071e5e8b238d6734ca1efffcf01f3a4f, type: 3}
-  - {fileID: 21300000, guid: ff1cf85859f2484439bb74c709bf67b2, type: 3}
-  - {fileID: 21300000, guid: 9f7ee3e9e596340458d8cb44867f4fa9, type: 3}
-  - {fileID: 21300000, guid: ea684441dc2c6c8408b8f7440582e1ff, type: 3}
+  storecardmaterials:
+  - {fileID: 2100000, guid: 6f175cbfd8f586a4bbf476bcb2528493, type: 2}
+  - {fileID: 2100000, guid: 12f04c5c1b03ef843bc699218b3282a9, type: 2}
+  - {fileID: 2100000, guid: 9968caebd6d8b6b4ab28e787bc5bafd0, type: 2}
+  - {fileID: 2100000, guid: ed6c1cf2830e2c0489907665c7814d6a, type: 2}
+  - {fileID: 2100000, guid: 0409915f12aeeb24fa5f5bedd8bba942, type: 2}
+  - {fileID: 2100000, guid: f666aa153ed8bbb43a4a7997244d23b7, type: 2}
+  - {fileID: 2100000, guid: 8b07fee825c94e54a8963e54ea01978e, type: 2}
+  - {fileID: 2100000, guid: a10f968d5181dbe41ae9a3f25280064a, type: 2}
+  - {fileID: 2100000, guid: 0ac5b22e654ef974d808c59ebb491cfe, type: 2}
+  - {fileID: 2100000, guid: 95dbe8fe16a2791449a9dd632b4cdb7f, type: 2}
+  - {fileID: 2100000, guid: 174d9f0d191817243aaf8da7dbd87ef6, type: 2}
+  - {fileID: 2100000, guid: 03d5efc5df485fd4bb30cc6306094bf7, type: 2}
 --- !u!1 &1765219146
 GameObject:
   m_ObjectHideFlags: 0

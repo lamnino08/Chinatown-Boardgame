@@ -7,6 +7,7 @@ public class Tile : PieceGameObject
 {
     [SerializeField] TMP_Text numberText;
     [SerializeField] private LayerMask markLayer;
+    [SerializeField] private HighLight _highlight;
 
     [SyncVar(hook = nameof(OnTileChanged))]
     public int tile;
@@ -34,12 +35,14 @@ public class Tile : PieceGameObject
     {
         this._owner = owner;
         _isMarked = true;
+        RpcChangeMarkedStatus(false);
     }
 
     [Server]
     public void UnMark()
     {
         _isMarked = false;
+        RpcChangeMarkedStatus(true);
     }
 
     [Server]
@@ -55,6 +58,14 @@ public class Tile : PieceGameObject
     }
 #endregion
 
+#region Rpc
+    [ClientRpc]
+    private void RpcChangeMarkedStatus(bool ismarked)
+    {
+        ToggleHighlight(ismarked);
+    }
+#endregion Rpc
+
 #region  Client
     public override void OnMouseClick()
     {
@@ -67,7 +78,7 @@ public class Tile : PieceGameObject
         if (tile == data.tile)
         {
             isHighlighting = data.isHighlight;
-            GetComponent<HighLight>().ToggleHighlight(data.isHighlight);
+            ToggleHighlight(data.isHighlight);
         }
     }
 
@@ -76,7 +87,7 @@ public class Tile : PieceGameObject
     {
         if (isHighlighting)
         {
-            GetComponent<HighLight>().ToggleHighlight(false);
+            ToggleHighlight(false);
         }
     }   
 
@@ -94,6 +105,13 @@ public class Tile : PieceGameObject
 
         GamePopupManager.Toast("No Mark object found in the upward direction.");
         return null;
+    }
+
+    
+    [Client]
+    private void ToggleHighlight(bool isHighlight)
+    {
+        _highlight.ToggleHighlight(isHighlight);
     }
 #endregion Client
 }

@@ -19,7 +19,8 @@ public class PlayerManager : NetworkBehaviour
     private ulong playerId;
 
     [SyncVar]
-    private byte color = 6;
+    private byte _color = 6;
+    public byte color => _color;
 
     private List<byte> tiles = new List<byte>();
     public bool isHost => isServer && isClient;
@@ -73,12 +74,12 @@ public class PlayerManager : NetworkBehaviour
     public void CmdReady()
     {
         List<byte> availableColors = RoomServerManager.instance.GetAvailableColors();
-        bool isSuccess = availableColors.Contains(color);
+        bool isSuccess = availableColors.Contains(_color);
 
         if (isSuccess)
         {
-            RoomServerManager.instance.PlayerReady(index, color);
-            RpcPlayerReady(playerName, color);
+            RoomServerManager.instance.PlayerReady(index, _color);
+            RpcPlayerReady(playerName, _color);
 
             LobbyUIManager.instance.CanStartGame(RoomServerManager.instance.IsAllReady());
         }
@@ -96,7 +97,7 @@ public class PlayerManager : NetworkBehaviour
     [Command]
     public void SetColor(byte color)
     {
-        this.color = color;
+        this._color = color;
     }
 
     [Command]

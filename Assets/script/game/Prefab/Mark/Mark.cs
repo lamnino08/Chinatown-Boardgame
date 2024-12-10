@@ -5,7 +5,6 @@ public enum MarkStatus
 {
     FREE, // free 
     ONTILE, // it mark to tile
-    DRAGING, // draging
     FLYING  // flying
 }
 public class Mark : PieceGameObject
@@ -96,7 +95,6 @@ public class Mark : PieceGameObject
             return mark; 
         }
 
-        GamePopupManager.Toast("No Tile object found in the upward direction.");
         return null;
     }
 #endregion Server
@@ -138,8 +136,7 @@ public class Mark : PieceGameObject
     [Client]
     public override void OnMouseClick()
     {
-        Debug.Log($"Mark {_owner} click");
-        if (!isOwned) Debug.Log("It's not your mark"); // do nothing if has no authority
+        if (!isOwned) GamePopupManager.Toast("It's not your mark"); // do nothing if has no authority
         if (status == MarkStatus.FLYING) return; // do nothing if mark is flying
 
         GameMaster.gameManager.OnMarkClick(this);

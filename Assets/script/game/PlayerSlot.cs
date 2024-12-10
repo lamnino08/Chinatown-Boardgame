@@ -30,6 +30,8 @@ public class PlayerSlot : NetworkBehaviour
     public void StoreConnectionOwner()
     {
         ownConnect = connectionToClient;
+        List<PlayerData> players = RoomServerManager.instance.players;
+        TargetRPCSetDataRoomToGame(players);
     }
 
     [Server]
@@ -62,9 +64,18 @@ public class PlayerSlot : NetworkBehaviour
         return list;
     }
 
+#region TargetRPC
     [TargetRpc]
     public void TRpcDistributeCard(NetworkConnection conn)
     {
         EventBus.Notificate(new EndDealTileCardPharse(_cardHole));
     }
+
+    [TargetRpc]
+    private void TargetRPCSetDataRoomToGame(List<PlayerData> players)
+    {   
+        GameMaster.instance.players = players;
+        Debug.Log("here");
+    }
+#endregion TargetRPC
 }

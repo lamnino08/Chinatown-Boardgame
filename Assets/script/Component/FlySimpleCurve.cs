@@ -7,6 +7,7 @@ public class FlySimpleCurve : FlyAbstact
     public bool isFlying = false; 
     public AnimationCurve easingCurve; 
 
+
     public void StarFlying (
         Vector3 startPoint, Vector3 desPoint, float curveInsensity, float duration
     )
@@ -14,7 +15,7 @@ public class FlySimpleCurve : FlyAbstact
         List<Vector3> curves = new List<Vector3>();
         curves.Add(startPoint);
         curves.Add(startPoint + new Vector3(0, curveInsensity, 0));
-        curves.Add(desPoint);
+        curves.Add(desPoint + new Vector3(0, 0.2f, 0));
 
         StartCoroutine(FlySimpleBeizer(curves, duration));
     }
@@ -30,6 +31,8 @@ public class FlySimpleCurve : FlyAbstact
         float duration
     )
     {
+        if (rigidbody) rigidbody.isKinematic = true;
+        
         isFlying = true;
         float elapsedTime = 0f;
 
@@ -47,5 +50,6 @@ public class FlySimpleCurve : FlyAbstact
         }
         
         isFlying = false;
+        if (rigidbody) GetComponent<Rigidbody>().isKinematic = false;
     }
 }

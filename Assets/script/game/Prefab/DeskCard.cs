@@ -70,7 +70,6 @@ public class DeskCard : MonoBehaviour
     public void DiscardToPlayer(byte[] tiles)
     {
         int indexPlayer = GameMaster.localPlayer.index;
-        Debug.Log(indexPlayer);
         foreach(Transform point in listPathPoint[indexPlayer].points)
         {
             PathToPlayer.Add(point.position);

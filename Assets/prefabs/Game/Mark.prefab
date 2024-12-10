@@ -203,6 +203,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b913423c4ddf3c745b88edff44892f72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rigidbody: {fileID: 0}
   duration: 2
   rigibody: {fileID: 6051138892677380128}
   _flySimpleCurve: {fileID: 3437190484877006118}
@@ -218,6 +219,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e13c7aed5dd8ed49b578df6c002607f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rigidbody: {fileID: 6051138892677380128}
   isFlying: 0
   easingCurve:
     serializedVersion: 2
