@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 5124913763581511867}
   - component: {fileID: 3034079011324652213}
   - component: {fileID: 5122308033644911155}
+  - component: {fileID: 3595601090875319040}
   m_Layer: 8
   m_Name: StoreCard
   m_TagString: Untagged
@@ -185,6 +186,23 @@ MonoBehaviour:
   syncInterval: 0
   appearance: {fileID: 3034079011324652213}
   movement: {fileID: 5124913763581511867}
+  _highlight: {fileID: 3595601090875319040}
+--- !u!114 &3595601090875319040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4291409044381288714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d9776aa980362a4ba0023551c73ac14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  renderers:
+  - {fileID: 2850505881641886838}
+  transitionDuration: 0.5
+  insensity: 10
 --- !u!1001 &3480880498653247730
 PrefabInstance:
   m_ObjectHideFlags: 0

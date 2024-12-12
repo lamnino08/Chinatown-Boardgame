@@ -5,7 +5,6 @@ using UnityEngine;
 public class HighLight : MonoBehaviour
 {
     [SerializeField] private List<Renderer> renderers;
-    [SerializeField] private Color hightlightColor = Color.white;
     [SerializeField] private float transitionDuration = 0.5f; 
     [SerializeField] private float insensity = 10f; 
 
@@ -20,10 +19,12 @@ public class HighLight : MonoBehaviour
         }
     }
 
-    public void ToggleHighlight(bool val)
+    public void ToggleHighlight(bool val, byte? color = 6)
     {
         if (val)
         {
+            Color hightlightColor = color == 6? Color.white : Util.TransferColor((byte)color);
+
             foreach (var material in materials)
             {
                 material.EnableKeyword("_EMISSION");

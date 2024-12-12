@@ -35,14 +35,14 @@ public class Tile : PieceGameObject
     {
         this._owner = owner;
         _isMarked = true;
-        RpcChangeMarkedStatus(false);
+        RpcChangeMarkedStatus(false, 0);
     }
 
     [Server]
-    public void UnMark()
+    public void UnMark(byte color)
     {
         _isMarked = false;
-        RpcChangeMarkedStatus(true);
+        RpcChangeMarkedStatus(true, color);
     }
 
     [Server]
@@ -54,15 +54,22 @@ public class Tile : PieceGameObject
 
     private void OnTileChanged(int oldValue, int newValue)
     {
-        numberText.text = newValue.ToString();
+        numberText.text = (newValue+1).ToString();
     }
 #endregion
 
 #region Rpc
     [ClientRpc]
-    private void RpcChangeMarkedStatus(bool ismarked)
+    private void RpcChangeMarkedStatus(bool isMarked, byte color)
     {
-        ToggleHighlight(ismarked);
+        if (isMarked)
+        {
+            ToggleHighlight(true, color);
+        }
+        else
+        {
+            ToggleHighlight(false);
+        }
     }
 #endregion Rpc
 
@@ -78,7 +85,7 @@ public class Tile : PieceGameObject
         if (tile == data.tile)
         {
             isHighlighting = data.isHighlight;
-            ToggleHighlight(data.isHighlight);
+            ToggleHighlight(data.isHighlight, data.color);
         }
     }
 
@@ -107,11 +114,10 @@ public class Tile : PieceGameObject
         return null;
     }
 
-    
     [Client]
-    private void ToggleHighlight(bool isHighlight)
+    private void ToggleHighlight(bool isHighlight, byte? color = 6)
     {
-        _highlight.ToggleHighlight(isHighlight);
+        _highlight.ToggleHighlight(isHighlight, color);
     }
 #endregion Client
 }

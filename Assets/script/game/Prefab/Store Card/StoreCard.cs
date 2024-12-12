@@ -1,4 +1,5 @@
 using Mirror;
+using Telepathy;
 using UnityEngine;
 
 public enum StoreCardSatus
@@ -12,6 +13,7 @@ public class StoreCard : PieceGameObject
 {
     [SerializeField] public StoreCardAppearance appearance;
     [SerializeField] public StoreCardMovement movement;
+    [SerializeField] public HighLight _highlight;
     
     private int _ownerIndex;
     private StoreCardSatus _status;
@@ -35,6 +37,12 @@ public class StoreCard : PieceGameObject
     {
         //Un mark
         RpcMoveToTarget(pos);
+    }
+
+    [Command]
+    public void CmdHighlgith(bool isHighlight, byte color)
+    {
+        RpcHighlight(isHighlight, color);
     }
 #endregion Command
 
@@ -74,6 +82,12 @@ public class StoreCard : PieceGameObject
         movement.MoveToTarget(targetPos); 
         _status = StoreCardSatus.FREE;
     }
+
+    [ClientRpc]
+    private void RpcHighlight(bool isHighlight, byte color)
+    {
+        _highlight.ToggleHighlight(true);
+    }
 #endregion ClientRPC
 
 #region Client
@@ -83,6 +97,12 @@ public class StoreCard : PieceGameObject
         if (status == StoreCardSatus.FLYING) return;
 
         GameMaster.gameManager.OnStoreClick(this);
+    }
+
+    [Client]
+    public void Highlgith(bool isHighlight, byte color)
+    {
+        _highlight.ToggleHighlight(true, GameMaster.localPlayer.color);
     }
 #endregion Client
 }

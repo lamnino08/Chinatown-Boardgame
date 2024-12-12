@@ -99,7 +99,7 @@ public class TileCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
             transform.DOMove(targetPos, moveDuration).SetEase(Ease.InQuad);
             // PlayerSlot.localPlayerSlot.HightLightTile(_number, true);
-            EventBus.Notificate(new OnHighlightTile(_number, true));
+            EventBus.Notificate(new OnHighlightTile(_number, true, GameMaster.localPlayer.color));
         }
     }
 

@@ -69,7 +69,7 @@ public class GameManager : MonoBehaviour
         // click to other tile and it is not mark => it to you
         if (markClicked)
         {
-            markClicked.CmdMoveToTile(tile.tile);
+            markClicked.CmdMoveToTile(tile.tile, GameMaster.localPlayer.color);
             markClicked.UnClick();
             markClicked = null;
             return;
@@ -95,6 +95,7 @@ public class GameManager : MonoBehaviour
         if (GameMaster.instance.gamePharse != GamePharse.TRADES) return;
 
         storeClicked = card;
+        card.CmdHighlgith(true, GameMaster.localPlayer.color);
     }
 
     public void OnTableClick()
@@ -114,13 +115,14 @@ public class GameManager : MonoBehaviour
 
                 if (markClicked != null)
                 {
-                    markClicked.CmdMoveToTable(hitPosition);
+                    markClicked.CmdMoveToTable(hitPosition,  GameMaster.localPlayer.color);
                     markClicked = null;
                 }
 
                 if (storeClicked != null)
                 {
                     storeClicked.CmdMoveToTaget(hitPosition);
+                    storeClicked.CmdHighlgith(false, 0);
                     storeClicked = null;
                 }
             }

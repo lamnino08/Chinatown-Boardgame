@@ -38,7 +38,7 @@ public class Mark : PieceGameObject
     }
 
     [Command]
-    public void CmdMoveToTile(int tileindex)
+    public void CmdMoveToTile(int tileindex, byte color)
     {
         Tile tile = Map.instance.GetTile(tileindex);
         
@@ -46,7 +46,7 @@ public class Mark : PieceGameObject
         Tile oledTile = GetTileOn();
         if (oledTile != null)
         {
-            oledTile.UnMark();
+            oledTile.UnMark(color);
         }
 
         // Move to new Tile
@@ -54,13 +54,13 @@ public class Mark : PieceGameObject
     }
 
     [Command]
-    public void CmdMoveToTable(Vector3 pos)
+    public void CmdMoveToTable(Vector3 pos, byte color)
     {
         //Un mark
         Tile oledTile = GetTileOn();
         if (oledTile != null)
         {
-            oledTile.UnMark();
+            oledTile.UnMark(color);
         }
         RpcMoveToTarget(pos);
     }
