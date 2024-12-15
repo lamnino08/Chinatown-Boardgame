@@ -16,7 +16,7 @@ public class MainmenuManager : MonoBehaviour
 
     private void Start()
     {
-        networkManager = NetworkManager.singleton;
+        // networkManager = NetworkManager.singleton;
 
         hostButton.onClick.AddListener(OnHostClicked);
         joinButton.onClick.AddListener(OnJoinClicked);
@@ -31,7 +31,7 @@ public class MainmenuManager : MonoBehaviour
         }
 
         ChangeToLobby();
-        networkManager.StartHost();
+        // networkManager.StartHost();
     }
 
     private void OnJoinClicked()
@@ -43,7 +43,7 @@ public class MainmenuManager : MonoBehaviour
         }
 
         ChangeToLobby();
-        networkManager.StartClient(); 
+        // networkManager.StartClient(); 
     }
 
     private void ChangeToLobby()

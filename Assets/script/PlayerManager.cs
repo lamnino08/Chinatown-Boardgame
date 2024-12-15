@@ -32,14 +32,14 @@ public class PlayerManager : NetworkBehaviour
 
     public override void OnStartLocalPlayer()
     {
-        string name  = PlayerPrefs.GetString("PlayerName");
-        CmdSetPlayerData(name);
-        if (isHost)
-        {
-            if (LobbyUIManager.instance != null)
-                LobbyUIManager.instance.SetupUI(isHost);
-        }
-        GameMaster.instance.SetLocalPlayer(this);
+        // string name  = PlayerPrefs.GetString("PlayerName");
+        // CmdSetPlayerData(name);
+        // if (isHost)
+        // {
+        //     if (LobbyUIManager.instance != null)
+        //         LobbyUIManager.instance.SetupUI(isHost);
+        // }
+        // GameMaster.instance.SetLocalPlayer(this);
     }   
 
     public override void OnStartServer()
@@ -73,25 +73,25 @@ public class PlayerManager : NetworkBehaviour
     [Command]
     public void CmdReady()
     {
-        List<byte> availableColors = RoomServerManager.instance.GetAvailableColors();
-        bool isSuccess = availableColors.Contains(_color);
+        // List<byte> availableColors = RoomServerManager.instance.GetAvailableColors();
+        // bool isSuccess = availableColors.Contains(_color);
 
-        if (isSuccess)
-        {
-            RoomServerManager.instance.PlayerReady(index, _color);
-            RpcPlayerReady(playerName, _color);
+        // if (isSuccess)
+        // {
+        //     RoomServerManager.instance.PlayerReady(index, _color);
+        //     RpcPlayerReady(playerName, _color);
 
-            LobbyUIManager.instance.CanStartGame(RoomServerManager.instance.IsAllReady());
-        }
-        TargetReadyResult(connectionToClient, isSuccess);
+        //     LobbyUIManager.instance.CanStartGame(RoomServerManager.instance.IsAllReady());
+        // }
+        // TargetReadyResult(connectionToClient, isSuccess);
     }
 
     // Get available color before open Chose color popup
     [Command]
     public void OpenColorPupup()
     {
-        List<byte> availableColors = RoomServerManager.instance.GetAvailableColors();
-        RpcColorToOpenChosseColor(connectionToClient, availableColors);
+        // List<byte> availableColors = RoomServerManager.instance.GetAvailableColors();
+        // RpcColorToOpenChosseColor(connectionToClient, availableColors);
     }
 
     [Command]
@@ -111,7 +111,7 @@ public class PlayerManager : NetworkBehaviour
                 return;
             }
             
-            NetworkManager.singleton.ServerChangeScene("GameScene");
+            // NetworkManager.singleton.ServerChangeScene("GameScene");
             var playerDataArray = RoomServerManager.instance.players.ToArray();
         }
     }
@@ -170,35 +170,30 @@ public class PlayerManager : NetworkBehaviour
     [ClientRpc]
     private void RpcNewPlayerUI(PlayerData newPlayer)
     {
-        LobbyUIManager.instance.AddNewPlayerUI(newPlayer);
+        // LobbyUIManager.instance.AddNewPlayerUI(newPlayer);
     }
 
     [ClientRpc]
     private void RpcPlayerReady(string name, byte color)
     {
         Color c = Util.TransferColor(color);
-        LobbyUIManager.instance.PlayerReady(name, c);
+        // LobbyUIManager.instance.PlayerReady(name, c);
     }
 
     // Render list User in room
     [TargetRpc]
     private void RpcPlayerListUI(NetworkConnectionToClient connectionToClient, PlayerData[] players)
     {
-        if (LobbyUIManager.instance != null)
-            LobbyUIManager.instance.SetSlotPlayerUI(players);
+        // if (LobbyUIManager.instance != null)
+            // LobbyUIManager.instance.SetSlotPlayerUI(players);
     }
 
-    [TargetRpc]
-    private void RpcColorToOpenChosseColor(NetworkConnectionToClient connectionToClient, List<byte> availableColors)
-    {
-        LobbyPopupManager.instance.ShowChoseColorPopup(availableColors);
-    }
 
     // ready result
     [TargetRpc]
     private void TargetReadyResult(NetworkConnectionToClient target, bool isSuccess)
     {
-        LobbyUIManager.instance.OnReadyResult(isSuccess);
+        // LobbyUIManager.instance.OnReadyResult(isSuccess);
     }
 
     [TargetRpc]

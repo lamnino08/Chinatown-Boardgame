@@ -8,23 +8,23 @@ public class PlayerItemPrefab : MonoBehaviour
     [SerializeField] private TMP_Text readyText;
     [SerializeField] private Image colorImage;
     public string Name;
-    public void SetData(PlayerData player)
+    public void SetData(PlayerLobby player)
     {
         this.Name = player.name;
         nameText.text = player.name;
         readyText.text = "Waiting";
-        colorImage.color = player.color != 6? Util.TransferColor(player.color) : Color.white;
     }
 
     public void SetReady(bool newState, Color? color = null)
     {
         readyText.text = newState? "Ready" : "Waiting";
-        colorImage.color = color ?? Color.white;
+        // colorImage.color = color ?? Color.white;
     }
 
-    public void SetColor(UnityEngine.Color color)
+    public void SetColor(UnityEngine.Color color, bool isReady)
     {
         colorImage.gameObject.SetActive(true);
         colorImage.color = color;
+        readyText.text = isReady? "Ready" : "Waiting";
     }
 }

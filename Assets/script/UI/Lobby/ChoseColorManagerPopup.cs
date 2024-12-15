@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 using Mirror;
+using Colyseus.Schema;
 
 public class ChoseColorManagerPopup : BasePopup
 {
@@ -13,8 +14,6 @@ public class ChoseColorManagerPopup : BasePopup
     [SerializeField] private Button[] buttonColors = new Button[5];
     [SerializeField] private Button OkBtn;
 
-    private byte _currentColorIndex = 6;
-    private Color _currentColor;
     private void Awake() {
         if (_instance!=null)
         {
@@ -23,44 +22,41 @@ public class ChoseColorManagerPopup : BasePopup
         _instance = this;
     }
 
-    public void OnShow(List<byte> availableColors)
+    public void OnShow(MapSchema<string> availableColors)
     {
         base.Show();
-        for(byte i = 0; i < buttonColors.Length; i++)
+        for(int i = 0; i < buttonColors.Length; i++)
         {
-            buttonColors[i].gameObject.SetActive(availableColors.Contains(i));
+            buttonColors[i].gameObject.SetActive(availableColors.ContainsKey(i.ToString()));
         }
     }
 
     public override void OnStart() {
         base.OnStart();
-        for(byte i = 0; i < buttonColors.Length; i++)
+        for(int i = 0; i < buttonColors.Length; i++)
         {
-            byte colorIndex = i;
+            int colorIndex = i;
             Image buttonImage = buttonColors[i].GetComponent<Image>();
             Color colorBtn = buttonImage.color;
             buttonColors[i].onClick.AddListener(() => OnColorPick(colorIndex, colorBtn));
         }
-        OkBtn.onClick.AddListener(OnConfirmColor);
     }
 
-    public void OnColorPick(byte colorIndex, Color color) 
+    public void OnColorPick(int colorIndex, Color color) 
     {
-        Debug.Log(colorIndex);
-        _currentColorIndex = colorIndex;
-        _currentColor = color;
+        GameMaster.color = colorIndex.ToString();
+        OkBtn.onClick.AddListener(() => OnConfirmColor(color));
         OkBtn.GetComponent<Image>().color = color;
     }
 
-    private void OnConfirmColor()
+    private void OnConfirmColor(Color color)
     {
-        if (_currentColorIndex == 6)
+        if (GameMaster.color == "")
         {
             LobbyPopupManager.instance.Toast("Please chose your color");
             return;
         }
-        GameMaster.localPlayer.SetColor(_currentColorIndex);
-        LobbyUIManager.instance.SetColorPlayer(GameMaster.localPlayer.playerName, _currentColor);
+        LobbyUIManager.instance.SetColorPlayer(GameMaster.PlayerName, color);
 
         Hide();
     }

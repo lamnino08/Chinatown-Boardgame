@@ -43,8 +43,8 @@ public class GameServerManager : NetworkBehaviour
 
     public void SpawnStoreCard()
     {
-        List<byte[]> cardData = RoomServerManager.DistributeStoreCard();
-        EventBus.Notificate<SpawnStoreCardEvent>(new SpawnStoreCardEvent(cardData));
+        // List<byte[]> cardData = RoomServerManager.DistributeStoreCard();
+        // EventBus.Notificate<SpawnStoreCardEvent>(new SpawnStoreCardEvent(cardData));
     }
    
 

@@ -1,15 +1,11 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
-using Mirror;
-using DG.Tweening.Core.Easing;
+using Colyseus.Schema;
 
-public class LobbyUIManager : MonoBehaviour
+public class LobbyUIManager : BasePopup
 {
-    private static LobbyUIManager _instance;
-    public static LobbyUIManager instance => _instance;
-
+    public static LobbyUIManager instance { get; private set; }
 
     [Header("Player slot join lobby")]
     [SerializeField]  private Transform playerItemPref;
@@ -24,41 +20,19 @@ public class LobbyUIManager : MonoBehaviour
 
     void Awake()
     {
-        if (_instance != null)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        _instance = this;
-    }
-
-    private void Start() {
+        instance = this;
         colorBtn.onClick.AddListener(OnOpenColorPopup);
         readyBtn.GetComponent<Button>().onClick.AddListener(OnReadyBtn);
     }
 
-    public void SetupUI(bool isHost)
-    {
-        if (isHost)
-        {
-            startBtn.SetActive(true);
-            startBtn.GetComponent<Button>().onClick.AddListener(OnStartGame);
-        }
-    }
-
     private void OnOpenColorPopup() 
     {
-        GameMaster.localPlayer.OpenColorPupup();
-    }
-
-    private void OpenColorPopup(List<byte> availableColors)
-    {
-        LobbyPopupManager.instance.ShowChoseColorPopup(availableColors);
+        LobbyPopupManager.instance.ShowChoseColorPopup(LobbyController.state.colors);
     }
 
     private void OnReadyBtn()
     {
-        GameMaster.localPlayer.CmdReady();
+        LobbyManager.instance.Ready();
     }
 
     private void OnStartGame()
@@ -67,21 +41,10 @@ public class LobbyUIManager : MonoBehaviour
         GameMaster.localPlayer.StartGame();
     }
 
-    public void SetSlotPlayerUI(PlayerData[] players)
-    {
-        foreach(PlayerData player in players)
-        {
-            Transform playeritem = Instantiate(playerItemPref, contentPlayers);
-            playeritem.GetComponent<PlayerItemPrefab>().SetData(player);
-        }
-
-        startBtn.SetActive(GameMaster.localPlayer.isHost);
-    } 
-
-    public void AddNewPlayerUI(PlayerData player)
+    public void AddNewPlayer(PlayerLobby player)
     {
         Transform playeritem = Instantiate(playerItemPref, contentPlayers);
-        playeritem.GetComponent<PlayerItemPrefab>().SetData(player);
+        playeritem.GetComponent<PlayerItemPrefab>().SetData(player);    
     } 
 
      public void RemovePlayerUI(string name)
@@ -96,9 +59,9 @@ public class LobbyUIManager : MonoBehaviour
         }
     } 
 
-    public void SetColorPlayer(string name, Color color)
+    public void SetColorPlayer(string name, Color color, bool isReady = false)
     {
-        if (name == GameMaster.localPlayer.playerName)
+        if (name == GameMaster.PlayerName)
         {
             readyBtn.SetActive(true);
             colorBtn.gameObject.SetActive(false);
@@ -108,38 +71,8 @@ public class LobbyUIManager : MonoBehaviour
             var playerItem = child.GetComponent<PlayerItemPrefab>();
             if (playerItem != null && playerItem.Name == name)
             {
-                playerItem.SetColor(color);
+                playerItem.SetColor(color, isReady);
             }
         }
-    }
-
-    public void OnReadyResult(bool isReady)
-    {
-        if (isReady)
-        {
-           LobbyPopupManager.instance.Toast("Ready");
-           readyBtn.SetActive(false);  
-        }
-        else
-        {
-           LobbyPopupManager.instance.Toast("Color is not available");
-           readyBtn.SetActive(false);
-           colorBtn.gameObject.SetActive(true);
-        }
-    }
-
-    public void PlayerReady(string name, Color color)
-    {
-        foreach (Transform child in contentPlayers)
-        {
-            var playerItem = child.GetComponent<PlayerItemPrefab>();
-            if (playerItem.Name == name)
-                playerItem.SetReady(true, color);
-        }
-    }
-
-    public void CanStartGame(bool can)
-    {
-        startBtn.GetComponent<Button>().interactable = can;
     }
 }

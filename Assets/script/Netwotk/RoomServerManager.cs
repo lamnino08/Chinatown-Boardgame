@@ -43,16 +43,16 @@ public class RoomServerManager : NetworkBehaviour
         _players.Remove(_players.Find(player => player.id == id));
     }
 
-    [Server] 
-    public List<byte> GetAvailableColors()
-    {
-        return room.colors;
-    }
+    // [Server] 
+    // public List<byte> GetAvailableColors()
+    // {
+    //     return room.colors;
+    // }
 
     [Server]
     public void PlayerReady(int playerIndex, byte color)
     {
-        room.RemoveColor(color);
+        // room.RemoveColor(color);
         _players[playerIndex].SetReady(true);
         _players[playerIndex].SetColor(color);
     }
@@ -66,24 +66,24 @@ public class RoomServerManager : NetworkBehaviour
     [Server]
     public void NewYear()
     {
-        List<byte[]> tiles = room.NewYear(_players.Count);
-        for (int i = 0; i < _players.Count; i++)
-        {
-            players[i].SetReady(false);
-            PlayerManager._host.DistributeTiles(_playerConnections[i], tiles[i]);
-        }
+        // List<byte[]> tiles = room.NewYear(_players.Count);
+        // for (int i = 0; i < _players.Count; i++)
+        // {
+        //     players[i].SetReady(false);
+        //     PlayerManager._host.DistributeTiles(_playerConnections[i], tiles[i]);
+        // }
     }
 
-    [Server]
-    public static List<byte[]> DistributeStoreCard()
-    {
-        return instance.room.DistributeStoreCard(instance.players.Count);
-    }
+    // [Server]
+    // public static List<byte[]> DistributeStoreCard()
+    // {
+    //     return instance.room.DistributeStoreCard(instance.players.Count);
+    // }
 
     [Server]
     public void ReceiveResultChoseTileCard(List<TileCardReturnServer> tileReturn, int indexPlayer)
     {
-        room.ReceiveResultChoseTileCard(tileReturn);
+        // room.ReceiveResultChoseTileCard(tileReturn);
         _players[indexPlayer].SetReady(true);
 
         if (!IsAllReady()) return;

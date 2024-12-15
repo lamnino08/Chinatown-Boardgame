@@ -21,7 +21,11 @@ public class GameMaster : MonoBehaviour
     public DeskCard deskCard;
     public GamePharse gamePharse { get; private set; }
 
-    public static PlayerManager localPlayer { get; private set; }
+
+    public static string PlayerName = "";
+    public static string color = "";
+
+    public static PlayerManager localPlayer { get; private set; } /// bo
     private void Awake()
     {
         if (instance == null)
