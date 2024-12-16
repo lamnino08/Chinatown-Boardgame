@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
         int localPlayerIndex = GameMaster.localPlayer.index;
         cameraTranform.position = listCameraTranform[localPlayerIndex].position;
         cameraTranform.rotation = listCameraTranform[localPlayerIndex].rotation;
-    }
+    }       
 
     public void OnMarkClick(Mark newMarkClicked)
     {

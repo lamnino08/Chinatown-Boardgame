@@ -74,7 +74,7 @@ public class PlayerSlot : NetworkBehaviour
     [TargetRpc]
     private void TargetRPCSetDataRoomToGame(List<PlayerData> players)
     {   
-        GameMaster.instance.players = players;
+        // GameMaster.instance.players = players;
         Debug.Log("here");
     }
 #endregion TargetRPC

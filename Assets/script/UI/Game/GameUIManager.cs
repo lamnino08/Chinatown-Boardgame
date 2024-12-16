@@ -28,7 +28,7 @@ public class GameUIManager : MonoBehaviour
     {
         discardBtn.onClick.AddListener(OndisCard);
         confirmCardChose.onClick.AddListener(OnConfirmCardChose);
-        OnStartGame();
+        // OnStartGame();
     }
 
     private void OnStartGame() 

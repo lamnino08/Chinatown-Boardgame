@@ -63,6 +63,7 @@ public class LobbyManager : MonoBehaviour
         Debug.Log("Game has started!");
         var Data = data as Dictionary<string, object>;
         string roomId = Data["roomId"].ToString();
-        Debug.Log(roomId);
+        
+        RoomNetworkManager.instance.ConnectToServer(roomId);
     }
 }

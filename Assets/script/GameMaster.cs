@@ -17,13 +17,14 @@ public class GameMaster : MonoBehaviour
 {
     public static GameMaster instance { get; private set; }
     public static GameManager gameManager;
-    public List<PlayerData> players = new List<PlayerData>();
     public DeskCard deskCard;
     public GamePharse gamePharse { get; private set; }
 
 
     public static string PlayerName = "";
     public static int color = -1;
+    public static string sessionId = "";
+    public static int index = -1;
 
     public static PlayerManager localPlayer { get; private set; } /// bo
     private void Awake()

@@ -3,26 +3,28 @@ using UnityEngine;
 
 public class RoomController : MonoBehaviour
 {
-    private ColyseusRoom<Room> _room;
+    public static ColyseusRoom<Room> room { get; private set; }
 
+    public static Lobby state;
     public void Init(ColyseusRoom<Room> room)
     {
-        _room = room;
-
-        Debug.Log(_room.State);
+        RoomController.room = room;
 
         // Call back 
-        _room.State.players.OnAdd(OnAddPlayer);
-        _room.State.players.OnRemove(OnRemovePlayer);
-        _room.State.OnChange(OnRoomStateChange);
-
+        room.State.players.OnAdd(OnAddPlayer);
+        room.State.players.OnRemove(OnRemovePlayer);
+        room.State.OnChange(OnRoomStateChange);
         Debug.Log("RoomController initialized.");
     }
 
     private void OnAddPlayer(string key, Player player)
     {
         Debug.Log($"Player added: {player.name} (Key: {key})");
-        
+        if (key == GameMaster.sessionId)
+        {
+            GameMaster.index = player.index;
+            Debug.Log($"your index {GameMaster.index}");
+        }
     }
 
     private void OnRemovePlayer(string key, Player player)
