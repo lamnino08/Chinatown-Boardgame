@@ -1351,6 +1351,7 @@ GameObject:
   m_Component:
   - component: {fileID: 423775911}
   - component: {fileID: 423775910}
+  - component: {fileID: 423775912}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: Untagged
@@ -1370,7 +1371,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1036fa8926b66b4598ab52ee4aece5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _lobbyController: {fileID: 0}
+  _roomController: {fileID: 423775912}
   serverUrl: localhost:2567
 --- !u!4 &423775911
 Transform:
@@ -1387,6 +1388,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &423775912
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 423775909}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f352efbc2c9931742bcf86c64a35f68c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &440420604
 GameObject:
   m_ObjectHideFlags: 0
@@ -3987,7 +4000,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9634494a972f08b48b5b97d68c6e5138, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  players: []
   deskCard: {fileID: 0}
 --- !u!4 &1749645172
 Transform:
