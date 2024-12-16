@@ -39,6 +39,7 @@ public class LobbyUIManager : BasePopup
     private void OnStartGame()
     {
         startBtn.interactable = false;
+        LobbyManager.instance.StartGame();
     }
 
     public void AddNewPlayer(PlayerLobby player)
@@ -61,16 +62,17 @@ public class LobbyUIManager : BasePopup
         }
     } 
 
-    public void SetColorPlayer(string name, Color color, bool isReady = false)
+    public void SetColorPlayer(string name, Color color, bool isReady = false, bool isAllReady = false)
     {
         if (name == GameMaster.PlayerName)
         {
             readyBtn.gameObject.SetActive(true);
             colorBtn.gameObject.SetActive(false);
-
-            bool isAllPlayerReady = LobbyController.state.IsAllReady();
-            startBtn.interactable = isAllPlayerReady;
         }
+
+        startBtn.interactable = isAllReady;
+        readyBtn.gameObject.SetActive(!isAllReady); 
+
         foreach (Transform child in contentPlayers)
         {
             var playerItem = child.GetComponent<PlayerItemPrefab>();

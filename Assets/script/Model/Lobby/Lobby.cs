@@ -1,4 +1,5 @@
 using Colyseus.Schema;
+using UnityEngine;
 
 public class Lobby : Schema
 {
@@ -21,7 +22,8 @@ public class Lobby : Schema
         {
             if (!player.isReady)
             {
-                return false; // Nếu có bất kỳ player nào không sẵn sàng, trả về false
+                Debug.Log($"{player.name}");
+                return false; 
             }
         }
         return true;

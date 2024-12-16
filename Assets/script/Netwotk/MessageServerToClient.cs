@@ -2,7 +2,6 @@ public enum MessageServerToClient
 {
     PlayerChooseColor,
     GameStart,
-    UpdateScore,
 }
 
 public static class MessageTypeExtensions
@@ -13,7 +12,6 @@ public static class MessageTypeExtensions
         {
             MessageServerToClient.PlayerChooseColor => "player-choose-color",
             MessageServerToClient.GameStart => "game-start",
-            MessageServerToClient.UpdateScore => "update-score",
             _ => throw new System.ArgumentOutOfRangeException(nameof(messageType), messageType, null)
         };
     }
