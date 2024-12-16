@@ -23,10 +23,12 @@ public class RoomNetworkManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    public async void ConnectToServer(string playerName, string roomId = null)
+    public async void ConnectToServer(string roomId = null)
     {
         SceneManager.LoadScene("GameScene");
         _client = new ColyseusClient($"ws://{serverUrl}");
+
+        string playerName = GameMaster.PlayerName;
 
         ColyseusRoom<Room> room;
         var options = new Dictionary<string, object> { { "playerName", playerName } };
