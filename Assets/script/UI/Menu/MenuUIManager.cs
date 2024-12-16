@@ -7,6 +7,7 @@ public class MenuUIManager : BasePopup
 {
     public static MenuUIManager instance { get; private set; }
     [SerializeField] private MenuManager menuManager;
+    [Header("UI")]
     [SerializeField] private TMP_InputField nameInputField;
     [SerializeField] private Transform roomSlotPref;
     [SerializeField] private Transform content;

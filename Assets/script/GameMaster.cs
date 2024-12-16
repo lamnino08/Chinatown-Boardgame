@@ -23,7 +23,7 @@ public class GameMaster : MonoBehaviour
 
 
     public static string PlayerName = "";
-    public static string color = "";
+    public static int color = -1;
 
     public static PlayerManager localPlayer { get; private set; } /// bo
     private void Awake()

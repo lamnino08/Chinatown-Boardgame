@@ -43,5 +43,6 @@ public class LobbyController : MonoBehaviour
     private void OnRemovePlayer(string key, PlayerLobby player)
     {
         Debug.Log($"Player removed: {player.name} (Key: {key})");
+        LobbyUIManager.instance.RemovePlayer(player);
     }
 }

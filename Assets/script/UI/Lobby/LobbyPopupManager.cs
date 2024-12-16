@@ -10,7 +10,7 @@ public class LobbyPopupManager : BasePopupManager
         get { return BasePopupManager.instance as LobbyPopupManager; }
     }
 
-    public void ShowChoseColorPopup(MapSchema<string> availableColors)
+    public void ShowChoseColorPopup(ArraySchema<bool> availableColors)
     {
         ChoseColorManagerPopup popup = GetPopup<ChoseColorManagerPopup>();
         if (popup != null)

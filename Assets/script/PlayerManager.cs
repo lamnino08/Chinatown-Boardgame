@@ -163,7 +163,7 @@ public class PlayerManager : NetworkBehaviour
     private void RpcRemoveUserUI(string name)
     {
         LobbyPopupManager.instance.Toast($"Player {name} has left the game.");
-        LobbyUIManager.instance.RemovePlayerUI(name);
+        // LobbyUIManager.instance.RemovePlayerUI(name);
     }
 
     // UI when player join room

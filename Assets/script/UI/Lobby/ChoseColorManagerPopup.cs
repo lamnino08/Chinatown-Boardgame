@@ -22,12 +22,12 @@ public class ChoseColorManagerPopup : BasePopup
         _instance = this;
     }
 
-    public void OnShow(MapSchema<string> availableColors)
+    public void OnShow(ArraySchema<bool> availableColors)
     {
         base.Show();
         for(int i = 0; i < buttonColors.Length; i++)
         {
-            buttonColors[i].gameObject.SetActive(availableColors.ContainsKey(i.ToString()));
+            buttonColors[i].gameObject.SetActive(availableColors[i]);
         }
     }
 
@@ -44,14 +44,14 @@ public class ChoseColorManagerPopup : BasePopup
 
     public void OnColorPick(int colorIndex, Color color) 
     {
-        GameMaster.color = colorIndex.ToString();
+        GameMaster.color = colorIndex;
         OkBtn.onClick.AddListener(() => OnConfirmColor(color));
         OkBtn.GetComponent<Image>().color = color;
     }
 
     private void OnConfirmColor(Color color)
     {
-        if (GameMaster.color == "")
+        if (GameMaster.color == -1)
         {
             LobbyPopupManager.instance.Toast("Please chose your color");
             return;

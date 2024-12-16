@@ -1473,7 +1473,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: reload
+  m_text: Ready
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1604,9 +1604,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _isOpenOnStart: 1
   canvasGroup: {fileID: 468970957}
-  fadeDuration: 0.5
-  zoomDuration: 0.5
-  startScale: 0.5
   rectTransform: {fileID: 468970954}
   menuManager: {fileID: 468970956}
   nameInputField: {fileID: 2047371306}
@@ -2062,16 +2059,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _isOpenOnStart: 0
   canvasGroup: {fileID: 679721898}
-  fadeDuration: 0.5
-  zoomDuration: 0.5
-  startScale: 0.5
   rectTransform: {fileID: 679721896}
   playerItemPref: {fileID: 6434336364093715325, guid: 210b1603fe66ae64592e56a6b94ae069,
     type: 3}
   contentPlayers: {fileID: 2031926183}
   colorBtn: {fileID: 1602583213}
-  readyBtn: {fileID: 124256225}
-  startBtn: {fileID: 657739811}
+  readyBtn: {fileID: 124256227}
+  startBtn: {fileID: 657739813}
 --- !u!225 &679721898
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -2795,9 +2789,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _isOpenOnStart: 0
   canvasGroup: {fileID: 1994736234}
-  fadeDuration: 0.5
-  zoomDuration: 0.5
-  startScale: 0.5
   rectTransform: {fileID: 1994736231}
   buttonColors:
   - {fileID: 1599694218}
@@ -5340,9 +5331,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _isOpenOnStart: 0
   canvasGroup: {fileID: 863114371}
-  fadeDuration: 0.5
-  zoomDuration: 0.5
-  startScale: 0.5
   rectTransform: {fileID: 863114370}
   contentText: {fileID: 863114373}
 --- !u!1 &2146174143

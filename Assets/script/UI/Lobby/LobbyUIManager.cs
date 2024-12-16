@@ -15,14 +15,15 @@ public class LobbyUIManager : BasePopup
     [Header("Button")]
     [Tooltip("Button open color popup")]
     [SerializeField]  private Button colorBtn;
-    [SerializeField]  private GameObject readyBtn;
-    [SerializeField]  private GameObject startBtn;
+    [SerializeField]  private Button readyBtn;
+    [SerializeField]  private Button startBtn;
 
     void Awake()
     {
         instance = this;
         colorBtn.onClick.AddListener(OnOpenColorPopup);
-        readyBtn.GetComponent<Button>().onClick.AddListener(OnReadyBtn);
+        readyBtn.onClick.AddListener(OnReadyBtn);
+        startBtn.onClick.AddListener(OnStartGame);
     }
 
     private void OnOpenColorPopup() 
@@ -37,8 +38,7 @@ public class LobbyUIManager : BasePopup
 
     private void OnStartGame()
     {
-        startBtn.GetComponent<Button>().interactable = false;
-        GameMaster.localPlayer.StartGame();
+        startBtn.interactable = false;
     }
 
     public void AddNewPlayer(PlayerLobby player)
@@ -47,14 +47,16 @@ public class LobbyUIManager : BasePopup
         playeritem.GetComponent<PlayerItemPrefab>().SetData(player);    
     } 
 
-     public void RemovePlayerUI(string name)
+    public void RemovePlayer(PlayerLobby player)
     {
+        string name = player.name;
         foreach (Transform child in contentPlayers)
         {
             var playerItem = child.GetComponent<PlayerItemPrefab>();
             if (playerItem != null && playerItem.Name == name)
             {
                 Destroy(child.gameObject);
+                LobbyPopupManager.instance.Toast($"Player {name} has left");
             }
         }
     } 
@@ -63,8 +65,11 @@ public class LobbyUIManager : BasePopup
     {
         if (name == GameMaster.PlayerName)
         {
-            readyBtn.SetActive(true);
+            readyBtn.gameObject.SetActive(true);
             colorBtn.gameObject.SetActive(false);
+
+            bool isAllPlayerReady = LobbyController.state.IsAllReady();
+            startBtn.interactable = isAllPlayerReady;
         }
         foreach (Transform child in contentPlayers)
         {

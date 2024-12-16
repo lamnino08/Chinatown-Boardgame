@@ -3,11 +3,12 @@ using DG.Tweening;
 
 public class BasePopup : MonoBehaviour
 {
+    [Header("Base popup")]
     [SerializeField] protected bool _isOpenOnStart; 
     [SerializeField] protected CanvasGroup canvasGroup; 
-    [SerializeField] protected float fadeDuration = 0.5f; 
-    [SerializeField] protected float zoomDuration = 0.5f; 
-    [SerializeField] protected float startScale = 0.5f; 
+    protected float fadeDuration = 0.5f; 
+    protected float zoomDuration = 0.5f; 
+    protected float startScale = 0.5f; 
     [SerializeField] protected RectTransform rectTransform;
 
     public virtual void OnStart()
