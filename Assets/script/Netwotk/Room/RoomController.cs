@@ -25,6 +25,8 @@ public class RoomController : MonoBehaviour
             GameMaster.index = player.index;
             Debug.Log($"your index {GameMaster.index}");
         }
+
+        
     }
 
     private void OnRemovePlayer(string key, Player player)
