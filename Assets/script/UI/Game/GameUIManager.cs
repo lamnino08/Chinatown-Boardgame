@@ -26,20 +26,21 @@ public class GameUIManager : MonoBehaviour
 
     private void Start() 
     {
-        discardBtn.onClick.AddListener(OndisCard);
         confirmCardChose.onClick.AddListener(OnConfirmCardChose);
         // OnStartGame();
     }
 
-    private void OnStartGame() 
+    public void SetStart() 
     {
-        discardBtn.gameObject.SetActive(GameMaster.localPlayer.isHost);
+        discardBtn.onClick.AddListener(OndisCard);
+        discardBtn.gameObject.SetActive(GameMaster.Ishost());
     }
 
     private void OndisCard()
     {
         discardBtn.interactable= false;
-        GameMaster.localPlayer.NewYear();
+        // GameMaster.localPlayer.NewYear();
+        GameManager.instance.NewYear();
     }
 
     private void OnConfirmCardChose()

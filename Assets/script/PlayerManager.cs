@@ -199,7 +199,7 @@ public class PlayerManager : NetworkBehaviour
     [TargetRpc]
     public void DistributeTiles(NetworkConnection conn, byte[] tiles)
     {
-        GameMaster.instance.deskCard.DiscardToPlayer(tiles);
+        // GameMaster.instance.deskCard.DiscardToPlayer(tiles);
         GameUIManager.instance.ReceiveCardDiscard();
     }
 }

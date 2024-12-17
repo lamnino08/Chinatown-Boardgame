@@ -109,7 +109,6 @@ public class TileCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         {
             transform.DOMove(originalPosition, moveDuration).SetEase(Ease.OutQuad);
             EventBus.Notificate(new OnHighlightTile(_number, false));
-
         }
     }
     

@@ -1,74 +1,64 @@
 using System.Collections;
 using System.Collections.Generic;
-using Mirror;
 using UnityEngine;
 
 public class MarkBowl : PieceGameObject
 {
-    [SerializeField] private GameObject markPref;
-    [SerializeField] private AnimationCurve easeingCurve;
+    [SerializeField] private GameObject markPrefab;               // Prefab của Mark
+    [SerializeField] private AnimationCurve easingCurve;          // Đường cong di chuyển
     [SerializeField] private List<Transform> pathMarkFlyTransform = new List<Transform>();
-    public bool isClicked = false;
 
-    private List<Vector3> pathMarkFlyVec = new List<Vector3>();
+    private List<Vector3> pathMarkFlyVec = new List<Vector3>();   // Danh sách các điểm di chuyển
+    public bool isClicked = false;                                // Trạng thái click
 
-#region Command
-    public void CmdSpawnMark(int tileIndex, byte color, int ownerIndex)
+    public void SpawnMarks(byte[] tiles, byte color, int ownerIndex)
     {
-        Tile tile = Map.instance.GetTile(tileIndex);
-        SpawnMark(tile, color, connectionToClient, ownerIndex);
-    }
-#endregion Command
-
-#region  ChanegBowClickedStatus
-    [Server]
-    public void SpawnMarks(byte[] tiles, byte color, int index)
-    {
+        // Khởi tạo đường đi mặc định nếu chưa có
         if (pathMarkFlyVec.Count == 0)
         {
             pathMarkFlyVec.Add(transform.position);
             pathMarkFlyVec.Add(transform.position + transform.up);
         }
-        StartCoroutine(SpawnMarkCoroutine(tiles, color, index));
+
+        // Bắt đầu Coroutine để tạo Mark
+        StartCoroutine(SpawnMarkCoroutine(tiles, color, ownerIndex));
     }
-    [Server]
-    private IEnumerator SpawnMarkCoroutine(byte[] tiles, byte color, int index)
+
+    private IEnumerator SpawnMarkCoroutine(byte[] tiles, byte color, int ownerIndex)
     {
-        List<NetworkConnection> connections = RoomServerManager.instance.playerConnections;
-        for(int i =0; i < tiles.Length; i++)
+        foreach (byte tileIndex in tiles)
         {
-            // Set tile 
-            Tile tile = Map.instance.GetTile(tiles[i]);
-            tile.SetOwner(index);
+            // Lấy tile tương ứng từ Map
+            Tile tile = Map.instance.GetTile(tileIndex);
+            if (tile != null)
+            {
+                // Set owner của tile
+                tile.SetOwner(ownerIndex);
 
-            // Spawn mark
-            SpawnMark(tile, color, connections[index], index);
+                // Tạo Mark và di chuyển tới Tile
+                SpawnMark(tile, color, ownerIndex);
+            }
 
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(0.2f); // Thời gian giữa mỗi lần spawn
         }
     }
 
-    [Server]
-    private void SpawnMark(Tile tile, byte color, NetworkConnection connection, int ownerIndex)
+    private void SpawnMark(Tile tile, byte color, int ownerIndex)
     {
+        // Tạo một Mark mới
+        GameObject markObject = Instantiate(markPrefab, transform.position, Quaternion.identity);
 
-        GameObject markObject = Instantiate(markPref, transform.position, Quaternion.identity);
-        NetworkServer.Spawn(markObject, connection);
+        // Gán dữ liệu cho Mark
+        Mark markScript = markObject.GetComponent<Mark>();
+        markScript.SetData(ownerIndex, color);
 
-        Mark markscript = markObject.GetComponent<Mark>();
-        markscript.SetData(ownerIndex, color);
-
-        markscript.SVMoveToTile(transform.position, tile);
+        // Di chuyển Mark tới vị trí của Tile
+        // markScript.MoveToTile(transform.position, tile);
     }
-#endregion Server
 
-#region Client
     public override void OnMouseClick()
     {
-        if (!isOwned) GamePopupManager.Toast("It's not your mark bowl"); // do nothing if has no authority
-
+        // Gửi sự kiện click cho GameManager
         GameMaster.gameManager.OnBowlMarkClick(this);
     }
-#endregion Client
 }
-                                                                                                                                                                                                                                      

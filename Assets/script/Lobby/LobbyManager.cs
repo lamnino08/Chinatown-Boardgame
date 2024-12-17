@@ -11,10 +11,11 @@ public class LobbyManager : MonoBehaviour
         instance = this;
 
         // Tự động đăng ký tất cả các sự kiện dựa trên enum
-        foreach (MessageServerToClient messageType in Enum.GetValues(typeof(MessageServerToClient)))
+        foreach (MessageServerToClientLobby messageType in Enum.GetValues(typeof(MessageServerToClientLobby)))
         {
             string methodName = $"NW_{messageType}";
-            string messageString = messageType.ToMessageString();
+            Debug.Log(messageType.ToString());
+            string messageString = messageType.ToString();
 
             MethodInfo method = GetType().GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Instance);
 
@@ -45,7 +46,7 @@ public class LobbyManager : MonoBehaviour
     }
 
     // Hàm xử lý cho PlayerChooseColor
-    private void NW_PlayerChooseColor(object data)
+    private void NW_player_choose_color(object data)
     {
         var colorData = data as Dictionary<string, object>;
         string sessionId = colorData["sessionId"].ToString();
@@ -58,7 +59,7 @@ public class LobbyManager : MonoBehaviour
     }
 
     // Hàm xử lý cho GameStart
-    private void NW_GameStart(object data)
+    private void NW_game_start(object data)
     {
         Debug.Log("Game has started!");
         var Data = data as Dictionary<string, object>;

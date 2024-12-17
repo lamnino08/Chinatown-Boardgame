@@ -1,16 +1,17 @@
-using Mirror;
 using UnityEngine;
 
 public enum MarkStatus
 {
-    FREE, // free 
-    ONTILE, // it mark to tile
-    FLYING  // flying
+    FREE,      // Free
+    ONTILE,    // Mark is on a tile
+    FLYING     // Mark is flying
 }
+
 public class Mark : PieceGameObject
 {
     private MarkStatus _status;
-    public MarkStatus status 
+
+    public MarkStatus Status
     {
         get
         {
@@ -22,136 +23,101 @@ public class Mark : PieceGameObject
     [SerializeField] private MarkAppearance appearance;
     [SerializeField] private MarkMovement movement;
     [SerializeField] private LayerMask tileLayer;
-    
+
     private int _owner;
 
-    public override void OnStartClient()
+    // Set ownership and color of the mark
+    public void SetData(int ownerIndex, byte color)
     {
-        gameObject.layer = LayerMask.NameToLayer("Mark");
+        _owner = ownerIndex;
+        SetColor(color);
     }
 
-    #region Command
-    [Command]
-    private void CmdHighlight(bool isHighlight)
+    // Move the mark to a tile
+    public void MoveToTile(int tileIndex, byte color)
     {
-        RpcHightlight(isHighlight);
-    }
+        Tile tile = Map.instance.GetTile(tileIndex);
 
-    [Command]
-    public void CmdMoveToTile(int tileindex, byte color)
-    {
-        Tile tile = Map.instance.GetTile(tileindex);
-        
-        // unmark old tile
-        Tile oledTile = GetTileOn();
-        if (oledTile != null)
+        // Unmark the previous tile
+        Tile oldTile = GetTileOn();
+        if (oldTile != null)
         {
-            oledTile.UnMark(color);
+            oldTile.UnMark(color);
         }
 
-        // Move to new Tile
-        SVMoveToTile(transform.position, tile);
+        MoveToTilePosition(transform.position, tile);
     }
 
-    [Command]
-    public void CmdMoveToTable(Vector3 pos, byte color)
+    // Move the mark to a specific position on the table
+    public void MoveToTable(Vector3 position, byte color)
     {
-        //Un mark
-        Tile oledTile = GetTileOn();
-        if (oledTile != null)
+        Tile oldTile = GetTileOn();
+        if (oldTile != null)
         {
-            oledTile.UnMark(color);
+            oldTile.UnMark(color);
         }
-        RpcMoveToTarget(pos);
-    }
-    #endregion Command
 
-    #region Server 
-    [Server]
-    public void SetData(int indexPlayerOwner, byte color)
-    {
-        _owner = indexPlayerOwner;
-        RpcSetColor(color);
+        MoveToTarget(position);
     }
 
-    [Server]
-    public void SVMoveToTile(
-        Vector3 bowPos, Tile tile
-    )
+    private void MoveToTilePosition(Vector3 start, Tile tile)
     {
-        RpcMoveToTile(bowPos, tile.transform.position + new Vector3(0,.2f, 0));
+        Vector3 targetPos = tile.transform.position + new Vector3(0, 0.2f, 0);
+        movement.StartFlyingSimpleCurve(start, targetPos, 0.7f);
         tile.SetOwner(_owner);
-    }
 
-    [Server]
-    private Tile GetTileOn()
-    {
-        Vector3 direction = -Vector3.up;
-
-        // Perform the raycast
-        if (Physics.Raycast(transform.position, direction, out RaycastHit hit, 1f, tileLayer))
-        {
-            Tile mark = hit.collider.GetComponent<Tile>();
-            return mark; 
-        }
-
-        return null;
-    }
-#endregion Server
-
-#region Client RPC
-    [ClientRpc]
-    private void RpcSetColor(byte color)
-    {
-        appearance.SetColor(color);
-    }
-
-    [ClientRpc]
-    public void RpcMoveToTile(
-        Vector3 bowPos, Vector3 tilePos
-    )
-    {
-        movement.StartFlyingSimpleCurve(bowPos, tilePos, 0.7f); 
         _status = MarkStatus.ONTILE;
     }
 
-    [ClientRpc]
-    public void RpcMoveToTarget(
-        Vector3 targetPos
-    )
+    private void MoveToTarget(Vector3 targetPosition)
     {
-        movement.StartFlyingSimpleCurve(transform.position, targetPos, 0.7f); 
+        movement.StartFlyingSimpleCurve(transform.position, targetPosition, 0.7f);
         appearance.Highlight(false);
         _status = MarkStatus.FREE;
     }
 
-    [ClientRpc]
-    private void RpcHightlight(bool isHighlight)
+    private Tile GetTileOn()
+    {
+        Vector3 direction = Vector3.down;
+
+        if (Physics.Raycast(transform.position, direction, out RaycastHit hit, 1f, tileLayer))
+        {
+            return hit.collider.GetComponent<Tile>();
+        }
+
+        return null;
+    }
+
+    // Set mark color
+    private void SetColor(byte color)
+    {
+        appearance.SetColor(color);
+    }
+
+    // Highlighting methods
+    public void Highlight(bool isHighlight)
     {
         appearance.Highlight(isHighlight);
     }
-#endregion ClientRPC
 
-#region Client
-    [Client]
     public override void OnMouseClick()
     {
-        if (!isOwned) GamePopupManager.Toast("It's not your mark"); // do nothing if has no authority
-        if (status == MarkStatus.FLYING) return; // do nothing if mark is flying
+        if (Status == MarkStatus.FLYING)
+        {
+            GamePopupManager.Toast("Mark is flying!");
+            return;
+        }
 
         GameMaster.gameManager.OnMarkClick(this);
     }
 
-    [Client]
     public void Click()
     {
-        CmdHighlight(true);
+        Highlight(true);
     }
 
-    [Client]
     public void UnClick()
     {
-        CmdHighlight(false);
-    }   
-#endregion Client
+        Highlight(false);
+    }
 }

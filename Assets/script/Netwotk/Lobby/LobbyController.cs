@@ -21,19 +21,14 @@ public class LobbyController : MonoBehaviour
 
     private void RegisterAllMessages()
     {
-        foreach (MessageServerToClient messageType in System.Enum.GetValues(typeof(MessageServerToClient)))
+        foreach (MessageServerToClientLobby messageType in System.Enum.GetValues(typeof(MessageServerToClientLobby)))
         {
-            RegisterMessage(messageType);
+            lobby.OnMessage<Dictionary<string, object>>(messageType.ToString(), (data) =>
+            {
+                Debug.Log($"On message {messageType.ToString()}");
+                EventHandlerNetwork.Trigger(messageType.ToString(), data);
+            });
         }
-    }
-
-    private void RegisterMessage(MessageServerToClient messageType)
-    {
-        lobby.OnMessage<Dictionary<string, object>>(messageType.ToMessageString(), (data) =>
-        {
-            Debug.Log($"On message {messageType.ToMessageString()}");
-            EventHandlerNetwork.Trigger(messageType.ToMessageString(), data);
-        });
     }
 
     private void OnAddPlayer(string key, PlayerLobby player)

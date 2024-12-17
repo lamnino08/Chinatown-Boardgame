@@ -1,66 +1,48 @@
 using TMPro;
 using UnityEngine;
-using Mirror;
-using UnityEngine.EventSystems;
 
 public class Tile : PieceGameObject
 {
-    [SerializeField] TMP_Text numberText;
+    [SerializeField] private TMP_Text numberText;
     [SerializeField] private LayerMask markLayer;
     [SerializeField] private HighLight _highlight;
 
-    [SyncVar(hook = nameof(OnTileChanged))]
-    public int tile;
-    [SyncVar] private int _owner;  public int owner => _owner;
-    [SyncVar] private bool _isMarked = false; public bool isMarked => _isMarked;
- 
+    private int _tile;                // Giá trị của tile
+    private int _owner;               // Chủ sở hữu của tile
+    private bool _isMarked = false;   // Trạng thái tile có được đánh dấu hay không
+
     private bool isHighlighting = false;
 
-    public override void OnStartClient()
-    {
-        EventBus.Subscribe<OnHighlightTile>(Highlight);
-        EventBus.Subscribe<EndDealTileCardPharse>(OffHighlight);
+    public int TileValue => _tile;    // Getter cho tile
+    public int Owner => _owner;       // Getter cho owner
+    public bool IsMarked => _isMarked; // Getter cho trạng thái đánh dấu
 
-        // gameObject.layer = LayerMask.NameToLayer("Tile");
-    }
-
-    public override void OnStartServer()
-    {
-        _owner = 6; // all tile has none owner
-    }
-
-#region Server
-    [Server]
     public void SetOwner(int owner)
     {
-        this._owner = owner;
+        _owner = owner;
         _isMarked = true;
-        RpcChangeMarkedStatus(false, 0);
+        ChangeMarkedStatus(false, 0);
     }
 
-    [Server]
     public void UnMark(byte color)
     {
         _isMarked = false;
-        RpcChangeMarkedStatus(true, color);
+        ChangeMarkedStatus(true, color);
     }
 
-    [Server]
     public void SetTileData(int type)
     {
-        tile = type;
+        _tile = type;
         _isMarked = false;
+        UpdateTileNumber();
     }
 
-    private void OnTileChanged(int oldValue, int newValue)
+    private void UpdateTileNumber()
     {
-        numberText.text = (newValue+1).ToString();
+        numberText.text = (_tile + 1).ToString();
     }
-#endregion
 
-#region Rpc
-    [ClientRpc]
-    private void RpcChangeMarkedStatus(bool isMarked, byte color)
+    private void ChangeMarkedStatus(bool isMarked, byte color)
     {
         if (isMarked)
         {
@@ -71,34 +53,17 @@ public class Tile : PieceGameObject
             ToggleHighlight(false);
         }
     }
-#endregion Rpc
 
-#region  Client
     public override void OnMouseClick()
     {
         GameMaster.gameManager.OnTileClick(this);
     }
 
-    [Client]
-    private void Highlight(OnHighlightTile data)
+    private void ToggleHighlight(bool isHighlight, byte? color = 6)
     {
-        if (tile == data.tile)
-        {
-            isHighlighting = data.isHighlight;
-            ToggleHighlight(data.isHighlight, data.color);
-        }
+        _highlight.ToggleHighlight(isHighlight, color);
     }
 
-    [Client]
-    private void OffHighlight(EndDealTileCardPharse data)
-    {
-        if (isHighlighting)
-        {
-            ToggleHighlight(false);
-        }
-    }   
-
-     [Client]
     public Mark GetMark()
     {
         Vector3 direction = Vector3.up;
@@ -107,17 +72,10 @@ public class Tile : PieceGameObject
         if (Physics.Raycast(transform.position, direction, out RaycastHit hit, 1f, markLayer))
         {
             Mark mark = hit.collider.GetComponent<Mark>();
-            return mark; 
+            return mark;
         }
 
-        GamePopupManager.Toast("No Mark object found in the upward direction.");
+        Debug.Log("No Mark object found in the upward direction.");
         return null;
     }
-
-    [Client]
-    private void ToggleHighlight(bool isHighlight, byte? color = 6)
-    {
-        _highlight.ToggleHighlight(isHighlight, color);
-    }
-#endregion Client
 }

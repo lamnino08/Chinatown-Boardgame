@@ -150,7 +150,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8073100933974651288}
-  - component: {fileID: 1854309340719514810}
   - component: {fileID: 5446613201403620559}
   m_Layer: 0
   m_Name: PlayerSlot
@@ -184,23 +183,6 @@ Transform:
   - {fileID: 7161131964732907295}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1854309340719514810
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4959002237610882982}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sceneId: 0
-  _assetId: 949789663
-  serverOnly: 0
-  visibility: 0
-  hasSpawned: 0
 --- !u!114 &5446613201403620559
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -213,12 +195,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15b07fbb2ff7dec478fcc2d1dc58aaaf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
   _storeCardContain: {fileID: 1611230476105760698}
   _spacing: 0.32
-  _markBowl: {fileID: 5151376436855682278}
+  _markBowl: {fileID: 0}
   _cardHole: {fileID: 6901442556566831393}
 --- !u!1 &5775229133765631477
 GameObject:
@@ -453,7 +432,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: ff898e60d0edaae4a8ca1e8c016db073,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.03
+      value: 0.04
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ff898e60d0edaae4a8ca1e8c016db073,
         type: 3}
@@ -524,6 +503,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8073100933974651288}
     m_Modifications:
+    - target: {fileID: 7688629618043457665, guid: 99503f72111b9dd4b910c8231e2e85eb,
+        type: 3}
+      propertyPath: pathMarkFlyTransform.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7688629618043457665, guid: 99503f72111b9dd4b910c8231e2e85eb,
+        type: 3}
+      propertyPath: pathMarkFlyTransform.Array.data[0]
+      value: 
+      objectReference: {fileID: 1629028985763109514}
+    - target: {fileID: 7688629618043457665, guid: 99503f72111b9dd4b910c8231e2e85eb,
+        type: 3}
+      propertyPath: pathMarkFlyTransform.Array.data[1]
+      value: 
+      objectReference: {fileID: 3434045288884285482}
+    - target: {fileID: 7688629618043457665, guid: 99503f72111b9dd4b910c8231e2e85eb,
+        type: 3}
+      propertyPath: pathMarkFlyTransform.Array.data[2]
+      value: 
+      objectReference: {fileID: 2261853282647769359}
     - target: {fileID: 8265221095192404396, guid: 99503f72111b9dd4b910c8231e2e85eb,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -596,10 +595,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8788816896967473942, guid: 99503f72111b9dd4b910c8231e2e85eb,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 5151376436855682278}
-    - targetCorrespondingSourceObject: {fileID: 8788816896967473942, guid: 99503f72111b9dd4b910c8231e2e85eb,
-        type: 3}
-      insertIndex: -1
       addedObject: {fileID: 4867208110153463514}
   m_SourcePrefab: {fileID: 100100000, guid: 99503f72111b9dd4b910c8231e2e85eb, type: 3}
 --- !u!1 &5057287683747428906 stripped
@@ -608,52 +603,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 4600213978764493116}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &5151376436855682278
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5057287683747428906}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26a20e6f910c68542b501ec98f19ca9f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  markPref: {fileID: 2954184933082567847, guid: 52a81ca836c675f4b8938cafc7351a69,
-    type: 3}
-  easeingCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  pathMarkFlyTransform:
-  - {fileID: 1629028985763109514}
-  - {fileID: 3434045288884285482}
-  - {fileID: 2261853282647769359}
-  isClicked: 0
 --- !u!65 &4867208110153463514
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -786,7 +735,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: ff898e60d0edaae4a8ca1e8c016db073,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.03
+      value: 0.04
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ff898e60d0edaae4a8ca1e8c016db073,
         type: 3}
@@ -880,7 +829,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: ff898e60d0edaae4a8ca1e8c016db073,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.03
+      value: 0.04
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ff898e60d0edaae4a8ca1e8c016db073,
         type: 3}
@@ -974,7 +923,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: ff898e60d0edaae4a8ca1e8c016db073,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.03
+      value: 0.04
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ff898e60d0edaae4a8ca1e8c016db073,
         type: 3}

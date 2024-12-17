@@ -67,9 +67,9 @@ public class DeskCard : MonoBehaviour
     }
 
     // Trigger discard to player
-    public void DiscardToPlayer(byte[] tiles)
+    public void DiscardToPlayer(List<int> tiles)
     {
-        int indexPlayer = GameMaster.localPlayer.index;
+        int indexPlayer = GameMaster.index;
         foreach(Transform point in listPathPoint[indexPlayer].points)
         {
             PathToPlayer.Add(point.position);
@@ -101,9 +101,9 @@ public class DeskCard : MonoBehaviour
         }
     }
 
-    private IEnumerator SpawnCards(byte[] tiles)
+    private IEnumerator SpawnCards(List<int> tiles)
     {
-        int numberCard = tiles.Length;
+        int numberCard = tiles.Count;
         List<Vector3> listPosCard = cardOrgnization.GetListPosCard(numberCard);
         tileCardChose.TileCards.Clear();
 

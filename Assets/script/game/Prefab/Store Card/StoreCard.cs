@@ -1,108 +1,72 @@
-using Mirror;
-using Telepathy;
 using UnityEngine;
 
-public enum StoreCardSatus
+public enum StoreCardStatus
 {
-    FREE,
-    ONTILE,
-    FLYING
+    FREE,      // Chưa được sử dụng
+    ONTILE,    // Đặt trên tile
+    FLYING     // Đang di chuyển
 }
+
 [RequireComponent(typeof(StoreCardMovement), typeof(StoreCardAppearance))]
 public class StoreCard : PieceGameObject
 {
-    [SerializeField] public StoreCardAppearance appearance;
-    [SerializeField] public StoreCardMovement movement;
-    [SerializeField] public HighLight _highlight;
-    
+    [SerializeField] private StoreCardAppearance appearance;
+    [SerializeField] private StoreCardMovement movement;
+    [SerializeField] private HighLight _highlight;
+
     private int _ownerIndex;
-    private StoreCardSatus _status;
-    public StoreCardSatus status 
+    private StoreCardStatus _status;
+
+    public StoreCardStatus Status
     {
         get
         {
-            if (movement.isFlying) return StoreCardSatus.FLYING;
-            return _status;
+            return movement.isFlying ? StoreCardStatus.FLYING : _status;
         }
     }
-    
-    public override void OnStartClient()
-    {
-        gameObject.layer = LayerMask.NameToLayer("StoreCard");
-    }
 
-#region Command
-    [Command]
-    public void CmdMoveToTaget(Vector3 pos)
-    {
-        //Un mark
-        RpcMoveToTarget(pos);
-    }
-
-    [Command]
-    public void CmdHighlgith(bool isHighlight, byte color)
-    {
-        RpcHighlight(isHighlight, color);
-    }
-#endregion Command
-
-#region Server
-    [Server]
     public void SetData(byte storeCard, int owner)
     {
-        RpcSetImageStoreCard(storeCard);
         _ownerIndex = owner;
+        SetImage(storeCard);
     }
 
-    [Server]
-    public void MoveToTarget(Vector3 target)
-    {   
-        RpcMoveToTaget(target);
-    }
-#endregion Server
-
-#region ClientRPC
-    [ClientRpc]
-    private void RpcMoveToTaget(Vector3 target)
+    public void MoveToTarget(Vector3 targetPosition)
     {
-        movement.MoveToTarget(target);
+        movement.MoveToTarget(targetPosition);
+        _status = StoreCardStatus.FREE;
+        ToggleHighlight(false, 0);
     }
 
-    [ClientRpc]
-    private void RpcSetImageStoreCard(byte storeCard)
+    public void ToggleHighlight(bool isHighlight, byte color)
+    {
+        _highlight.ToggleHighlight(isHighlight, color);
+    }
+
+    private void SetImage(byte storeCard)
     {
         appearance.SetImage(storeCard);
     }
 
-    [ClientRpc]
-    public void RpcMoveToTarget(
-        Vector3 targetPos
-    )
-    {
-        movement.MoveToTarget(targetPos); 
-        _status = StoreCardSatus.FREE;
-    }
-
-    [ClientRpc]
-    private void RpcHighlight(bool isHighlight, byte color)
-    {
-        _highlight.ToggleHighlight(true);
-    }
-#endregion ClientRPC
-
-#region Client
     public override void OnMouseClick()
     {
-        if (!isOwned) GamePopupManager.Toast("It's not your card"); // do nothing if has no authority
-        if (status == StoreCardSatus.FLYING) return;
+        if (!IsOwnedByLocalPlayer())
+        {
+            GamePopupManager.Toast("It's not your card");
+            return;
+        }
+
+        if (Status == StoreCardStatus.FLYING)
+        {
+            GamePopupManager.Toast("Card is flying, wait!");
+            return;
+        }
 
         GameMaster.gameManager.OnStoreClick(this);
     }
 
-    [Client]
-    public void Highlgith(bool isHighlight, byte color)
+    private bool IsOwnedByLocalPlayer()
     {
-        _highlight.ToggleHighlight(true, GameMaster.localPlayer.color);
+        return GameMaster.localPlayer.index == _ownerIndex;
     }
-#endregion Client
 }

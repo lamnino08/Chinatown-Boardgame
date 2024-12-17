@@ -4,140 +4,164 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] List<Transform> listCameraTranform;
-    [SerializeField] Transform cameraTranform;
-    public Mark markClicked = null;
-    public StoreCard storeClicked = null;
-    public MarkBowl bowClicked = null;
-    
-    void Start()
+    public static GameManager instance { get; private set; }
+
+    [Header("Camera")]
+    [SerializeField] private List<Transform> cameraPositions;
+    [SerializeField] private Transform cameraTransform;
+
+    [Header("Player Slot")]
+    [SerializeField] private GameObject playerSlotPrefab;
+    [SerializeField] private List<Transform> playerSlotPositions;
+
+    private readonly List<GameObject> spawnedPlayerSlots = new List<GameObject>();
+
+    private Mark selectedMark = null;
+    private StoreCard selectedStore = null;
+    private MarkBowl selectedBowl = null;
+
+    private void Awake()
     {
-        GameMaster.gameManager = this;
-        SetView();
-        EventBus.Notificate<StartGameEvent>(new StartGameEvent()); // Game Manager, GameUIManager
+        instance = this;
     }
 
-    public void SetView()
+    public void SetView(int index)
     {
-        int localPlayerIndex = GameMaster.localPlayer.index;
-        cameraTranform.position = listCameraTranform[localPlayerIndex].position;
-        cameraTranform.rotation = listCameraTranform[localPlayerIndex].rotation;
-    }       
-
-    public void OnMarkClick(Mark newMarkClicked)
-    {
-        if (GameMaster.instance.gamePharse != GamePharse.TRADES) return;
-
-        if (markClicked != null)
+        if (index >= 0 && index < cameraPositions.Count)
         {
-            markClicked.UnClick();
+            cameraTransform.position = cameraPositions[index].position;
+            cameraTransform.rotation = cameraPositions[index].rotation;
         }
+    }
 
-        // bowClicked.isClicked = false;
-        ChanegBowClickedStatus(false);
+    public void SpawnPlayerSlot(Player player)
+    {
+        int playerIndex = player.index;
 
-        markClicked = newMarkClicked;
-        newMarkClicked.Click();
+        GameObject playerSlot = Instantiate(playerSlotPrefab, playerSlotPositions[playerIndex].position, playerSlotPositions[playerIndex].rotation);
+        PlayerSlot playerSlotScript = playerSlot.GetComponent<PlayerSlot>();
+        spawnedPlayerSlots.Add(playerSlot);
+        playerSlotScript.SetData(player);
+    }
+
+    public void NewYear()
+    {
+        RoomController.room.Send(MessageClientToServerGame.new_year.ToString());
+    }
+
+    public void OnMarkClick(Mark newMark)
+    {
+        if (GameMaster.GamePhase != GamePhase.NEGOTIATE) return;
+
+        DeselectMark();
+        DeselectBowl();
+
+        selectedMark = newMark;
+        selectedMark.Click();
     }
 
     public void OnTileClick(Tile tile)
     {
-        if (GameMaster.instance.gamePharse != GamePharse.TRADES) return;
+        if (GameMaster.GamePhase != GamePhase.NEGOTIATE) return;
 
-        if (tile.owner == 6) { GamePopupManager.Toast("Free tile"); return; }
-        if (tile.isMarked) 
-        { 
-            if (tile.owner != GameMaster.localPlayer.index) return;
+        // if (tile.owner == 6)
+        // {
+        //     GamePopupManager.Toast("Free tile");
+        //     return;
+        // }
 
-            // Click to tile of your have mark
-            if (markClicked != null)
-            {
-                markClicked.UnClick(); // Unclick old mark clicked
-                markClicked = null;
-            }
-
-            Mark newMarkClicked = tile.GetMark();
-            // GamePopupManager.Toast($"{newMarkClicked}");
-            if (newMarkClicked != null)
-            {
-                markClicked = newMarkClicked;
-                newMarkClicked.Click(); // new mark clicked
-            }
-            return;
-        }
-
-        // click to other tile and it is not mark => it to you
-        if (markClicked)
-        {
-            markClicked.CmdMoveToTile(tile.tile, GameMaster.localPlayer.color);
-            markClicked.UnClick();
-            markClicked = null;
-            return;
-        }
-
-        if (IsBowClicked())
-        {
-            bowClicked.isClicked = false;
-            bowClicked.CmdSpawnMark(tile.tile, GameMaster.localPlayer.color, GameMaster.localPlayer.index);
-        }
+        HandleTileClick(tile);
     }
 
-    public void OnBowlMarkClick(MarkBowl markBowlClicked)
+    public void OnBowlMarkClick(MarkBowl markBowl)
     {
-        if (GameMaster.instance.gamePharse != GamePharse.TRADES) return;
-        if (this.bowClicked == null) this.bowClicked = markBowlClicked;
+        if (GameMaster.GamePhase != GamePhase.NEGOTIATE) return;
 
-        this.bowClicked.isClicked = true;
+        selectedBowl = markBowl;
+        selectedBowl.isClicked = true;
     }
 
     public void OnStoreClick(StoreCard card)
     {
-        if (GameMaster.instance.gamePharse != GamePharse.TRADES) return;
+        if (GameMaster.GamePhase != GamePhase.NEGOTIATE) return;
 
-        storeClicked = card;
-        card.CmdHighlgith(true, GameMaster.localPlayer.color);
+        selectedStore = card;
+        // card.CmdHighlgith(true, GameMaster.localPlayer.color);
     }
 
     public void OnTableClick()
     {
-        if (GameMaster.instance.gamePharse != GamePharse.TRADES) return;
+        if (GameMaster.GamePhase != GamePhase.NEGOTIATE) return;
 
-        if (markClicked != null || storeClicked != null)
+        if (selectedMark == null && selectedStore == null) return;
+
+        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out var hit))
         {
-            Camera mainCamera = Camera.main;
-            Vector3 mousePosition = Input.mousePosition;
-            Ray ray = mainCamera.ScreenPointToRay(mousePosition);
+            Vector3 targetPosition = hit.point;
 
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit))
-            {
-                Vector3 hitPosition = hit.point;
-
-                if (markClicked != null)
-                {
-                    markClicked.CmdMoveToTable(hitPosition,  GameMaster.localPlayer.color);
-                    markClicked = null;
-                }
-
-                if (storeClicked != null)
-                {
-                    storeClicked.CmdMoveToTaget(hitPosition);
-                    storeClicked.CmdHighlgith(false, 0);
-                    storeClicked = null;
-                }
-            }
-
-        } 
+            MoveSelectedObjectsToTable(targetPosition);
+        }
     }
 
-    private void ChanegBowClickedStatus(bool isClicked)
+    private void MoveSelectedObjectsToTable(Vector3 position)
     {
-        if (bowClicked) bowClicked.isClicked = isClicked;
+        if (selectedMark != null)
+        {
+            // selectedMark.CmdMoveToTable(position, GameMaster.localPlayer.color);
+            selectedMark = null;
+        }
+
+        if (selectedStore != null)
+        {
+            // selectedStore.CmdMoveToTaget(position);
+            // selectedStore.CmdHighlgith(false, 0);
+            selectedStore = null;
+        }
     }
 
-    private bool IsBowClicked()
+    private void HandleTileClick(Tile tile)
     {
-        if (bowClicked) return bowClicked.isClicked;
-        return false;
+        // if (tile.isMarked && tile.owner == GameMaster.localPlayer.index)
+        // {
+        //     SelectNewMark(tile);
+        // }
+        // else if (selectedMark != null)
+        // {
+        //     selectedMark.CmdMoveToTile(tile.tile, GameMaster.localPlayer.color);
+        //     DeselectMark();
+        // }
+        // else if (IsBowlSelected())
+        // {
+        //     selectedBowl.isClicked = false;
+        //     selectedBowl.CmdSpawnMark(tile.tile, GameMaster.localPlayer.color, GameMaster.localPlayer.index);
+        // }
+    }
+
+    private void SelectNewMark(Tile tile)
+    {
+        DeselectMark();
+
+        var newMark = tile.GetMark();
+        if (newMark != null)
+        {
+            selectedMark = newMark;
+            newMark.Click();
+        }
+    }
+
+    private void DeselectMark()
+    {
+        selectedMark?.UnClick();
+        selectedMark = null;
+    }
+
+    private void DeselectBowl()
+    {
+        if (selectedBowl != null) selectedBowl.isClicked = false;
+    }
+
+    private bool IsBowlSelected()
+    {
+        return selectedBowl?.isClicked == true;
     }
 }
