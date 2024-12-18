@@ -50,11 +50,11 @@ public class LobbyManager : MonoBehaviour
     {
         var colorData = data as Dictionary<string, object>;
         string sessionId = colorData["sessionId"].ToString();
-        string color = colorData["color"].ToString();
+        int color = Convert.ToInt32(colorData["color"]);
         bool isAllReady = (bool)colorData["isAllReady"];
 
         string playerName = LobbyController.state.GetNamePlayerBySessionID(sessionId);
-        Color colors = Util.StringToColor(color);
+        Color colors = Util.TransferColor(color);
         LobbyUIManager.instance.SetColorPlayer(playerName, colors, true, isAllReady);
     }
 

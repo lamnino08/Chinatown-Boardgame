@@ -1,5 +1,5 @@
 public enum MessageClientToServerGame
 {
     new_year,
-    GameStart,
+    confirm_tile_card,
 }

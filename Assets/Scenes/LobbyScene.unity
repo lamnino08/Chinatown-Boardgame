@@ -5081,8 +5081,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2081658474}
-  - component: {fileID: 2081658473}
   - component: {fileID: 2081658475}
+  - component: {fileID: 2081658476}
   m_Layer: 0
   m_Name: LobbyNetworkManager
   m_TagString: Untagged
@@ -5090,20 +5090,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2081658473
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2081658471}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 50e7bbbb493cb7147ab2db0eb4a458bd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _lobbyController: {fileID: 2081658475}
-  serverUrl: localhost:2567
 --- !u!4 &2081658474
 Transform:
   m_ObjectHideFlags: 0
@@ -5131,6 +5117,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26195227b19cf954791d99ef2e409c28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2081658476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2081658471}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50e7bbbb493cb7147ab2db0eb4a458bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _lobbyController: {fileID: 2081658475}
+  serverUrl: localhost:2567
 --- !u!1 &2114032459
 GameObject:
   m_ObjectHideFlags: 0

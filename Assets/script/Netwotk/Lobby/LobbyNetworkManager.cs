@@ -60,3 +60,4 @@ public class LobbyNetworkManager : MonoBehaviour
         _lobbyController?.gameObject?.SetActive(false); // Optional cleanup
     }
 }
+

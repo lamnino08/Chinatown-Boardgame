@@ -59,7 +59,7 @@ public class Tile : PieceGameObject
         GameMaster.gameManager.OnTileClick(this);
     }
 
-    private void ToggleHighlight(bool isHighlight, byte? color = 6)
+    public void ToggleHighlight(bool isHighlight, int color = 6)
     {
         _highlight.ToggleHighlight(isHighlight, color);
     }

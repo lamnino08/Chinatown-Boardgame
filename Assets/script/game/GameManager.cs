@@ -23,15 +23,13 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
+        EventBus.Subscribe<JoinRoomEvent>(SetView);
     }
 
-    public void SetView(int index)
+    public void SetView(JoinRoomEvent data)
     {
-        if (index >= 0 && index < cameraPositions.Count)
-        {
-            cameraTransform.position = cameraPositions[index].position;
-            cameraTransform.rotation = cameraPositions[index].rotation;
-        }
+        cameraTransform.position = cameraPositions[data.index].position;
+        cameraTransform.rotation = cameraPositions[data.index].rotation;
     }
 
     public void SpawnPlayerSlot(Player player)

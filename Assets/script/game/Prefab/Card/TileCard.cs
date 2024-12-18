@@ -98,8 +98,7 @@ public class TileCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             Vector3 targetPos = originalPosition + transform.forward * -moveDistance;
 
             transform.DOMove(targetPos, moveDuration).SetEase(Ease.InQuad);
-            // PlayerSlot.localPlayerSlot.HightLightTile(_number, true);
-            EventBus.Notificate(new OnHighlightTile(_number, true, GameMaster.localPlayer.color));
+            Map.instance.ToggleHightLightTile(_number, true, GameMaster.color);
         }
     }
 
@@ -108,7 +107,7 @@ public class TileCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         if (status == CardStatus.CHOSSING)
         {
             transform.DOMove(originalPosition, moveDuration).SetEase(Ease.OutQuad);
-            EventBus.Notificate(new OnHighlightTile(_number, false));
+            Map.instance.ToggleHightLightTile(_number, false, GameMaster.color);
         }
     }
     

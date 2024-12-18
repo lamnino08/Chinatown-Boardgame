@@ -22,7 +22,9 @@ public class GameHandle : MonoBehaviour
                 });
 
                 Debug.Log($"Registered handler for {messageType} -> {methodName} with message type: {messageString}");
-            }
+                // Debug.Log(gameObject.name);  
+            }        
+
             else
             {
                 Debug.LogWarning($"No handler found for {messageType} -> {methodName}");
@@ -36,6 +38,7 @@ public class GameHandle : MonoBehaviour
         var messageData = data as Dictionary<string, object>;
 
         var cards = messageData["cards"] as List<object>;
+        
         if (cards != null)
         {
             List<int> cardsIndex = cards

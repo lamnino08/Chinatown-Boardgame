@@ -53,12 +53,4 @@ public class GameMaster : MonoBehaviour
     {
         return index == 0;
     }
-
-    private void OnStartGame(StartGameEvent data)
-    {
-        if (localPlayer.isHost == true)
-        {
-            localPlayer.CmdSpawnPlayerSlot();
-        }
-    }
 }

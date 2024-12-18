@@ -1,8 +1,7 @@
 using System.Collections.Generic;
-using Mirror;
 using UnityEngine;
 
-public class Map : NetworkBehaviour
+public class Map : MonoBehaviour
 {
     public static Map instance { get; private set; }
     [SerializeField] private string mapFileName = "map";
@@ -12,7 +11,7 @@ public class Map : NetworkBehaviour
 
     public readonly Dictionary<int, Tile> tileData = new();
 
-    public override void OnStartServer()
+    public  void Start()
     {
         if (instance != null)
         {
@@ -21,8 +20,6 @@ public class Map : NetworkBehaviour
         }
         instance = this;
         LoadAndSpawnTiles();
-
-        // EventBus.Subscribe<SpawnMarkEvent>()
     }
 
     public Tile GetTile(int tile)
@@ -35,7 +32,13 @@ public class Map : NetworkBehaviour
         return null;
     }
 
-    [Server]
+    public void ToggleHightLightTile(int tile, bool isHighlight, int color)
+    {
+        Tile t = GetTile(tile);
+        t.ToggleHighlight(isHighlight, color);
+    }
+
+
     private void LoadAndSpawnTiles()
     {
         TextAsset mapFile = Resources.Load<TextAsset>(mapFileName);
@@ -53,13 +56,12 @@ public class Map : NetworkBehaviour
         }
     }
 
-    [Server]
     private void ParseAndSpawnLine(string line, int row)
     {
-        string[] entries = line.Trim().Split(' '); // Split the line into entries
+        string[] entries = line.Trim().Split(' ');
         for (int x = 0; x < entries.Length; x++)
         {
-            if (entries[x] == "*") continue; // Skip unspawnable tiles
+            if (entries[x] == "*") continue; 
             if (byte.TryParse(entries[x], out byte tileID))
             {
                 Vector2Int position = new Vector2Int(x, row);
@@ -72,23 +74,15 @@ public class Map : NetworkBehaviour
         }
     }
 
-    [Server]
     private void SpawnTile(Vector2Int position, byte tileID)
     {
         Vector3 worldPosition = new Vector3(position.x * tileSpacing, yPos, position.y * tileSpacing);
         GameObject tileInstance = Instantiate(tilePrefab, worldPosition, Quaternion.identity, transform);
 
-        NetworkServer.Spawn(tileInstance);
-
         Tile tileComponent = tileInstance.GetComponent<Tile>();
-        if (tileComponent != null)
-        {
-            tileComponent.SetTileData(tileID-1);
-            tileData[tileID-1] = tileComponent; 
-        }
-        else
-        {
-            Debug.LogWarning($"Tile prefab is missing the Tile component at position {position}");
-        }
+
+        tileComponent.SetTileData(tileID-1);
+        tileData.Add(tileID-1, tileComponent);
     }
+
 }    

@@ -25,7 +25,6 @@ public class RoomController : MonoBehaviour
         {
             room.OnMessage<Dictionary<string, object>>(messageType.ToString(), (data) =>
             {
-                Debug.Log($"On message {messageType.ToString()}");
                 EventHandlerNetwork.Trigger(messageType.ToString(), data);
             });
         }
@@ -33,16 +32,14 @@ public class RoomController : MonoBehaviour
 
     private void OnAddPlayer(string key, Player player)
     {
-        Debug.Log($"Player added: {player.name} (Key: {key})");
         if (key == GameMaster.sessionId)
         {
+            Debug.Log("Your join room");
             GameMaster.index = player.index;
-            GameManager.instance.SetView(player.index);
-            Debug.Log($"your index {GameMaster.index}");
+            EventBus.Notificate(new JoinRoomEvent(player.index, player.sessionId));
         }
 
         GameManager.instance.SpawnPlayerSlot(player);
-        GameUIManager.instance.SetStart();
     }
 
     private void OnRemovePlayer(string key, Player player)

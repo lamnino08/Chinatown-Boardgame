@@ -40,13 +40,9 @@ public class Util : MonoBehaviour
         }
     }
 
-    public static Color TransferColor(byte index)
+    public static Color TransferColor(int index)
     {
         return Instance.colors[index];
-    }
-    public static Color StringToColor(string colorIndex)
-    {
-        return Instance.colors[int.Parse(colorIndex)];
     }
 
     public static Material TransferStoreCardSprite(byte cardIndex)

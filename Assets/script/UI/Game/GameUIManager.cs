@@ -22,6 +22,7 @@ public class GameUIManager : MonoBehaviour
         }
         
         _instance = this;
+        EventBus.Subscribe<JoinRoomEvent>(JoinRoom);
     }
 
     private void Start() 
@@ -30,10 +31,13 @@ public class GameUIManager : MonoBehaviour
         // OnStartGame();
     }
 
-    public void SetStart() 
+    public void JoinRoom(JoinRoomEvent data) 
     {
-        discardBtn.onClick.AddListener(OndisCard);
-        discardBtn.gameObject.SetActive(GameMaster.Ishost());
+        if (data.index == 0)
+        {
+            discardBtn.onClick.AddListener(OndisCard);
+            discardBtn.gameObject.SetActive(GameMaster.Ishost());   
+        }
     }
 
     private void OndisCard()
@@ -50,7 +54,7 @@ public class GameUIManager : MonoBehaviour
 
     public void ReceiveCardDiscard()
     {
-        if (GameMaster.localPlayer.isHost)
+        if (GameMaster.Ishost())
         {
             discardBtn.gameObject.SetActive(false);
         }

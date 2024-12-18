@@ -19,11 +19,11 @@ public class HighLight : MonoBehaviour
         }
     }
 
-    public void ToggleHighlight(bool val, byte? color = 6)
+    public void ToggleHighlight(bool val, int? color = 6)
     {
         if (val)
         {
-            Color hightlightColor = color == 6? Color.white : Util.TransferColor((byte)color);
+            Color hightlightColor = color == 6 ? Color.white : Util.TransferColor(color ?? 0);
 
             foreach (var material in materials)
             {

@@ -24,6 +24,11 @@ public class MouseClick : MonoBehaviour
     /// </summary>
     private void OnMouseDownLeft()
     {
+        if (EventSystem.current.IsPointerOverGameObject())
+        {
+            Debug.Log("Clicked on UI element");
+            return; // Không thực hiện logic Raycast nếu nhấn vào UI
+        }
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
         RaycastHit[] hits = Physics.RaycastAll(ray, maxDistance, layerMask);
