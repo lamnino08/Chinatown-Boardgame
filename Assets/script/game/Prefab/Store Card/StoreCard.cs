@@ -14,7 +14,6 @@ public class StoreCard : PieceGameObject
     [SerializeField] private StoreCardMovement movement;
     [SerializeField] private HighLight _highlight;
 
-    private int _ownerIndex;
     private StoreCardStatus _status;
 
     public StoreCardStatus Status
@@ -25,9 +24,10 @@ public class StoreCard : PieceGameObject
         }
     }
 
-    public void SetData(byte storeCard, int owner)
+    public void SetData(int storeCard, int owner, string sessionId)
     {
-        _ownerIndex = owner;
+        this.sessionId = sessionId;
+        this._owner = owner;
         SetImage(storeCard);
     }
 
@@ -43,14 +43,14 @@ public class StoreCard : PieceGameObject
         _highlight.ToggleHighlight(isHighlight, color);
     }
 
-    private void SetImage(byte storeCard)
+    private void SetImage(int storeCard)
     {
         appearance.SetImage(storeCard);
     }
 
     public override void OnMouseClick()
     {
-        if (!IsOwnedByLocalPlayer())
+        if (IsOwner())
         {
             GamePopupManager.Toast("It's not your card");
             return;
@@ -63,10 +63,5 @@ public class StoreCard : PieceGameObject
         }
 
         GameMaster.gameManager.OnStoreClick(this);
-    }
-
-    private bool IsOwnedByLocalPlayer()
-    {
-        return GameMaster.localPlayer.index == _ownerIndex;
     }
 }

@@ -8,7 +8,7 @@ public class MarkAppearance : MonoBehaviour
     [SerializeField] private MeshRenderer material;
     [SerializeField] private HighLight highLight;
 
-    public void SetColor(byte color)
+    public void SetColor(int color)
     {
         this.material.material.color = Util.TransferColor(color);
     }

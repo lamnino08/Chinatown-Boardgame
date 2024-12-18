@@ -6353,11 +6353,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 731279083248575259, guid: 02b43b6fb873f5b4683185af22a35194,
-        type: 3}
-      propertyPath: sceneId
-      value: 3334161335
-      objectReference: {fileID: 0}
     - target: {fileID: 4736033217488223226, guid: 02b43b6fb873f5b4683185af22a35194,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6413,12 +6408,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: StoreCardDesk
       objectReference: {fileID: 0}
-    - target: {fileID: 9027317982900759899, guid: 02b43b6fb873f5b4683185af22a35194,
-        type: 3}
-      propertyPath: storeCardPref
-      value: 
-      objectReference: {fileID: 4291409044381288714, guid: cca01d0fd24124f43ab54b98acbfd1bb,
-        type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

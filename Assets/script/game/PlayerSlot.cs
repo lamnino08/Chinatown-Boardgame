@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
@@ -10,14 +11,18 @@ public class PlayerSlot : MonoBehaviour
     [SerializeField] private MarkBowl _markBowl;
     [SerializeField] private Transform _cardHole;
 
+    private List<int> cardDeals = new List<int>();
+
     private int _owner;
     private int _color;
-    private string _sessionId;
+    private string _sessionId; public string sessionId => _sessionId;
 
     void Start()
     {
-        EventBus.Subscribe<SpawnMarkEvent>(OnSpawnkMarkDistribute);
+        EventBus.Subscribe<PlayerDoneDealCardEvent>(OnPlayerDoneDealTieCard);
+        EventBus.Subscribe<AllDoneDealCardEvent>(OnAllDoneDealCardEvent);
     }
+
 
     public void SetData(Player player)
     {
@@ -26,11 +31,17 @@ public class PlayerSlot : MonoBehaviour
         _sessionId = player.sessionId;
     }
 
-    [Server]
-    private void OnSpawnkMarkDistribute(SpawnMarkEvent tiles)
+    private void OnPlayerDoneDealTieCard(PlayerDoneDealCardEvent data)
     {
-        IReadOnlyList<byte[]> tilesData = tiles.tiles;
-        // _markBowl.SpawnMarks(tilesData[_index], _color, _index);
+        if (data.sessionId == _sessionId)
+        {
+            this.cardDeals = data.cards;
+        }
+    }
+
+    private void OnAllDoneDealCardEvent(AllDoneDealCardEvent data)
+    {
+        _markBowl.SpawnMarks(cardDeals, _color, _owner, _sessionId);
     }
 
     public List<Vector3> GetPosStoreCard(int numberCard)

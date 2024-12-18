@@ -11,7 +11,7 @@ public class MarkBowl : PieceGameObject
     private List<Vector3> pathMarkFlyVec = new List<Vector3>();   // Danh sách các điểm di chuyển
     public bool isClicked = false;                                // Trạng thái click
 
-    public void SpawnMarks(byte[] tiles, byte color, int ownerIndex)
+    public void SpawnMarks(List<int> tiles, int color, int ownerIndex, string sessionId)
     {
         // Khởi tạo đường đi mặc định nếu chưa có
         if (pathMarkFlyVec.Count == 0)
@@ -21,39 +21,28 @@ public class MarkBowl : PieceGameObject
         }
 
         // Bắt đầu Coroutine để tạo Mark
-        StartCoroutine(SpawnMarkCoroutine(tiles, color, ownerIndex));
+        StartCoroutine(SpawnMarkCoroutine(tiles, color, ownerIndex, sessionId));
     }
 
-    private IEnumerator SpawnMarkCoroutine(byte[] tiles, byte color, int ownerIndex)
+    private IEnumerator SpawnMarkCoroutine(List<int> tiles, int color, int ownerIndex, string sessionId)
     {
         foreach (byte tileIndex in tiles)
         {
-            // Lấy tile tương ứng từ Map
-            Tile tile = Map.instance.GetTile(tileIndex);
-            if (tile != null)
-            {
-                // Set owner của tile
-                tile.SetOwner(ownerIndex);
-
-                // Tạo Mark và di chuyển tới Tile
-                SpawnMark(tile, color, ownerIndex);
-            }
+            SpawnMark(tileIndex, color, ownerIndex, sessionId);
 
             yield return new WaitForSeconds(0.2f); // Thời gian giữa mỗi lần spawn
         }
     }
 
-    private void SpawnMark(Tile tile, byte color, int ownerIndex)
+    private void SpawnMark(int tile, int color, int ownerIndex, string sessionId)
     {
-        // Tạo một Mark mới
         GameObject markObject = Instantiate(markPrefab, transform.position, Quaternion.identity);
 
-        // Gán dữ liệu cho Mark
         Mark markScript = markObject.GetComponent<Mark>();
-        markScript.SetData(ownerIndex, color);
+        markScript.SetData(ownerIndex, sessionId, color);
 
         // Di chuyển Mark tới vị trí của Tile
-        // markScript.MoveToTile(transform.position, tile);
+        markScript.MoveToTile(tile);
     }
 
     public override void OnMouseClick()

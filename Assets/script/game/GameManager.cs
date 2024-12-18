@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject playerSlotPrefab;
     [SerializeField] private List<Transform> playerSlotPositions;
 
-    private readonly List<GameObject> spawnedPlayerSlots = new List<GameObject>();
+    public readonly List<GameObject> spawnedPlayerSlots = new List<GameObject>();
 
     private Mark selectedMark = null;
     private StoreCard selectedStore = null;

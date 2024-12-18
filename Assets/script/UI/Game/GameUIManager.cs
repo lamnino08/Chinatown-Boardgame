@@ -28,7 +28,7 @@ public class GameUIManager : MonoBehaviour
     private void Start() 
     {
         confirmCardChose.onClick.AddListener(OnConfirmCardChose);
-        // OnStartGame();
+        EventBus.Subscribe<PlayerDoneDealCardEvent>(OnPlayerDoneDealCardEvent);
     }
 
     public void JoinRoom(JoinRoomEvent data) 
@@ -48,8 +48,9 @@ public class GameUIManager : MonoBehaviour
     }
 
     private void OnConfirmCardChose()
-    {
-        GameMaster.instance.deskCard.ConfirmCardChose();
+    {   
+        bool isEnoughCard = GameMaster.instance.deskCard.ConfirmCardChose();
+        confirmCardChose.interactable = !isEnoughCard;
     }
 
     public void ReceiveCardDiscard()
@@ -57,6 +58,16 @@ public class GameUIManager : MonoBehaviour
         if (GameMaster.Ishost())
         {
             discardBtn.gameObject.SetActive(false);
+        }
+    }
+
+    private void OnPlayerDoneDealCardEvent(PlayerDoneDealCardEvent data)
+    {
+        if (data.sessionId == GameMaster.sessionId)
+        {
+            confirmCardChose.interactable = true;
+            confirmCardChose.gameObject.SetActive(false);
+            GamePopupManager.Toast("you done, wait for other players");
         }
     }
 }

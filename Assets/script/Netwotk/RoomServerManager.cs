@@ -80,16 +80,16 @@ public class RoomServerManager : NetworkBehaviour
     //     return instance.room.DistributeStoreCard(instance.players.Count);
     // }
 
-    [Server]
-    public void ReceiveResultChoseTileCard(List<TileCardReturnServer> tileReturn, int indexPlayer)
-    {
-        // room.ReceiveResultChoseTileCard(tileReturn);
-        _players[indexPlayer].SetReady(true);
+    // [Server]
+    // public void ReceiveResultChoseTileCard(List<TileCardReturnServer> tileReturn, int indexPlayer)
+    // {
+    //     // room.ReceiveResultChoseTileCard(tileReturn);
+    //     _players[indexPlayer].SetReady(true);
 
-        if (!IsAllReady()) return;
+    //     if (!IsAllReady()) return;
 
-        // Spawn store card and mark when all player chosse tile card
-        GameServerManager.instance.SpawnStoreCard();
-        GameServerManager.instance.SpawnMark();
-    }
+    //     // Spawn store card and mark when all player chosse tile card
+    //     GameServerManager.instance.SpawnStoreCard();
+    //     GameServerManager.instance.SpawnMark();
+    // }
 }

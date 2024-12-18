@@ -24,7 +24,7 @@ public class Tile : PieceGameObject
         ChangeMarkedStatus(false, 0);
     }
 
-    public void UnMark(byte color)
+    public void UnMark(int color)
     {
         _isMarked = false;
         ChangeMarkedStatus(true, color);
@@ -42,7 +42,7 @@ public class Tile : PieceGameObject
         numberText.text = (_tile + 1).ToString();
     }
 
-    private void ChangeMarkedStatus(bool isMarked, byte color)
+    private void ChangeMarkedStatus(bool isMarked, int color)
     {
         if (isMarked)
         {

@@ -122,34 +122,6 @@ public class PlayerManager : NetworkBehaviour
         RoomServerManager.instance.NewYear();
     }
 
-    [Command]
-    public void ConfirmTileCard(List<TileCardReturnServer> result)
-    {
-        byte[] tileChosen = new byte[result.Count - 2];
-        int indexTileChose = 0;
-        for (int i = result.Count - 1; i >= 0; i--) 
-        {
-            if (result[i].isChosse)
-            {
-                tileChosen[indexTileChose] = result[i].tile;
-                indexTileChose++;
-                tiles.Add(result[i].tile);
-                result.RemoveAt(i); // Xóa phần tử khỏi danh sách
-            }
-        }
-
-        GameServerManager.instance.tileSpawnMarkSave.Add(tileChosen);
-        RoomServerManager.instance.ReceiveResultChoseTileCard(result, index);
-    }
-
-
-    // Server handle client left
-    [Server]
-    public void CmdOnStopClient()
-    {
-        RpcRemoveUserUI(playerName);
-    }
-
     // Get players already in room when join
     [Server]
     public void GetDataInLobby(NetworkConnectionToClient  connectionToClient)
@@ -200,6 +172,5 @@ public class PlayerManager : NetworkBehaviour
     public void DistributeTiles(NetworkConnection conn, byte[] tiles)
     {
         // GameMaster.instance.deskCard.DiscardToPlayer(tiles);
-        GameUIManager.instance.ReceiveCardDiscard();
     }
 }

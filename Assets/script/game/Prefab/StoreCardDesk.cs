@@ -3,46 +3,39 @@ using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
 
-public class StoreCardDesk : NetworkBehaviour
+public class StoreCardDesk : MonoBehaviour
 {
     [SerializeField] private GameObject storeCardPref;
-    private List<GameObject> spawnedPlayerSlots => GameServerManager.instance.spawnedPlayerSlots;
-    private List<NetworkConnection> _playerConnections =>  RoomServerManager.instance.playerConnections;
-
-    public override void OnStartServer()
+    public List<GameObject> spawnedPlayerSlots => GameManager.instance.spawnedPlayerSlots;
+    
+    public void Start()
     {
-        base.OnStartServer();
-        EventBus.Subscribe<SpawnStoreCardEvent>(SpawnStoreCard);
+        EventBus.Subscribe<AllDoneDealCardEvent>(SpawnStoreCard);
     }
 
-    [Server]
-    private void SpawnStoreCard(SpawnStoreCardEvent data)
+    private void SpawnStoreCard(AllDoneDealCardEvent data)
     {
-        IReadOnlyList<byte[]> cardData = data.storeCards;
-        StartCoroutine(SpawnStoreCardCoroutine(cardData));
+        StartCoroutine(SpawnStoreCardCoroutine(data.storeCards));
     }
 
-    [Server]
-    private IEnumerator SpawnStoreCardCoroutine(IReadOnlyList<byte[]> cardData)
+    private IEnumerator SpawnStoreCardCoroutine(List<int[]> cardData)
     {   
         int playerIndex = 0;
 
-        foreach (byte[] cardPlayers in cardData)
+        foreach (int[] playerCards in cardData)
         {
-             for (int i = 0; i < cardPlayers.Length; i++)
+             for (int i = 0; i < playerCards.Length; i++)
             {
                 PlayerSlot playerSlot = spawnedPlayerSlots[playerIndex].GetComponent<PlayerSlot>();
 
                 GameObject cardGameObject = Instantiate(storeCardPref, transform.position, spawnedPlayerSlots[playerIndex].transform.rotation);
-                NetworkServer.Spawn(cardGameObject, _playerConnections[playerIndex]); 
 
-
+                //Set data for store cards
                 StoreCard cardScript = cardGameObject.GetComponent<StoreCard>(); 
+                cardScript.SetData(playerCards[i], playerIndex, playerSlot.sessionId);   
 
-                cardScript.SetData(cardPlayers[i], playerIndex);   
-
-
-                List<Vector3> targetPositions = playerSlot.GetPosStoreCard(cardPlayers.Length);
+                // Move store card to player slot
+                List<Vector3> targetPositions = playerSlot.GetPosStoreCard(playerCards.Length);
                 Vector3 targetPosition = targetPositions[i];
                 cardScript.MoveToTarget(targetPosition);
 

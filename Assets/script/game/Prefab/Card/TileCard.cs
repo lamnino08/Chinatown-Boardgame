@@ -43,7 +43,7 @@ public class TileCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     void Start()
     {
-        EventBus.Subscribe<EndDealTileCardPharse>(OnReturnToDeskHole);
+        EventBus.Subscribe<AllDoneDealCardEvent>(OnReturnToDeskHole);
     }
 
     public void SetNumber(byte number)
@@ -76,11 +76,11 @@ public class TileCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         _status = CardStatus.LYING;
     }
 
-    private void OnReturnToDeskHole(EndDealTileCardPharse data)
+    private void OnReturnToDeskHole(AllDoneDealCardEvent data)
     {
         // end of Deal tile card phares, all tile card will return to the hole card
-        Transform target = data.deskHoleTranform;
-        FlyToHoleCard(transform.position, target.position, 1.5f, target.rotation);
+        // Transform target = data.deskHoleTranform;
+        // FlyToHoleCard(transform.position, target.position, 1.5f, target.rotation);
     }
 
     public void FlyToHoleCard(

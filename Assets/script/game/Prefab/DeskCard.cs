@@ -23,23 +23,6 @@ public class TileCardChose
 }
 
 [Serializable]
-public class TileCardReturnServer
-{
-    public byte tile;
-    public bool isChosse;
-    public TileCardReturnServer()
-    {
-        tile = 0;
-        isChosse = false;
-    }
-    public TileCardReturnServer(byte tile, bool isChosse)
-    {
-        this.tile = tile;
-        this.isChosse = isChosse;
-    }
-}
-
-[Serializable]
 public class PathPointGroup
 {
     public Transform[] points; 
@@ -52,11 +35,13 @@ public class DeskCard : MonoBehaviour
     [Tooltip("Card orgnization in front of camera")]
     [SerializeField] private CardOrgnization cardOrgnization;
     [SerializeField] private GameObject cardPref;
+    
     [Header("Config animation fly tile card")]
     [SerializeField] private float durationCardFlying = 3f;
     [SerializeField] private float cardStartRotateAt = 2f;
     [SerializeField] private float cardSpawnInterval  = .2f;
     [SerializeField] private AnimationCurve easingCurve;
+
     [Header("Path of tile card fly")]
     [SerializeField] private List<PathPointGroup> listPathPoint = new List<PathPointGroup>();
     [SerializeField] private List<PathPointGroup> listPathPlayerToDesk = new List<PathPointGroup>();
@@ -132,7 +117,7 @@ public class DeskCard : MonoBehaviour
         }
     }
 
-    public void ConfirmCardChose()
+    public bool ConfirmCardChose()
     {
         if (tileCardChose.IsEnoughCardChose())
         {
@@ -140,20 +125,19 @@ public class DeskCard : MonoBehaviour
             .Select(tile => new Dictionary<string, object>
             {
                 { "tile", tile.number },
-                { "isChosse", tile.status == CardStatus.CHOSSEN }
+                { "isChossen", tile.status == CardStatus.CHOSSEN }
             })
             .ToList();
-            // List<TileCardReturnServer> result = new List<TileCardReturnServer>();
-            // foreach(TileCard tile in tileCardChose.TileCards)
-            // {
-            //     result.Add(new TileCardReturnServer(tile.number, tile.status == CardStatus.CHOSSEN? true : false));
-            // }
             
             ReturnCardToDesk();
 
             RoomController.room.Send(MessageClientToServerGame.confirm_tile_card.ToString(), new { cards = result});
+            return true;
         }
         else
+        {
             GamePopupManager.Toast("Not enough");
+            return false;
+        }
     }
 }

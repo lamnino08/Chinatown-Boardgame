@@ -24,17 +24,18 @@ public class Mark : PieceGameObject
     [SerializeField] private MarkMovement movement;
     [SerializeField] private LayerMask tileLayer;
 
-    private int _owner;
+    private int color;
 
     // Set ownership and color of the mark
-    public void SetData(int ownerIndex, byte color)
+    public void SetData(int ownerIndex, string sessionId, int color)
     {
         _owner = ownerIndex;
+        this.sessionId = sessionId;
         SetColor(color);
     }
 
     // Move the mark to a tile
-    public void MoveToTile(int tileIndex, byte color)
+    public void MoveToTile(int tileIndex)
     {
         Tile tile = Map.instance.GetTile(tileIndex);
 
@@ -42,10 +43,11 @@ public class Mark : PieceGameObject
         Tile oldTile = GetTileOn();
         if (oldTile != null)
         {
-            oldTile.UnMark(color);
+            oldTile.UnMark(this.color);
         }
 
         MoveToTilePosition(transform.position, tile);
+        tile.SetOwner(_owner);
     }
 
     // Move the mark to a specific position on the table
@@ -64,7 +66,6 @@ public class Mark : PieceGameObject
     {
         Vector3 targetPos = tile.transform.position + new Vector3(0, 0.2f, 0);
         movement.StartFlyingSimpleCurve(start, targetPos, 0.7f);
-        tile.SetOwner(_owner);
 
         _status = MarkStatus.ONTILE;
     }
@@ -88,12 +89,6 @@ public class Mark : PieceGameObject
         return null;
     }
 
-    // Set mark color
-    private void SetColor(byte color)
-    {
-        appearance.SetColor(color);
-    }
-
     // Highlighting methods
     public void Highlight(bool isHighlight)
     {
@@ -102,6 +97,8 @@ public class Mark : PieceGameObject
 
     public override void OnMouseClick()
     {
+        if (!IsOwner()) return;
+        
         if (Status == MarkStatus.FLYING)
         {
             GamePopupManager.Toast("Mark is flying!");
@@ -119,5 +116,11 @@ public class Mark : PieceGameObject
     public void UnClick()
     {
         Highlight(false);
+    }
+
+    private void SetColor(int color)
+    {
+        this.color = color;
+        this.appearance.SetColor(color);
     }
 }

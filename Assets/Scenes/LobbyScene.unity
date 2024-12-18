@@ -4030,18 +4030,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   contentColor: {fileID: 109573302}
   storecardmaterials:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 6f175cbfd8f586a4bbf476bcb2528493, type: 2}
+  - {fileID: 2100000, guid: 12f04c5c1b03ef843bc699218b3282a9, type: 2}
+  - {fileID: 2100000, guid: 9968caebd6d8b6b4ab28e787bc5bafd0, type: 2}
+  - {fileID: 2100000, guid: ed6c1cf2830e2c0489907665c7814d6a, type: 2}
+  - {fileID: 2100000, guid: 0409915f12aeeb24fa5f5bedd8bba942, type: 2}
+  - {fileID: 2100000, guid: f666aa153ed8bbb43a4a7997244d23b7, type: 2}
+  - {fileID: 2100000, guid: 8b07fee825c94e54a8963e54ea01978e, type: 2}
+  - {fileID: 2100000, guid: a10f968d5181dbe41ae9a3f25280064a, type: 2}
+  - {fileID: 2100000, guid: 0ac5b22e654ef974d808c59ebb491cfe, type: 2}
+  - {fileID: 2100000, guid: 95dbe8fe16a2791449a9dd632b4cdb7f, type: 2}
+  - {fileID: 2100000, guid: 174d9f0d191817243aaf8da7dbd87ef6, type: 2}
+  - {fileID: 2100000, guid: 03d5efc5df485fd4bb30cc6306094bf7, type: 2}
 --- !u!1 &1784782503
 GameObject:
   m_ObjectHideFlags: 0

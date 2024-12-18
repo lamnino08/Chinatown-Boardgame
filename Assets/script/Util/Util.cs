@@ -45,7 +45,7 @@ public class Util : MonoBehaviour
         return Instance.colors[index];
     }
 
-    public static Material TransferStoreCardSprite(byte cardIndex)
+    public static Material TransferStoreCardSprite(int cardIndex)
     {
         return Instance.storecardmaterials[cardIndex];
     }

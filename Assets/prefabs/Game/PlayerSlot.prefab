@@ -197,7 +197,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _storeCardContain: {fileID: 1611230476105760698}
   _spacing: 0.32
-  _markBowl: {fileID: 0}
+  _markBowl: {fileID: 6153115401192231357}
   _cardHole: {fileID: 6901442556566831393}
 --- !u!1 &5775229133765631477
 GameObject:
@@ -630,6 +630,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 4600213978764493116}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6153115401192231357 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7688629618043457665, guid: 99503f72111b9dd4b910c8231e2e85eb,
+    type: 3}
+  m_PrefabInstance: {fileID: 4600213978764493116}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5057287683747428906}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26a20e6f910c68542b501ec98f19ca9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &4784558675166628409
 PrefabInstance:
   m_ObjectHideFlags: 0

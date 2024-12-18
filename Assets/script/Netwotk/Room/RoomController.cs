@@ -34,7 +34,6 @@ public class RoomController : MonoBehaviour
     {
         if (key == GameMaster.sessionId)
         {
-            Debug.Log("Your join room");
             GameMaster.index = player.index;
             EventBus.Notificate(new JoinRoomEvent(player.index, player.sessionId));
         }
