@@ -8,7 +8,6 @@ public class Tile : PieceGameObject
     [SerializeField] private HighLight _highlight;
 
     private int _tile;                // Giá trị của tile
-    private int _owner;               // Chủ sở hữu của tile
     private bool _isMarked = false;   // Trạng thái tile có được đánh dấu hay không
 
     private bool isHighlighting = false;

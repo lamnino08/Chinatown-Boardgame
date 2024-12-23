@@ -18,7 +18,7 @@ public class FlyLerp : FlyAbstact
     {
         if (isFlying) return;
 
-        if (rigidbody) rigidbody.isKinematic = true;
+        if (GetComponent<Rigidbody>()) GetComponent<Rigidbody>().isKinematic = true;
 
         isFlying = true;
 
@@ -38,6 +38,6 @@ public class FlyLerp : FlyAbstact
         }
 
         isFlying = false;
-        if (rigidbody) rigidbody.isKinematic = false;
+        if (GetComponent<Rigidbody>()) GetComponent<Rigidbody>().isKinematic = false;
     }
 }

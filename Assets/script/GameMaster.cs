@@ -29,7 +29,6 @@ public class GameMaster : MonoBehaviour
     public static string sessionId = "";
     public static int index = -1;
 
-    public static PlayerManager localPlayer { get; private set; } /// bo
     private void Awake()
     {
         if (instance == null)

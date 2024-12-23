@@ -14,7 +14,6 @@ public class LobbyManager : MonoBehaviour
         foreach (MessageServerToClientLobby messageType in Enum.GetValues(typeof(MessageServerToClientLobby)))
         {
             string methodName = $"NW_{messageType}";
-            Debug.Log(messageType.ToString());
             string messageString = messageType.ToString();
 
             MethodInfo method = GetType().GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Instance);
@@ -26,11 +25,11 @@ public class LobbyManager : MonoBehaviour
                     method.Invoke(this, new object[] { data });
                 });
 
-                Debug.Log($"Registered handler for {messageType} -> {methodName} with message type: {messageString}");
+                // Debug.Log($"Registered handler for {messageType} -> {methodName} with message type: {messageString}");
             }
             else
             {
-                Debug.LogWarning($"No handler found for {messageType} -> {methodName}");
+                // Debug.LogWarning($"No handler found for {messageType} -> {methodName}");
             }
         }
     }

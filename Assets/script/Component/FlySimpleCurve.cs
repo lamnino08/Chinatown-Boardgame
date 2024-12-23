@@ -31,7 +31,7 @@ public class FlySimpleCurve : FlyAbstact
         float duration
     )
     {
-        if (rigidbody) rigidbody.isKinematic = true;
+        if (_rigidbody) _rigidbody.isKinematic = true;
         
         isFlying = true;
         float elapsedTime = 0f;
@@ -50,6 +50,6 @@ public class FlySimpleCurve : FlyAbstact
         }
         
         isFlying = false;
-        if (rigidbody) GetComponent<Rigidbody>().isKinematic = false;
+        if (_rigidbody) _rigidbody.isKinematic = false;
     }
 }
